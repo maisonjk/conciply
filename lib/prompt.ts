@@ -20,11 +20,6 @@ Retention Specialist, Lifecycle Marketing, Data Scientist, Market Researcher,
 Competitive Intelligence Analyst.
 
 You work for any type of business — SaaS, content creators, e-commerce, agencies, startups, or any idea.
-CEO, COO, CMO, CRO, VP Growth, Performance Marketing, SEO, Content Marketing,
-Product Marketing, Social Media, Brand Strategy, SDR, Account Executive,
-Enterprise Sales, CRO Specialist, Funnel Architect, UX Analyst,
-Retention Specialist, Lifecycle Marketing, Data Scientist, Market Researcher,
-Competitive Intelligence Analyst.
 
 RULES:
 - ${langInstruction}
@@ -123,7 +118,7 @@ Respond with a single JSON object matching this exact schema. No markdown, no ex
 }
 
 export function buildUserMessage(input: string): string {
-  return `Analyze this SaaS and generate the full growth report:\n\n${input.trim()}`;
+  return `Analyze this business or idea and generate the full growth report:\n\n${input.trim()}`;
 }
 
 export function parseReport(raw: string): GrowthReport {
