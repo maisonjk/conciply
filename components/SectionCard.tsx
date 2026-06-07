@@ -13,16 +13,19 @@ interface Props {
 // ── Shared style helpers ─────────────────────────────────────────────────────
 const card = { border:"1px solid #1E1E22", padding:"14px 16px", marginBottom:4 } as const;
 const label = (color = "#9A9AA8") => ({ marginBottom:6, color, fontSize:11, fontFamily:"var(--font-mono)", letterSpacing:"0.1em", textTransform:"uppercase" as const });
+// dir:"auto" applied via attribute (not style) — set on elements individually
 const body = { color:"#C4C4CC", fontSize:14, lineHeight:1.6, margin:0 } as const;
+const bodyProps = { style:body, dir:"auto" as const };
 const pill = (color: string) => ({
   display:"inline-block", padding:"2px 8px", fontSize:11,
   fontFamily:"var(--font-mono)", border:`1px solid ${color}`, color,
 } as const);
 
+// dir="auto" lets the browser detect RTL (Arabic, Hebrew) per element
 function StringList({ items }: { items: string[] }) {
   return (
     <ul style={{ margin:0, padding:"0 0 0 20px" }}>
-      {items.map((t, i) => <li key={i} style={body}>{t}</li>)}
+      {items.map((t, i) => <li key={i} style={body} dir="auto">{t}</li>)}
     </ul>
   );
 }
@@ -44,11 +47,11 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
                 <div>
                   <div style={{ fontWeight:700, fontSize:15, color:"#F4F4F1", marginBottom:6 }}>{c.name}</div>
                   <div style={label("var(--n3)")}>Strength</div>
-                  <p style={body}>{c.strength}</p>
+                  <p {...bodyProps}>{c.strength}</p>
                 </div>
                 <div>
                   <div style={label("var(--n2)")}>Weakness</div>
-                  <p style={body}>{c.weakness}</p>
+                  <p {...bodyProps}>{c.weakness}</p>
                 </div>
               </div>
             ))}
@@ -73,7 +76,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
               <div key={i} style={{ ...card, display:"flex", alignItems:"flex-start", gap:12 }}>
                 <div style={{ flex:1 }}>
                   <div style={{ fontWeight:700, fontSize:15, color:"#F4F4F1", marginBottom:4 }}>{c.name}</div>
-                  <p style={body}>{c.rationale}</p>
+                  <p {...bodyProps}>{c.rationale}</p>
                 </div>
                 <div style={pill(priorityColor(c.priority))}>{c.priority}</div>
               </div>
@@ -95,7 +98,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
           <div style={{ marginBottom:20 }}>
             <div style={label()}>Landing Page Copy</div>
             <div style={{ ...card, borderLeft:"3px solid var(--n1)" }}>
-              <p style={body}>{landingCopy}</p>
+              <p {...bodyProps}>{landingCopy}</p>
             </div>
           </div>
         )}
@@ -116,9 +119,9 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
             {emailSequence.map((e, i) => (
               <div key={i} style={{ ...card, marginBottom:8 }}>
                 <div style={label("var(--n1)")}>Email {i+1} — {e.subject}</div>
-                <p style={{ ...body, marginBottom:8 }}>{e.body}</p>
+                <p style={{ ...body, marginBottom:8 }} dir="auto">{e.body}</p>
                 <div style={label()}>CTA</div>
-                <p style={{ ...body, color:"var(--n3)" }}>{e.cta}</p>
+                <p style={{ ...body, color:"var(--n3)" }} dir="auto">{e.cta}</p>
               </div>
             ))}
           </div>
@@ -136,7 +139,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
           <div style={{ marginBottom:20 }}>
             <div style={label()}>Cold Outreach Script</div>
             <div style={{ ...card, borderLeft:"3px solid var(--n2)" }}>
-              <p style={{ ...body, whiteSpace:"pre-line" }}>{outreachScript}</p>
+              <p style={{ ...body, whiteSpace:"pre-line" }} dir="auto">{outreachScript}</p>
             </div>
           </div>
         )}
@@ -157,7 +160,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
             {objections.map((o, i) => (
               <div key={i} style={{ ...card, marginBottom:8 }}>
                 <div style={{ ...label("var(--n2)"), marginBottom:4 }}>❝ {o.objection}</div>
-                <p style={body}>{o.response}</p>
+                <p {...bodyProps}>{o.response}</p>
               </div>
             ))}
           </div>
@@ -514,7 +517,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
                                              flexShrink:0, marginTop:2 }}>
                                 {String(i+1).padStart(2,"0")}
                               </span>
-                              <span style={{ color:"#C4C4CC", fontSize:13, lineHeight:1.5 }}>{pi}</span>
+                              <span style={{ color:"#C4C4CC", fontSize:13, lineHeight:1.5 }} dir="auto">{pi}</span>
                             </div>
                           ))}
                         </div>
@@ -530,7 +533,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
                               background:"rgba(255,255,255,0.03)", border:`1px solid rgba(${pc === "#E1306C" ? "225,48,108" : "100,100,200"},0.2)`,
                               padding:"8px 14px", borderLeft:`3px solid ${pc}`
                             }}>
-                              <span style={{ color:"#F4F4F1", fontSize:13, fontStyle:"italic", lineHeight:1.4 }}>"{h}"</span>
+                              <span style={{ color:"#F4F4F1", fontSize:13, fontStyle:"italic", lineHeight:1.4 }} dir="auto">"{h}"</span>
                             </div>
                           ))}
                         </div>
@@ -587,7 +590,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
                                   letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:8 }}>
                       Formula {String(i+1).padStart(2,"0")}
                     </div>
-                    <p style={{ ...body, fontSize:13 }}>{vf}</p>
+                    <p style={{ ...body, fontSize:13 }} dir="auto">{vf}</p>
                   </div>
                 );
               })}
@@ -599,7 +602,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
         {hashtagStrategy && (
           <div style={{ background:"rgba(163,230,53,0.05)", border:"1px solid rgba(163,230,53,0.2)", padding:"16px 20px" }}>
             <div style={{ ...label("var(--n1)"), marginBottom:8 }}># Hashtag Strategy</div>
-            <p style={{ ...body, fontSize:13 }}>{hashtagStrategy}</p>
+            <p style={{ ...body, fontSize:13 }} dir="auto">{hashtagStrategy}</p>
           </div>
         )}
       </div>
@@ -618,7 +621,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
           {Array.isArray(value) ? (
             <StringList items={(value as unknown[]).map(v => typeof v === "string" ? v : JSON.stringify(v))} />
           ) : (
-            <p style={body}>
+            <p {...bodyProps}>
               {typeof value === "string" ? value : JSON.stringify(value)}
             </p>
           )}

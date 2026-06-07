@@ -17,7 +17,10 @@ body {
   margin: 0; padding: 0;
   background: #0A0A0B;
   color: #F4F4F1;
-  font-family: var(--font-grotesk), sans-serif;
+  /* Fallback chain covers: Latin → Arabic → CJK (SC/TC/JP/KR) → Devanagari (Hindi) → system */
+  font-family: var(--font-grotesk), "Segoe UI", "Noto Sans Arabic", "Noto Sans SC",
+               "Noto Sans TC", "Noto Sans JP", "Noto Sans KR", "Noto Sans Devanagari",
+               "PingFang SC", "Hiragino Sans", "Malgun Gothic", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
