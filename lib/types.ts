@@ -6,10 +6,10 @@ export type SectionKey =
   | "executiveSummary" | "marketAnalysis" | "competitorAnalysis"
   | "positioning" | "growthOpportunities" | "acquisitionPlan"
   | "funnelImprovements" | "marketingAssets" | "salesAssets"
-  | "retentionStrategy" | "kpiDashboard" | "topRoiActions"
-  | "plan7Day" | "plan30Day" | "plan90Day" | "immediateActions";
+  | "retentionStrategy" | "socialMediaStrategy" | "kpiDashboard"
+  | "topRoiActions" | "plan7Day" | "plan30Day" | "plan90Day" | "immediateActions";
 
-export const FREE_SECTIONS: SectionKey[] = ["executiveSummary", "topRoiActions"];
+export const FREE_SECTIONS: SectionKey[] = ["executiveSummary", "topRoiActions", "socialMediaStrategy"];
 
 export const SECTION_LABELS: Record<SectionKey, string> = {
   executiveSummary:    "Executive Summary",
@@ -22,6 +22,7 @@ export const SECTION_LABELS: Record<SectionKey, string> = {
   marketingAssets:     "Marketing Assets",
   salesAssets:         "Sales Assets",
   retentionStrategy:   "Retention Strategy",
+  socialMediaStrategy: "Social Media Strategy",
   kpiDashboard:        "KPI Dashboard",
   topRoiActions:       "Top ROI Actions",
   plan7Day:            "7-Day Plan",
@@ -33,10 +34,20 @@ export const SECTION_LABELS: Record<SectionKey, string> = {
 export const SECTION_ORDER: SectionKey[] = [
   "executiveSummary","marketAnalysis","competitorAnalysis","positioning",
   "growthOpportunities","acquisitionPlan","funnelImprovements","marketingAssets",
-  "salesAssets","retentionStrategy","kpiDashboard","topRoiActions",
-  "plan7Day","plan30Day","plan90Day","immediateActions",
+  "salesAssets","retentionStrategy","socialMediaStrategy","kpiDashboard",
+  "topRoiActions","plan7Day","plan30Day","plan90Day","immediateActions",
 ];
 
+export interface SocialPlatform {
+  platform: string
+  handle: string
+  contentTypes: string[]
+  postingFrequency: string
+  bestTimes: string
+  contentPillars: string[]
+  postIdeas: string[]
+  hooks: string[]
+}
 export interface Competitor  { name: string; strength: string; weakness: string }
 export interface Channel     { name: string; priority: "high"|"medium"|"low"; rationale: string }
 export interface EmailItem   { subject: string; body: string; cta: string }
@@ -58,6 +69,7 @@ export interface GrowthReport {
   marketingAssets:     { landingCopy: string; adCopy: string[]; emailSequence: EmailItem[] }
   salesAssets:         { outreachScript: string; discoveryQuestions: string[]; objections: Objection[] }
   retentionStrategy:   { onboarding: string[]; engagementLoops: string[]; upsells: string[] }
+  socialMediaStrategy: { platforms: SocialPlatform[]; contentCalendar: { week: number; theme: string; posts: string[] }[]; hashtagStrategy: string; viralFormulas: string[] }
   kpiDashboard:        { metrics: KPI[]; targets: string[]; warnings: string[] }
   topRoiActions:       { actions: RoiAction[] }
   plan7Day:            { days: DayPlan[] }

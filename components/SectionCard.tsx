@@ -382,6 +382,198 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
     );
   }
 
+  // ── Social Media Strategy ────────────────────────────────────────────────
+  if (key === "socialMediaStrategy") {
+    const { platforms, contentCalendar, hashtagStrategy, viralFormulas } = data as GrowthReport["socialMediaStrategy"];
+    const platformColor = (p: string) => {
+      const lp = p.toLowerCase();
+      if (lp.includes("instagram")) return "#E1306C";
+      if (lp.includes("tiktok"))    return "#69C9D0";
+      if (lp.includes("facebook"))  return "#1877F2";
+      if (lp.includes("youtube"))   return "#FF0000";
+      if (lp.includes("linkedin"))  return "#0A66C2";
+      if (lp.includes("twitter") || lp.includes("x/")) return "#1DA1F2";
+      if (lp.includes("pinterest")) return "#E60023";
+      return "var(--n2)";
+    };
+    const platformIcon = (p: string) => {
+      const lp = p.toLowerCase();
+      if (lp.includes("instagram")) return "◈";
+      if (lp.includes("tiktok"))    return "▶";
+      if (lp.includes("facebook"))  return "◆";
+      if (lp.includes("youtube"))   return "▣";
+      if (lp.includes("linkedin"))  return "◉";
+      if (lp.includes("twitter") || lp.includes("x/")) return "◎";
+      if (lp.includes("pinterest")) return "✦";
+      return "◈";
+    };
+    return (
+      <div>
+        {/* Platform tabs */}
+        {platforms?.length > 0 && (
+          <div style={{ marginBottom:28 }}>
+            <div style={label()}>Platform Playbooks</div>
+            {platforms.map((p, idx) => {
+              const pc = platformColor(p.platform);
+              return (
+                <div key={idx} style={{ marginBottom:16, border:`1px solid #2A2A2E`, background:"#111114", overflow:"hidden" }}>
+                  {/* Platform header bar */}
+                  <div style={{ background: pc, padding:"12px 20px", display:"flex", alignItems:"center", gap:10 }}>
+                    <span style={{ fontSize:18, color:"#fff" }}>{platformIcon(p.platform)}</span>
+                    <div>
+                      <div style={{ fontSize:15, fontWeight:800, color:"#fff", fontFamily:"var(--font-archivo)" }}>
+                        {p.platform}
+                      </div>
+                      {p.handle && (
+                        <div style={{ fontSize:11, color:"rgba(255,255,255,0.75)", fontFamily:"var(--font-mono)" }}>
+                          {p.handle}
+                        </div>
+                      )}
+                    </div>
+                    <div style={{ marginLeft:"auto", textAlign:"right" }}>
+                      <div style={{ fontSize:11, color:"rgba(255,255,255,0.75)", fontFamily:"var(--font-mono)", letterSpacing:"0.08em" }}>
+                        {p.postingFrequency}
+                      </div>
+                      <div style={{ fontSize:11, color:"rgba(255,255,255,0.6)", fontFamily:"var(--font-mono)" }}>
+                        Best: {p.bestTimes}
+                      </div>
+                    </div>
+                  </div>
+                  <div style={{ padding:"16px 20px" }}>
+                    {/* Content types */}
+                    {p.contentTypes?.length > 0 && (
+                      <div style={{ marginBottom:14 }}>
+                        <div style={{ ...label(pc), opacity:0.9 }}>Content Formats</div>
+                        <div style={{ display:"flex", flexWrap:"wrap", gap:6 }}>
+                          {p.contentTypes.map((ct, i) => (
+                            <span key={i} style={{ fontSize:11, fontFamily:"var(--font-mono)", border:`1px solid ${pc}`,
+                                                    color: pc, padding:"3px 10px", opacity:0.9 }}>
+                              {ct}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    {/* Content pillars */}
+                    {p.contentPillars?.length > 0 && (
+                      <div style={{ marginBottom:14 }}>
+                        <div style={{ ...label(pc), opacity:0.9 }}>Content Pillars</div>
+                        <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
+                          {p.contentPillars.map((cp, i) => (
+                            <div key={i} style={{ display:"flex", gap:8, alignItems:"flex-start" }}>
+                              <span style={{ color: pc, flexShrink:0, fontSize:12 }}>◆</span>
+                              <span style={{ color:"#C4C4CC", fontSize:13, lineHeight:1.5 }}>{cp}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    {/* Post ideas */}
+                    {p.postIdeas?.length > 0 && (
+                      <div style={{ marginBottom:14 }}>
+                        <div style={{ ...label(pc), opacity:0.9 }}>Post Ideas (Ready to Execute)</div>
+                        <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
+                          {p.postIdeas.map((pi, i) => (
+                            <div key={i} style={{
+                              background:"#0A0A0B", border:"1px solid #1E1E22",
+                              padding:"10px 14px", display:"flex", gap:10, alignItems:"flex-start"
+                            }}>
+                              <span style={{ color: pc, fontFamily:"var(--font-mono)", fontSize:11,
+                                             flexShrink:0, marginTop:2 }}>
+                                {String(i+1).padStart(2,"0")}
+                              </span>
+                              <span style={{ color:"#C4C4CC", fontSize:13, lineHeight:1.5 }}>{pi}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    {/* Hooks */}
+                    {p.hooks?.length > 0 && (
+                      <div>
+                        <div style={{ ...label(pc), opacity:0.9 }}>Scroll-Stopping Hooks</div>
+                        <div style={{ display:"flex", flexDirection:"column", gap:4 }}>
+                          {p.hooks.map((h, i) => (
+                            <div key={i} style={{
+                              background:"rgba(255,255,255,0.03)", border:`1px solid rgba(${pc === "#E1306C" ? "225,48,108" : "100,100,200"},0.2)`,
+                              padding:"8px 14px", borderLeft:`3px solid ${pc}`
+                            }}>
+                              <span style={{ color:"#F4F4F1", fontSize:13, fontStyle:"italic", lineHeight:1.4 }}>"{h}"</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {/* 4-week content calendar */}
+        {contentCalendar?.length > 0 && (
+          <div style={{ marginBottom:24 }}>
+            <div style={label()}>4-Week Content Calendar</div>
+            {contentCalendar.map((wk, i) => {
+              const wc = ["var(--n3)","var(--n1)","var(--n2)","#9A9AA8"][i % 4];
+              return (
+                <div key={wk.week} style={{ borderLeft:`3px solid ${wc}`, paddingLeft:16, marginBottom:20 }}>
+                  <div style={{ display:"flex", alignItems:"baseline", gap:8, marginBottom:10 }}>
+                    <span style={{ fontSize:11, fontFamily:"var(--font-mono)", fontWeight:700,
+                                   color: wc, letterSpacing:"0.12em", textTransform:"uppercase" }}>
+                      Week {wk.week}
+                    </span>
+                    <span style={{ color:"#F4F4F1", fontWeight:600, fontSize:14 }}>{wk.theme}</span>
+                  </div>
+                  <div style={{ display:"flex", flexDirection:"column", gap:5 }}>
+                    {wk.posts.map((post, j) => (
+                      <div key={j} style={{ display:"flex", gap:10, alignItems:"flex-start",
+                                            background:"#111114", border:"1px solid #1E1E22", padding:"9px 12px" }}>
+                        <span style={{ color: wc, fontSize:10, marginTop:3, flexShrink:0 }}>▸</span>
+                        <span style={{ color:"#C4C4CC", fontSize:13, lineHeight:1.4 }}>{post}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Viral formulas */}
+        {viralFormulas?.length > 0 && (
+          <div style={{ marginBottom:24 }}>
+            <div style={label()}>Viral Content Formulas</div>
+            <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(240px,1fr))", gap:8 }}>
+              {viralFormulas.map((vf, i) => {
+                const fc = ["var(--n3)","var(--n1)","var(--n2)","#9A9AA8","var(--n3)","var(--n1)"][i % 6];
+                return (
+                  <div key={i} style={{ background:"#111114", border:"1px solid #2A2A2E", padding:"16px 14px",
+                                        borderTop:`3px solid ${fc}` }}>
+                    <div style={{ fontSize:11, fontFamily:"var(--font-mono)", color: fc,
+                                  letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:8 }}>
+                      Formula {String(i+1).padStart(2,"0")}
+                    </div>
+                    <p style={{ ...body, fontSize:13 }}>{vf}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Hashtag strategy */}
+        {hashtagStrategy && (
+          <div style={{ background:"rgba(163,230,53,0.05)", border:"1px solid rgba(163,230,53,0.2)", padding:"16px 20px" }}>
+            <div style={{ ...label("var(--n1)"), marginBottom:8 }}># Hashtag Strategy</div>
+            <p style={{ ...body, fontSize:13 }}>{hashtagStrategy}</p>
+          </div>
+        )}
+      </div>
+    );
+  }
+
   // ── Generic fallback (executiveSummary, positioning, growthOpportunities,
   //    funnelImprovements, retentionStrategy, immediateActions) ─────────────
   return (

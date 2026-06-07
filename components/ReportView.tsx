@@ -26,7 +26,7 @@ const GROUPS: { label: string; color: string; keys: SectionKey[] }[] = [
   {
     label: "Assets",
     color: "var(--n2)",
-    keys: ["marketingAssets", "salesAssets", "retentionStrategy"],
+    keys: ["marketingAssets", "salesAssets", "retentionStrategy", "socialMediaStrategy"],
   },
   {
     label: "Execution",
@@ -51,6 +51,7 @@ const ICONS: Record<SectionKey, string> = {
   marketingAssets:     "✦",
   salesAssets:         "◉",
   retentionStrategy:   "⟳",
+  socialMediaStrategy: "◈",
   kpiDashboard:        "▣",
   topRoiActions:       "★",
   plan7Day:            "①",
@@ -114,7 +115,7 @@ export default function ReportView({ report, tier, input, reportId }: Props) {
             ) : (
               <span style={{ fontSize:10, fontFamily:"var(--font-mono)", color:"#5C5C63",
                              letterSpacing:"0.1em", textTransform:"uppercase" }}>
-                Free · 2 of 16
+                Free · 3 of 17
               </span>
             )}
           </div>
