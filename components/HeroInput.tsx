@@ -113,7 +113,7 @@ export default function HeroInput() {
       <div style={{ display:"flex", flexWrap:"wrap", gap:8, marginTop:24, marginBottom:20 }}>
         {[{ label:"No login required", color:"var(--n3)" },
           { label:"20 AI specialists",  color:"var(--n1)" },
-          { label:"Results in ~30s",    color:"var(--n2)" },
+          { label:"Results in under 60s", color:"var(--n2)" },
           { label:"15 languages",       color:"var(--n3)" }]
           .map(({ label, color }) => (
           <span key={label} className="font-mono"
