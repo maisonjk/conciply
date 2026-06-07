@@ -34,6 +34,7 @@ button { font-family: inherit; cursor: pointer; }
   font-family: var(--font-archivo), sans-serif;
   font-weight: 900; line-height: 0.92;
   letter-spacing: -0.02em; text-transform: uppercase; margin: 0;
+  padding: 0;
 }
 .btn-neon {
   background: var(--n1); color: #000;
