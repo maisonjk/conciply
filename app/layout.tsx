@@ -9,6 +9,19 @@ const mono = Space_Mono({ subsets: ["latin"], weight: ["400","700"], variable: "
 export const metadata: Metadata = {
   title: "Conciply — Autonomous Growth OS",
   description: "Every great idea deserves a growth playbook. Conciply deploys 20 AI specialists to analyze any business or idea and generate a complete growth strategy in seconds.",
+  openGraph: {
+    title: "Conciply — Autonomous Growth OS",
+    description: "Every great idea deserves a growth playbook. Conciply deploys 20 AI specialists to analyze any business or idea and generate a complete growth strategy in seconds.",
+    url: "https://www.conciply.com",
+    siteName: "Conciply",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Conciply — Autonomous Growth OS",
+    description: "Every great idea deserves a growth playbook. Conciply deploys 20 AI specialists to generate a complete growth strategy in seconds.",
+  },
+  metadataBase: new URL("https://www.conciply.com"),
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

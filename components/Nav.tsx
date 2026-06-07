@@ -29,8 +29,10 @@ export default function Nav() {
           <span className="display" style={{ fontSize:22 }}>Conciply</span>
         </Link>
         <nav style={{ display:"flex", gap:2, alignItems:"center" }}>
-          {navLink("/pricing", "Pricing")}
-          {navLink("/restore", "Restore")}
+          <span className="nav-links-desktop">
+            {navLink("/pricing", "Pricing")}
+            {navLink("/restore", "Restore")}
+          </span>
           <Link href="/" className="btn-neon" style={{ padding:"9px 18px", fontSize:13, marginLeft:8 }}>
             Start free
           </Link>

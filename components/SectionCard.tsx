@@ -89,7 +89,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
     <div>
       {Object.entries(data as Record<string, unknown>).map(([field, value]) => (
         <div key={field} style={{ marginBottom:16 }}>
-          <div className="kicker" style={{ marginBottom:6, color:"#9A9AA8" }}>{field}</div>
+          <div className="kicker" style={{ marginBottom:6, color:"#9A9AA8" }}>{field.replace(/([A-Z])/g, " $1").trim().toUpperCase()}</div>
           {Array.isArray(value) ? (
             <ul style={{ margin:0, padding:"0 0 0 20px" }}>
               {(value as string[]).map((item, i) => (
