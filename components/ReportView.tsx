@@ -219,7 +219,25 @@ export default function ReportView({ report, tier, input, reportId }: Props) {
         </div>
 
         {/* Section content */}
-        <div style={{ padding:"32px", flex:1 }}>
+        <div style={{ padding:"32px 40px", flex:1 }}>
+
+          {/* Big section title */}
+          <div style={{ marginBottom:32, paddingBottom:24, borderBottom:`2px solid ${activeGroup.color}` }}>
+            <div style={{
+              fontSize:11, fontFamily:"var(--font-mono)", letterSpacing:"0.14em",
+              textTransform:"uppercase", color: activeGroup.color, marginBottom:10
+            }}>
+              {sectionNum(active)} — {activeGroup.label}
+            </div>
+            <h2 className="display" style={{
+              fontSize:"clamp(32px, 3.5vw, 56px)",
+              fontWeight:900, color:"#F4F4F1", lineHeight:1.05,
+              margin:0, letterSpacing:"-0.02em",
+            }}>
+              {SECTION_LABELS[active]}
+            </h2>
+          </div>
+
           <SectionCard
             sectionKey={active}
             report={report}
