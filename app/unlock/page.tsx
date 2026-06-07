@@ -17,18 +17,25 @@ function UnlockContent() {
 
     (async () => {
       setStatus("loading");
-      const res = await fetch("/api/verify", {
-        method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ key: sessionId }),
-      });
-      if (res.ok) {
-        const data = await res.json();
-        setLicense(sessionId, data.tier);
+      // Retry up to 5× with 2s delay — webhook may not have fired yet
+      let data: Record<string, string> | null = null;
+      for (let i = 0; i < 5; i++) {
+        const res = await fetch("/api/verify", {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ key: sessionId }),
+        });
+        if (res.ok) { data = await res.json(); break; }
+        if (i < 4) await new Promise(r => setTimeout(r, 2000));
+      }
+      if (data) {
+        // data.licenseKey is the real HMAC key; fall back to sessionId for old tokens
+        setLicense(data.licenseKey ?? sessionId, data.tier);
         setMessage(`${data.tier} plan unlocked! Redirecting…`);
         setStatus("success");
         setTimeout(() => router.push("/"), 1500);
       } else {
-        setStatus("idle");
+        setStatus("error");
+        setMessage("Could not retrieve your license. Please paste your key below or contact hello@conciply.com.");
       }
     })();
   }, [params, router]);
@@ -44,7 +51,8 @@ function UnlockContent() {
       });
       const data = await res.json();
       if (!res.ok) { setStatus("error"); setMessage(data.error || "Invalid key."); return; }
-      setLicense(k, data.tier);
+      // Use the resolved licenseKey from server (handles session ID → real key lookup)
+      setLicense(data.licenseKey ?? k, data.tier);
       setMessage(`${data.tier} plan unlocked!`);
       setStatus("success");
       setTimeout(() => router.push("/"), 1200);
