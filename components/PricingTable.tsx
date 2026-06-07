@@ -8,35 +8,72 @@ const TIERS = [
     label: "Free",
     price: "$0",
     sub: "No credit card",
-    features: ["1 report per IP","Executive Summary","Top 10 ROI Actions","—","—","—"],
-    cta: "Start free", href: "/",
+    badge: null,
+    features: [
+      { text: "1 report per IP",      active: true },
+      { text: "Executive Summary",     active: true },
+      { text: "Top 10 ROI Actions",    active: true },
+      { text: "All 16 sections",       active: false },
+      { text: "Workspace",             active: false },
+      { text: "Asset generators",      active: false },
+    ],
+    cta: "Start free",
+    href: "/",
+    accent: "var(--n3)",
     highlight: false,
   },
   {
     tier: "founder" as LicenseTier,
     label: "Founder",
     price: "$19",
-    sub: "One-time",
-    features: ["5 reports","All 16 sections","Workspace (edit + regen)","—","—","—"],
-    cta: "Get Founder →",
+    sub: "One-time payment",
+    badge: null,
+    features: [
+      { text: "5 reports",             active: true },
+      { text: "All 16 sections",       active: true },
+      { text: "Workspace (edit + regen)", active: true },
+      { text: "Asset generators",      active: false },
+      { text: "JSON export",           active: false },
+      { text: "Client use",            active: false },
+    ],
+    cta: "Get Founder",
+    accent: "var(--n3)",
     highlight: false,
   },
   {
     tier: "pro" as LicenseTier,
     label: "Pro",
     price: "$49",
-    sub: "One-time",
-    features: ["20 reports","All 16 sections","Workspace","Asset generators","—","—"],
-    cta: "Get Pro →",
+    sub: "One-time payment",
+    badge: "Most popular",
+    features: [
+      { text: "20 reports",            active: true },
+      { text: "All 16 sections",       active: true },
+      { text: "Workspace",             active: true },
+      { text: "Asset generators",      active: true },
+      { text: "JSON export",           active: false },
+      { text: "Client use",            active: false },
+    ],
+    cta: "Get Pro",
+    accent: "var(--n1)",
     highlight: true,
   },
   {
     tier: "agency" as LicenseTier,
     label: "Agency",
     price: "$99",
-    sub: "One-time",
-    features: ["Unlimited reports","All 16 sections","Workspace","Asset generators","JSON export","Client use"],
-    cta: "Get Agency →",
+    sub: "One-time payment",
+    badge: null,
+    features: [
+      { text: "Unlimited reports",     active: true },
+      { text: "All 16 sections",       active: true },
+      { text: "Workspace",             active: true },
+      { text: "Asset generators",      active: true },
+      { text: "JSON export",           active: true },
+      { text: "Client use",            active: true },
+    ],
+    cta: "Get Agency",
+    accent: "var(--n2)",
     highlight: false,
   },
 ];
@@ -48,48 +85,198 @@ export default function PricingTable() {
     setLoading(tier);
     try {
       const res = await fetch("/api/checkout", {
-        method: "POST", headers: { "Content-Type": "application/json" },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ tier }),
       });
       const data = await res.json();
       if (data.url) window.location.href = data.url;
-    } finally { setLoading(null); }
+    } finally {
+      setLoading(null);
+    }
   };
 
   return (
-    <div className="cardgrid" style={{ gridTemplateColumns:"repeat(4,1fr)" }}>
-      {TIERS.map(({ tier, label, price, sub, features, cta, href, highlight }) => (
-        <div key={label} style={{ background:"#0A0A0B", padding:"clamp(24px,3vw,40px)",
-                                   gridColumn:"span 1",
-                                   borderTop: highlight ? "4px solid var(--n1)" : "4px solid transparent" }}>
-          <div className="kicker" style={{ marginBottom:12,
-                                           color: highlight ? "var(--n1)" : "#C4C4CC" }}>
-            {label} {highlight && "★ Most popular"}
-          </div>
-          <div className="display" style={{ fontSize:48, color:"var(--n3)", marginBottom:4 }}>{price}</div>
-          <div className="kicker" style={{ marginBottom:24, color:"#9A9AA8" }}>{sub}</div>
-          <ul style={{ listStyle:"none", margin:"0 0 32px", padding:0 }}>
-            {features.map((f, i) => (
-              <li key={i} style={{ fontSize:14, color: f === "—" ? "#3C3C42" : "#C4C4CC",
-                                   lineHeight:1.8, display:"flex", alignItems:"center", gap:8 }}>
-                <span style={{ color: f === "—" ? "#3C3C42" : "var(--n3)", fontSize:11 }}>
-                  {f === "—" ? "—" : "✓"}
+    <div style={{
+      display: "grid",
+      gridTemplateColumns: "repeat(4, 1fr)",
+      gap: 0,
+      border: "2px solid #F4F4F1",
+    }}>
+      {TIERS.map(({ tier, label, price, sub, badge, features, cta, href, accent, highlight }) => (
+        <div
+          key={label}
+          style={{
+            background: "#0A0A0B",
+            padding: "32px 28px",
+            borderRight: "2px solid #F4F4F1",
+            borderTop: `4px solid ${highlight ? accent : "transparent"}`,
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          {/* Tier header */}
+          <div style={{ marginBottom: 24 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+              <span
+                className="kicker"
+                style={{ color: highlight ? accent : "#D0D0D8", fontSize: 11 }}
+              >
+                {label.toUpperCase()}
+              </span>
+              {badge && (
+                <span
+                  className="font-mono"
+                  style={{
+                    fontSize: 9,
+                    fontWeight: 700,
+                    letterSpacing: "0.12em",
+                    textTransform: "uppercase",
+                    color: "#000",
+                    background: accent,
+                    padding: "3px 7px",
+                    lineHeight: 1,
+                  }}
+                >
+                  {badge}
                 </span>
-                {f}
+              )}
+            </div>
+
+            {/* Price */}
+            <div
+              className="display"
+              style={{ fontSize: 56, color: accent, lineHeight: 1, marginBottom: 8 }}
+            >
+              {price}
+            </div>
+
+            {/* Sub-label */}
+            <div
+              className="font-mono"
+              style={{ fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "#8A8A9A" }}
+            >
+              {sub}
+            </div>
+          </div>
+
+          {/* Divider */}
+          <div style={{ height: 1, background: "#1E1E22", marginBottom: 24 }} />
+
+          {/* Feature list */}
+          <ul style={{ listStyle: "none", margin: 0, padding: 0, flex: 1, marginBottom: 32 }}>
+            {features.map((f, i) => (
+              <li
+                key={i}
+                style={{
+                  display: "flex",
+                  alignItems: "baseline",
+                  gap: 10,
+                  padding: "6px 0",
+                  borderBottom: i < features.length - 1 ? "1px solid #111" : "none",
+                }}
+              >
+                <span
+                  style={{
+                    flexShrink: 0,
+                    width: 14,
+                    fontSize: 11,
+                    fontWeight: 700,
+                    color: f.active ? accent : "#555560",
+                    fontFamily: "var(--font-mono), monospace",
+                    letterSpacing: 0,
+                  }}
+                >
+                  {f.active ? "✓" : "—"}
+                </span>
+                <span
+                  style={{
+                    fontSize: 13,
+                    lineHeight: 1.5,
+                    color: f.active ? "#EBEBEB" : "#7A7A88",
+                    fontFamily: "var(--font-grotesk), sans-serif",
+                  }}
+                >
+                  {f.text}
+                </span>
               </li>
             ))}
           </ul>
+
+          {/* CTA */}
           {href ? (
-            <a href={href} className="btn-neon" style={{ display:"block", textAlign:"center",
-                                                          padding:"14px 20px", fontSize:14 }}>
+            <a
+              href={href}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                height: 48,
+                border: "2px solid #3C3C42",
+                color: "#D0D0D8",
+                fontFamily: "var(--font-mono), monospace",
+                fontSize: 11,
+                fontWeight: 700,
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                textDecoration: "none",
+                transition: "border-color .12s, color .12s",
+              }}
+              onMouseEnter={e => {
+                (e.currentTarget as HTMLAnchorElement).style.borderColor = "#F4F4F1";
+                (e.currentTarget as HTMLAnchorElement).style.color = "#F4F4F1";
+              }}
+              onMouseLeave={e => {
+                (e.currentTarget as HTMLAnchorElement).style.borderColor = "#3C3C42";
+                (e.currentTarget as HTMLAnchorElement).style.color = "#C4C4CC";
+              }}
+            >
               {cta}
             </a>
           ) : (
-            <button onClick={() => checkout(tier!)} disabled={loading !== null} className="btn-neon"
-              style={{ width:"100%", padding:"14px 20px", fontSize:14,
-                       background: highlight ? "var(--n1)" : "var(--n3)",
-                       borderColor: highlight ? "var(--n1)" : "var(--n3)" }}>
-              {loading === tier ? "Redirecting…" : cta}
+            <button
+              onClick={() => checkout(tier!)}
+              disabled={loading !== null}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                height: 48,
+                width: "100%",
+                border: `2px solid ${accent}`,
+                background: highlight ? accent : "transparent",
+                color: highlight ? "#000" : accent,
+                fontFamily: "var(--font-archivo), sans-serif",
+                fontSize: 13,
+                fontWeight: 800,
+                letterSpacing: "0.04em",
+                textTransform: "uppercase",
+                cursor: loading !== null ? "not-allowed" : "pointer",
+                opacity: loading !== null ? 0.5 : 1,
+                transition: "background .12s, color .12s, box-shadow .12s, transform .12s",
+              }}
+              onMouseEnter={e => {
+                if (loading !== null) return;
+                const el = e.currentTarget;
+                if (highlight) {
+                  el.style.boxShadow = "4px 4px 0 #F4F4F1";
+                  el.style.transform = "translate(-2px,-2px)";
+                } else {
+                  el.style.background = accent;
+                  el.style.color = "#000";
+                }
+              }}
+              onMouseLeave={e => {
+                const el = e.currentTarget;
+                el.style.boxShadow = "none";
+                el.style.transform = "none";
+                if (!highlight) {
+                  el.style.background = "transparent";
+                  el.style.color = accent;
+                }
+              }}
+            >
+              {loading === tier ? "Redirecting…" : `${cta} →`}
             </button>
           )}
         </div>
