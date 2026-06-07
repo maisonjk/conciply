@@ -169,28 +169,64 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
   // ── KPI Dashboard ────────────────────────────────────────────────────────
   if (key === "kpiDashboard") {
     const { metrics, targets, warnings } = data as GrowthReport["kpiDashboard"];
-    const freqColor = (f: string) => f === "daily" ? "var(--n3)" : f === "weekly" ? "var(--n1)" : "#9A9AA8";
+    const freqColor = (f: string) => f === "daily" ? "var(--n3)" : f === "weekly" ? "var(--n1)" : "var(--n2)";
+    const freqIcon  = (f: string) => f === "daily" ? "●" : f === "weekly" ? "◆" : "▲";
     return (
       <div>
+        {/* Metric stat cards — 2-col grid */}
         {metrics?.length > 0 && (
-          <div style={{ marginBottom:20 }}>
-            <div style={label()}>Metrics</div>
-            {metrics.map((m, i) => (
-              <div key={i} style={{ ...card, display:"flex", alignItems:"center", justifyContent:"space-between", gap:12 }}>
-                <div>
-                  <div style={{ fontWeight:700, fontSize:14, color:"#F4F4F1" }}>{m.metric}</div>
-                  <div style={{ ...body, fontSize:13 }}>Target: {m.target}</div>
+          <div style={{ marginBottom:28 }}>
+            <div style={label()}>Tracked Metrics</div>
+            <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(180px,1fr))", gap:8 }}>
+              {metrics.map((m, i) => (
+                <div key={i} style={{
+                  background:"#111114", border:"1px solid #2A2A2E",
+                  padding:"18px 16px", position:"relative", overflow:"hidden"
+                }}>
+                  {/* coloured top bar */}
+                  <div style={{ position:"absolute", top:0, left:0, right:0, height:3, background:freqColor(m.frequency) }} />
+                  <div style={{ fontSize:11, fontFamily:"var(--font-mono)", color:freqColor(m.frequency),
+                                letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:10 }}>
+                    {freqIcon(m.frequency)} {m.frequency}
+                  </div>
+                  <div style={{ fontSize:13, color:"#9A9AA8", marginBottom:6, lineHeight:1.3 }}>{m.metric}</div>
+                  <div style={{ fontSize:22, fontWeight:800, color:"#F4F4F1", fontFamily:"var(--font-archivo)", lineHeight:1 }}>
+                    {m.target}
+                  </div>
                 </div>
-                <div style={pill(freqColor(m.frequency))}>{m.frequency}</div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         )}
-        {targets?.length > 0 && <div style={{ marginBottom:16 }}><div style={label()}>90-Day Targets</div><StringList items={targets} /></div>}
+
+        {/* 90-day targets as checklist */}
+        {targets?.length > 0 && (
+          <div style={{ marginBottom:24 }}>
+            <div style={label()}>90-Day Targets</div>
+            <div style={{ border:"1px solid #2A2A2E" }}>
+              {targets.map((t, i) => (
+                <div key={i} style={{
+                  display:"flex", alignItems:"flex-start", gap:12, padding:"12px 16px",
+                  borderBottom: i < targets.length - 1 ? "1px solid #1E1E22" : "none"
+                }}>
+                  <span style={{ color:"var(--n3)", marginTop:2, flexShrink:0, fontSize:12 }}>◉</span>
+                  <span style={{ color:"#C4C4CC", fontSize:14, lineHeight:1.5 }}>{t}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Red flags */}
         {warnings?.length > 0 && (
-          <div>
-            <div style={label("var(--n2)")}>⚠ Red Flags to Watch</div>
-            <StringList items={warnings} />
+          <div style={{ background:"rgba(236,72,153,0.06)", border:"1px solid rgba(236,72,153,0.25)", padding:"16px 20px" }}>
+            <div style={{ ...label("var(--n2)"), marginBottom:12 }}>⚠ Red Flags to Watch</div>
+            {warnings.map((w, i) => (
+              <div key={i} style={{ display:"flex", gap:10, marginBottom: i < warnings.length-1 ? 10 : 0 }}>
+                <span style={{ color:"var(--n2)", flexShrink:0 }}>▸</span>
+                <span style={{ color:"#C4C4CC", fontSize:14, lineHeight:1.5 }}>{w}</span>
+              </div>
+            ))}
           </div>
         )}
       </div>
@@ -224,14 +260,35 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
   // ── Plan: 7-Day ──────────────────────────────────────────────────────────
   if (key === "plan7Day") {
     const { days } = data as GrowthReport["plan7Day"];
+    const dayColor = (d: number) => d <= 2 ? "var(--n3)" : d <= 5 ? "var(--n1)" : "var(--n2)";
     return (
       <div>
-        {days.map(d => (
-          <div key={d.day} style={{ marginBottom:16 }}>
-            <div className="kicker" style={{ color:"var(--n1)", marginBottom:6 }}>Day {d.day}</div>
-            <StringList items={d.tasks} />
-          </div>
-        ))}
+        <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(220px,1fr))", gap:8 }}>
+          {days.map(d => (
+            <div key={d.day} style={{
+              background:"#111114", border:"1px solid #2A2A2E",
+              padding:"20px 18px", position:"relative"
+            }}>
+              <div style={{ position:"absolute", top:0, left:0, right:0, height:3, background:dayColor(d.day) }} />
+              {/* Big day number */}
+              <div style={{
+                fontSize:48, fontWeight:900, fontFamily:"var(--font-archivo)",
+                color: dayColor(d.day), lineHeight:1, marginBottom:14, opacity:0.9
+              }}>
+                {String(d.day).padStart(2,"0")}
+              </div>
+              {/* Tasks as checklist */}
+              <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
+                {d.tasks.map((t, i) => (
+                  <div key={i} style={{ display:"flex", gap:8, alignItems:"flex-start" }}>
+                    <span style={{ color:dayColor(d.day), fontSize:10, marginTop:4, flexShrink:0 }}>▸</span>
+                    <span style={{ color:"#C4C4CC", fontSize:13, lineHeight:1.5 }}>{t}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
@@ -239,12 +296,34 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
   // ── Plan: 30-Day ─────────────────────────────────────────────────────────
   if (key === "plan30Day") {
     const { weeks } = data as GrowthReport["plan30Day"];
+    const weekAccent = ["var(--n3)","var(--n1)","var(--n2)","#9A9AA8"];
     return (
       <div>
-        {weeks.map(w => (
-          <div key={w.week} style={{ marginBottom:16 }}>
-            <div className="kicker" style={{ color:"var(--n1)", marginBottom:4 }}>Week {w.week} — {w.focus}</div>
-            <StringList items={w.tasks} />
+        {weeks.map((w, idx) => (
+          <div key={w.week} style={{
+            borderLeft:`3px solid ${weekAccent[idx % 4]}`,
+            paddingLeft:20, marginBottom:24
+          }}>
+            {/* Week header */}
+            <div style={{ display:"flex", alignItems:"baseline", gap:10, marginBottom:12 }}>
+              <span style={{
+                fontSize:11, fontFamily:"var(--font-mono)", fontWeight:700,
+                color: weekAccent[idx % 4], letterSpacing:"0.12em", textTransform:"uppercase"
+              }}>Week {w.week}</span>
+              <span style={{ color:"#F4F4F1", fontWeight:700, fontSize:15 }}>{w.focus}</span>
+            </div>
+            {/* Tasks */}
+            <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
+              {w.tasks.map((t, i) => (
+                <div key={i} style={{
+                  display:"flex", gap:10, alignItems:"flex-start",
+                  background:"#111114", border:"1px solid #1E1E22", padding:"10px 14px"
+                }}>
+                  <span style={{ color: weekAccent[idx % 4], fontSize:11, marginTop:3, flexShrink:0 }}>◆</span>
+                  <span style={{ color:"#C4C4CC", fontSize:13, lineHeight:1.5 }}>{t}</span>
+                </div>
+              ))}
+            </div>
           </div>
         ))}
       </div>
@@ -254,12 +333,49 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
   // ── Plan: 90-Day ─────────────────────────────────────────────────────────
   if (key === "plan90Day") {
     const { months } = data as GrowthReport["plan90Day"];
+    const monthAccent = ["var(--n3)","var(--n1)","var(--n2)"];
     return (
-      <div>
-        {months.map(m => (
-          <div key={m.month} style={{ marginBottom:16 }}>
-            <div className="kicker" style={{ color:"var(--n1)", marginBottom:4 }}>Month {m.month} — {m.theme}</div>
-            <StringList items={m.milestones} />
+      <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
+        {months.map((m, idx) => (
+          <div key={m.month} style={{
+            background:"#111114", border:"1px solid #2A2A2E",
+            padding:"24px 20px", position:"relative", overflow:"hidden"
+          }}>
+            {/* Giant faded month number as background */}
+            <div style={{
+              position:"absolute", top:-10, right:12,
+              fontSize:120, fontWeight:900, fontFamily:"var(--font-archivo)",
+              color: monthAccent[idx % 3], opacity:0.06, lineHeight:1, userSelect:"none",
+              pointerEvents:"none"
+            }}>
+              {m.month}
+            </div>
+            {/* Month badge + theme */}
+            <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:16 }}>
+              <div style={{
+                width:40, height:40, background: monthAccent[idx % 3],
+                display:"flex", alignItems:"center", justifyContent:"center",
+                fontWeight:900, fontFamily:"var(--font-archivo)", fontSize:18, color:"#000", flexShrink:0
+              }}>
+                {m.month}
+              </div>
+              <div>
+                <div style={{ fontSize:11, fontFamily:"var(--font-mono)", color:"#9A9AA8",
+                              letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:2 }}>
+                  Month {m.month}
+                </div>
+                <div style={{ fontWeight:700, fontSize:16, color:"#F4F4F1" }}>{m.theme}</div>
+              </div>
+            </div>
+            {/* Milestones */}
+            <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
+              {m.milestones.map((ms, i) => (
+                <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start" }}>
+                  <span style={{ color: monthAccent[idx % 3], flexShrink:0, marginTop:3, fontSize:12 }}>◉</span>
+                  <span style={{ color:"#C4C4CC", fontSize:14, lineHeight:1.5 }}>{ms}</span>
+                </div>
+              ))}
+            </div>
           </div>
         ))}
       </div>
