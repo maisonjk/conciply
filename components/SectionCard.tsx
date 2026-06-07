@@ -238,6 +238,32 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
     const { actions } = data as GrowthReport["topRoiActions"];
     return (
       <div>
+        {/* Scoring legend */}
+        <div style={{
+          display:"flex", gap:0, marginBottom:16,
+          border:"1px solid #1E1E22", overflow:"hidden",
+        }}>
+          {[
+            { label:"ROI Score", desc:"(Impact × Speed) ÷ Difficulty — higher = do it first", color:"var(--n3)" },
+            { label:"Impact",    desc:"Revenue / growth potential (1–10)", color:"var(--n1)" },
+            { label:"Speed",     desc:"How fast you'll see results (1–10)", color:"#9A9AA8" },
+            { label:"Difficulty",desc:"Time + effort required (1=easy, 10=hard)", color:"var(--n2)" },
+          ].map((item, i, arr) => (
+            <div key={item.label} style={{
+              flex:1, padding:"10px 12px",
+              borderRight: i < arr.length - 1 ? "1px solid #1E1E22" : "none",
+              background:"#111114",
+            }}>
+              <div style={{ fontSize:10, fontFamily:"var(--font-mono)", fontWeight:700,
+                            letterSpacing:"0.1em", textTransform:"uppercase",
+                            color: item.color, marginBottom:4 }}>
+                {item.label}
+              </div>
+              <div style={{ fontSize:11, color:"#5C5C63", lineHeight:1.4 }}>{item.desc}</div>
+            </div>
+          ))}
+        </div>
+
         {actions.map((a, i) => (
           <div key={i} style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start",
                                  ...card }}>
@@ -248,8 +274,14 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
                 Impact {a.impact} · Speed {a.speed} · Difficulty {a.difficulty}
               </div>
             </div>
-            <div className="display" style={{ fontSize:24, color:"var(--n3)", marginLeft:16, flexShrink:0 }}>
-              {a.score.toFixed(1)}
+            <div style={{ marginLeft:16, flexShrink:0, textAlign:"center" }}>
+              <div className="display" style={{ fontSize:28, color:"var(--n3)", lineHeight:1 }}>
+                {a.score.toFixed(1)}
+              </div>
+              <div style={{ fontSize:9, fontFamily:"var(--font-mono)", color:"#5C5C63",
+                            letterSpacing:"0.1em", textTransform:"uppercase", marginTop:2 }}>
+                score
+              </div>
             </div>
           </div>
         ))}
