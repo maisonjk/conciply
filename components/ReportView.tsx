@@ -35,6 +35,27 @@ const GROUPS: { label: string; color: string; keys: SectionKey[] }[] = [
   },
 ];
 
+// Short subtitle shown under the big section title
+const SECTION_SUBTITLES: Partial<Record<SectionKey, string>> = {
+  executiveSummary:    "Your ICP, unique value proposition, and single biggest opportunity at a glance.",
+  marketAnalysis:      "TAM / SAM / SOM sizing and the market trends that matter most for your growth.",
+  competitorAnalysis:  "Who you're up against, where they're weak, and the gaps you can exploit.",
+  positioning:         "How to frame your brand so the right customers immediately get it.",
+  growthOpportunities: "Organic, paid, product-led, and viral levers ranked by potential impact.",
+  acquisitionPlan:     "Which channels to prioritise, exact tactics, and how to split your budget.",
+  funnelImprovements:  "Where you're leaking revenue and how to fix each stage of the funnel.",
+  marketingAssets:     "Ready-to-use landing copy, ad headlines, and a full email sequence.",
+  salesAssets:         "Cold outreach script, discovery questions, and objection-handling playbook.",
+  retentionStrategy:   "Onboarding steps, engagement loops, and upsell moments to reduce churn.",
+  socialMediaStrategy: "Platform-by-platform playbooks, post ideas, hooks, and a 4-week content calendar.",
+  kpiDashboard:        "The metrics you must track, your 90-day targets, and red flags to watch.",
+  topRoiActions:       "Your highest-leverage moves ranked by impact, speed, and ease — do these first.",
+  plan7Day:            "Day-by-day sprint to get the most critical foundations in place this week.",
+  plan30Day:           "Week-by-week execution plan to build momentum and hit your first milestone.",
+  plan90Day:           "Three-month roadmap from launch to traction — themes, milestones, and metrics.",
+  immediateActions:    "What to do in the next 24 and 72 hours to start moving right now.",
+};
+
 // Global section index for numbering
 const ALL_KEYS: SectionKey[] = GROUPS.flatMap(g => g.keys);
 const sectionNum = (key: SectionKey) => String(ALL_KEYS.indexOf(key) + 1).padStart(2, "0");
@@ -237,6 +258,14 @@ export default function ReportView({ report, tier, input, reportId }: Props) {
             }}>
               {SECTION_LABELS[active]}
             </h2>
+            {SECTION_SUBTITLES[active] && (
+              <p style={{
+                margin:"12px 0 0", fontSize:13, color:"#9A9AA8",
+                lineHeight:1.5, fontFamily:"var(--font-grotesk), sans-serif",
+              }}>
+                {SECTION_SUBTITLES[active]}
+              </p>
+            )}
           </div>
 
           <SectionCard
