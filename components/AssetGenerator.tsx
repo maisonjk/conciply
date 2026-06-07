@@ -31,9 +31,20 @@ export default function AssetGenerator({ sectionKey, input, report, onClose }: P
       });
       const data = await res.json();
       if (!res.ok) { setError(data.error || "Error"); return; }
-      setAssets(Array.isArray(data.assets) ? data.assets.map((a: unknown) =>
-        typeof a === "string" ? a : JSON.stringify(a, null, 2)
-      ) : []);
+      setAssets(Array.isArray(data.assets) ? data.assets.map((a: unknown) => {
+        if (typeof a === "string") return a;
+        if (typeof a === "object" && a !== null) {
+          // Flatten object values into readable lines
+          return Object.entries(a as Record<string, unknown>)
+            .map(([k, v]) => {
+              const label = k.replace(/([A-Z])/g, " $1").replace(/^./, s => s.toUpperCase());
+              if (Array.isArray(v)) return `${label}:\n${v.map((x: unknown) => `  • ${x}`).join("\n")}`;
+              return `${label}: ${v}`;
+            })
+            .join("\n\n");
+        }
+        return String(a);
+      }) : []);
     } catch {
       setError("Network error.");
     } finally {

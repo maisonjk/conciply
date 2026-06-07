@@ -30,11 +30,11 @@ export async function POST(req: NextRequest) {
       messages: [
         {
           role: "system",
-          content: `You are a world-class SaaS growth consultant generating detailed, ready-to-use assets. Be specific, actionable, and tailored to the described SaaS. Return only JSON.`,
+          content: `You are a world-class growth consultant generating detailed, ready-to-use assets for any type of business — SaaS, content creators, e-commerce, agencies, or any idea. Be specific, actionable, and tailored to the described business. Each asset must be a plain string (full copy, script, or plan). Return only JSON.`,
         },
         {
           role: "user",
-          content: `SaaS: ${input}\n\nSection "${sectionName}" summary:\n${sectionData}\n\nGenerate a deep-dive asset bundle for this section. Return a JSON object with key "assets" containing an array of ready-to-use items (full copy, scripts, or plans — not summaries).`,
+          content: `Business: ${input}\n\nSection "${sectionName}" summary:\n${sectionData}\n\nGenerate a deep-dive asset bundle for this section. Return a JSON object with key "assets" containing an array of strings — each a complete, ready-to-use item (full copy, scripts, or plans — not summaries). Every element must be a plain string, never a nested object.`,
         },
       ],
       temperature: 0.8,
