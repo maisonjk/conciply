@@ -19,6 +19,7 @@ function getIP(req: NextRequest): string {
 export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => ({}));
   const input: string = typeof body.input === "string" ? body.input.trim() : "";
+  const language: string | undefined = typeof body.language === "string" ? body.language : undefined;
 
   if (input.length < 10 || input.length > 1000) {
     return NextResponse.json({ error: "Input must be 10–1000 characters." }, { status: 400 });
@@ -49,7 +50,7 @@ export async function POST(req: NextRequest) {
       model: MODEL,
       response_format: { type: "json_object" },
       messages: [
-        { role: "system", content: buildSystemPrompt() },
+        { role: "system", content: buildSystemPrompt(language) },
         { role: "user",   content: buildUserMessage(input) },
       ],
       temperature: 0.7,
