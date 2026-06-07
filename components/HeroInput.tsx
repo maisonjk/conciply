@@ -113,7 +113,8 @@ export default function HeroInput() {
       <div style={{ display:"flex", flexWrap:"wrap", gap:8, marginTop:24, marginBottom:20 }}>
         {[{ label:"No login required", color:"var(--n3)" },
           { label:"22 AI specialists",  color:"var(--n1)" },
-          { label:"Results in ~30s",    color:"var(--n2)" }]
+          { label:"Results in ~30s",    color:"var(--n2)" },
+          { label:"15 languages",       color:"var(--n3)" }]
           .map(({ label, color }) => (
           <span key={label} className="font-mono"
             style={{ fontSize:11, fontWeight:700, letterSpacing:"0.14em", textTransform:"uppercase",
@@ -123,10 +124,17 @@ export default function HeroInput() {
         ))}
       </div>
 
-      <p style={{ fontSize:"clamp(17px,1.8vw,22px)", lineHeight:1.45, color:"#C4C4CC", maxWidth:640, marginBottom:0 }}>
+      <p style={{ fontSize:"clamp(17px,1.8vw,22px)", lineHeight:1.45, color:"#C4C4CC", maxWidth:640, marginBottom:16 }}>
         Conciply deploys a full <span style={{ color:"#F4F4F1" }}>CEO, CMO, CRO, VP Growth, SDR and 17 more AI
         specialists</span> to analyze any business or idea — SaaS, content creator, e-commerce, agency, or anything in between — and build a complete growth playbook in seconds.
+      </p>
 
+      <p className="font-mono" style={{ fontSize:13, color:"#8A8A9A", letterSpacing:"0.04em", marginBottom:0 }}>
+        🌐 Available in{" "}
+        <span style={{ color:"var(--n1)" }}>
+          English, Español, Français, Deutsch, Português, Italiano, Nederlands, العربية, 中文, 日本語, 한국어, हिन्दी, Русский, Türkçe, Polski
+        </span>
+        {" "}— type in your language or pick one below.
       </p>
 
       <div style={{ border:"2px solid #F4F4F1", background:"#121214", marginTop:32 }}>
