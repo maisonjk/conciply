@@ -63,7 +63,7 @@ export async function POST(req: NextRequest) {
         { role: "user",   content: buildUserMessage(input) },
       ],
       temperature: 0.7,
-      max_tokens: 4096,
+      max_tokens: 16000,
     });
 
     const raw = completion.choices[0]?.message?.content ?? "";

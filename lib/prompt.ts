@@ -148,8 +148,42 @@ export function buildUserMessage(input: string): string {
 }
 
 export function parseReport(raw: string): GrowthReport {
-  const data = JSON.parse(raw);
-  if (!data.executiveSummary || !data.topRoiActions) {
+  let data: unknown;
+
+  // First try a clean parse
+  try {
+    data = JSON.parse(raw);
+  } catch {
+    // JSON was truncated — try to rescue by closing open braces/brackets
+    let fixed = raw.trimEnd();
+
+    // Count unclosed braces and brackets
+    let braces = 0, brackets = 0;
+    let inString = false, escape = false;
+    for (const ch of fixed) {
+      if (escape)          { escape = false; continue; }
+      if (ch === "\\")     { escape = true; continue; }
+      if (ch === '"')      { inString = !inString; continue; }
+      if (inString)        continue;
+      if (ch === "{")      braces++;
+      else if (ch === "}") braces--;
+      else if (ch === "[") brackets++;
+      else if (ch === "]") brackets--;
+    }
+
+    // Strip trailing incomplete value (comma + partial string)
+    fixed = fixed.replace(/,\s*"[^"]*$/, "");   // unclosed key
+    fixed = fixed.replace(/,\s*$/, "");           // trailing comma
+
+    // Close any open arrays/objects
+    fixed += "]".repeat(Math.max(0, brackets));
+    fixed += "}".repeat(Math.max(0, braces));
+
+    data = JSON.parse(fixed); // throws if still broken
+  }
+
+  const report = data as Record<string, unknown>;
+  if (!report.executiveSummary || !report.topRoiActions) {
     throw new Error("Invalid report shape: missing required sections");
   }
   return data as GrowthReport;
