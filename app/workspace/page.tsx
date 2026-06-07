@@ -228,71 +228,83 @@ function WorkspaceContent() {
             ))}
           </nav>
 
-          {/* Sidebar footer actions */}
-          <div style={{ padding:"12px 16px", borderTop:"1px solid #1E1E22", display:"flex", flexDirection:"column", gap:6 }}>
-            <a href={`/report?id=${stored.id}`} className="btn-ghost"
-              style={{ padding:"8px 12px", fontSize:11, textAlign:"center", letterSpacing:"0.08em" }}>
-              ← View Report
-            </a>
-            <button onClick={handleCopy} className="btn-ghost"
-              style={{ padding:"8px 12px", fontSize:11, letterSpacing:"0.08em",
-                       color: copied ? "var(--n3)" : undefined,
-                       borderColor: copied ? "var(--n3)" : undefined }}>
-              {copied ? "✓ Copied!" : "Copy Full Report"}
-            </button>
-            <button onClick={() => window.print()} className="btn-ghost"
-              style={{ padding:"8px 12px", fontSize:11, letterSpacing:"0.08em" }}>
-              Print / PDF
-            </button>
-            <button onClick={handleBilling} disabled={billingLoading} className="btn-ghost"
-              style={{ padding:"8px 12px", fontSize:11, letterSpacing:"0.08em" }}>
-              {billingLoading ? "Opening…" : "Manage Billing"}
-            </button>
-            <a href="/" className="btn-neon"
-              style={{ padding:"8px 12px", fontSize:11, textAlign:"center", letterSpacing:"0.08em" }}>
-              + New Report
-            </a>
-          </div>
         </aside>
 
         {/* ── Right content panel ──────────────────────────────────────── */}
         <main style={{ flex:1, minWidth:0, display:"flex", flexDirection:"column" }}>
 
-          {/* Sticky breadcrumb + regen/deep-dive actions */}
-          <div style={{ position:"sticky", top:64, zIndex:20,
-                        background:"rgba(10,10,11,0.95)", backdropFilter:"blur(8px)",
-                        borderBottom:"1px solid #1E1E22", padding:"14px 32px",
-                        display:"flex", alignItems:"center", justifyContent:"space-between", gap:16 }}>
-            <div style={{ display:"flex", alignItems:"center", gap:12 }}>
-              <span style={{ fontSize:10, fontFamily:"var(--font-mono)", color: activeGroup.color,
+          {/* ── Sticky toolbar: breadcrumb + global actions + section actions ── */}
+          <div style={{
+            position:"sticky", top:64, zIndex:20,
+            background:"rgba(10,10,11,0.97)", backdropFilter:"blur(8px)",
+            borderBottom:"1px solid #1E1E22",
+            padding:"0 24px",
+            display:"flex", alignItems:"center", justifyContent:"space-between",
+            gap:12, height:48, flexWrap:"nowrap", overflowX:"auto",
+          }}>
+            {/* Breadcrumb — left */}
+            <div style={{ display:"flex", alignItems:"center", gap:8, flexShrink:0 }}>
+              <span style={{ fontSize:10, fontFamily:"var(--font-mono)", color:activeGroup.color,
                              letterSpacing:"0.12em", textTransform:"uppercase" }}>
                 {activeGroup.label}
               </span>
               <span style={{ color:"#2A2A2E" }}>›</span>
-              <span style={{ fontSize:12, fontFamily:"var(--font-mono)", color:"#F4F4F1",
-                             letterSpacing:"0.06em" }}>
+              <span style={{ fontSize:11, fontFamily:"var(--font-mono)", color:"#F4F4F1",
+                             letterSpacing:"0.06em", whiteSpace:"nowrap" }}>
                 {SECTION_LABELS[active]}
               </span>
             </div>
-            <div style={{ display:"flex", gap:6, alignItems:"center" }}>
-              <span style={{ fontSize:10, fontFamily:"var(--font-mono)", color:"#5C5C63",
-                             letterSpacing:"0.1em" }}>
-                {sectionNum(active)} / {ALL_KEYS.length}
-              </span>
+
+            {/* Global + section actions — centre/right */}
+            <div style={{ display:"flex", alignItems:"center", gap:4, flexShrink:0 }}>
+              {/* Global actions */}
+              <a href={`/report?id=${stored.id}`} className="btn-ghost"
+                style={{ padding:"5px 10px", fontSize:10, letterSpacing:"0.08em", whiteSpace:"nowrap" }}>
+                ← Report
+              </a>
+              <button onClick={handleCopy} className="btn-ghost"
+                style={{ padding:"5px 10px", fontSize:10, letterSpacing:"0.08em", whiteSpace:"nowrap",
+                         color: copied ? "var(--n3)" : undefined,
+                         borderColor: copied ? "var(--n3)" : undefined }}>
+                {copied ? "✓ Copied" : "⎘ Copy"}
+              </button>
+              <button onClick={() => window.print()} className="btn-ghost"
+                style={{ padding:"5px 10px", fontSize:10, letterSpacing:"0.08em", whiteSpace:"nowrap" }}>
+                ⎙ Print
+              </button>
+              <a href="/" className="btn-ghost"
+                style={{ padding:"5px 10px", fontSize:10, letterSpacing:"0.08em", whiteSpace:"nowrap" }}>
+                + New
+              </a>
+              <button onClick={handleBilling} disabled={billingLoading} className="btn-ghost"
+                style={{ padding:"5px 10px", fontSize:10, letterSpacing:"0.08em", whiteSpace:"nowrap" }}>
+                {billingLoading ? "…" : "⚙ Billing"}
+              </button>
+
+              {/* Divider */}
+              <div style={{ width:1, height:20, background:"#2A2A2E", margin:"0 4px", flexShrink:0 }} />
+
+              {/* Section-specific actions */}
               <button onClick={() => handleRegenerate(active)}
                 disabled={regenLoading !== null} className="btn-ghost"
-                style={{ padding:"6px 12px", fontSize:11, letterSpacing:"0.06em",
+                style={{ padding:"5px 10px", fontSize:10, letterSpacing:"0.08em", whiteSpace:"nowrap",
                          color:"var(--n1)", borderColor:"var(--n1)",
                          opacity: regenLoading ? 0.5 : 1 }}>
-                {regenLoading === active ? "↻ Regenerating…" : "↻ Regen"}
+                {regenLoading === active ? "↻ …" : "↻ Regen"}
               </button>
               {isPro && (
                 <button onClick={() => setDeepDiveKey(active)} className="btn-ghost"
-                  style={{ padding:"6px 12px", fontSize:11, letterSpacing:"0.06em",
+                  style={{ padding:"5px 10px", fontSize:10, letterSpacing:"0.08em", whiteSpace:"nowrap",
                            color:"var(--n2)", borderColor:"var(--n2)" }}>
                   ⚡ Deep Dive
                 </button>
               )}
+
+              {/* Counter */}
+              <span style={{ fontSize:10, fontFamily:"var(--font-mono)", color:"#5C5C63",
+                             letterSpacing:"0.1em", marginLeft:8, flexShrink:0 }}>
+                {sectionNum(active)} / {ALL_KEYS.length}
+              </span>
             </div>
           </div>
 

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Workspace Layout Mockup</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --n1: #00E5FF; --n2: #FF2E6E; --n3: #D4FF2E;
+    --bg: #0A0A0B; --border: #1E1E22; --border2: #2A2A2E;
+  }
+  body { background: var(--bg); color: #F4F4F1; font-family: "Segoe UI", system-ui, sans-serif; font-size: 13px; }
+  .mono { font-family: "SF Mono", "Courier New", monospace; }
+
+  /* ── Fake nav bar ── */
+  .navbar {
+    height: 56px; background: #0A0A0B; border-bottom: 2px solid var(--border);
+    display: flex; align-items: center; padding: 0 24px; gap: 20px;
+    font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  }
+  .navbar .logo { font-weight: 900; font-size: 15px; color: var(--n1); letter-spacing: -0.01em; }
+
+  /* ── Layout ── */
+  .layout { display: flex; height: calc(100vh - 56px); }
+
+  /* ── Sidebar ── */
+  .sidebar {
+    width: 240px; flex-shrink: 0; border-right: 2px solid var(--border);
+    display: flex; flex-direction: column; background: var(--bg); overflow: hidden;
+  }
+  .sidebar-header { padding: 16px 14px; border-bottom: 1px solid var(--border); }
+  .sidebar-header .eyebrow { font-size: 9px; color: #5C5C63; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 5px; font-family: monospace; }
+  .sidebar-header .title { font-size: 12px; font-weight: 700; color: #F4F4F1; line-height: 1.4; }
+  .sidebar-header .badge { display: inline-block; margin-top: 8px; font-size: 9px; font-family: monospace; font-weight: 700; background: var(--n2); color: #000; padding: 2px 7px; text-transform: uppercase; letter-spacing: 0.1em; }
+  .sidebar-nav { flex: 1; overflow-y: auto; padding: 6px 0; }
+  .group-label { padding: 8px 14px 4px; font-size: 9px; font-family: monospace; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+  .nav-item { display: flex; align-items: center; gap: 8px; padding: 7px 14px; cursor: pointer; border-left: 2px solid transparent; }
+  .nav-item.active { background: #16161A; border-left-color: var(--n2); }
+  .nav-item .num { font-size: 9px; font-family: monospace; color: #3C3C42; width: 16px; }
+  .nav-item.active .num { color: var(--n2); }
+  .nav-item .icon { font-size: 12px; color: #5C5C63; }
+  .nav-item.active .icon { color: var(--n2); }
+  .nav-item .name { font-size: 11px; font-family: monospace; color: #9A9AA8; }
+  .nav-item.active .name { color: #F4F4F1; }
+
+  /* ── Right panel ── */
+  .right { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+
+  /* ── OPTION A: Toolbar pinned top-center ── */
+  .toolbar-a {
+    position: sticky; top: 0; z-index: 20;
+    background: rgba(10,10,11,0.97); backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 28px;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    height: 52px;
+  }
+  .toolbar-a .breadcrumb { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  .toolbar-a .bc-group { font-size: 10px; font-family: monospace; letter-spacing: 0.12em; text-transform: uppercase; color: var(--n2); }
+  .toolbar-a .bc-sep { color: #2A2A2E; }
+  .toolbar-a .bc-section { font-size: 11px; font-family: monospace; color: #F4F4F1; }
+  .action-row { display: flex; align-items: center; gap: 6px; }
+  .btn { display: flex; align-items: center; gap: 5px; padding: 5px 10px; font-size: 10px; font-family: monospace; letter-spacing: 0.08em; text-transform: uppercase; border: 1px solid #3C3C42; color: #9A9AA8; background: transparent; cursor: pointer; white-space: nowrap; }
+  .btn:hover { border-color: #F4F4F1; color: #F4F4F1; }
+  .btn.primary { border-color: var(--n1); color: var(--n1); }
+  .btn.danger  { border-color: var(--n2); color: var(--n2); }
+  .btn.accent  { border-color: var(--n3); color: #000; background: var(--n3); }
+  .divider { width: 1px; height: 20px; background: #2A2A2E; margin: 0 2px; }
+  .counter { font-size: 10px; font-family: monospace; color: #5C5C63; flex-shrink: 0; }
+
+  /* ── Content ── */
+  .content { padding: 28px 36px; flex: 1; }
+  .section-kicker { font-size: 10px; font-family: monospace; letter-spacing: 0.14em; text-transform: uppercase; color: var(--n2); margin-bottom: 8px; }
+  .section-title { font-size: 42px; font-weight: 900; color: #F4F4F1; line-height: 1.05; letter-spacing: -0.02em; text-transform: uppercase; margin-bottom: 10px; }
+  .section-sub { font-size: 13px; color: #9A9AA8; margin-bottom: 24px; line-height: 1.5; }
+  .section-title-bar { border-bottom: 2px solid var(--n2); padding-bottom: 20px; margin-bottom: 24px; }
+  .card { border: 1px solid var(--border2); padding: 14px 16px; margin-bottom: 4px; }
+  .card-title { font-weight: 700; font-size: 14px; color: #F4F4F1; margin-bottom: 4px; }
+  .card-body { font-size: 13px; color: #C4C4CC; line-height: 1.55; }
+  .score { font-size: 26px; font-weight: 900; color: var(--n3); margin-left: 14px; }
+
+  /* Label callout */
+  .callout {
+    position: absolute; background: var(--n3); color: #000;
+    font-size: 10px; font-family: monospace; font-weight: 700;
+    padding: 3px 8px; letter-spacing: 0.08em; text-transform: uppercase;
+    white-space: nowrap; pointer-events: none;
+  }
+  .arrow { font-size: 18px; color: var(--n3); }
+</style>
+</head>
+<body>
+
+<!-- Fake nav -->
+<div class="navbar">
+  <span class="logo">Conciply</span>
+  <span class="mono" style="color:#5C5C63">Workspace</span>
+</div>
+
+<div class="layout">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <div class="eyebrow">Workspace</div>
+      <div class="title">B2B CRM for marketing agencies</div>
+      <div class="badge">Agency · editing</div>
+    </div>
+    <div class="sidebar-nav">
+      <div class="group-label" style="color:var(--n1)">Analysis</div>
+      <div class="nav-item"><span class="num">01</span><span class="icon">◈</span><span class="name">Executive Summary</span></div>
+      <div class="nav-item"><span class="num">02</span><span class="icon">◎</span><span class="name">Market Analysis</span></div>
+      <div class="nav-item"><span class="num">03</span><span class="icon">⊕</span><span class="name">Competitor Analysis</span></div>
+      <div class="nav-item"><span class="num">04</span><span class="icon">◆</span><span class="name">Positioning</span></div>
+
+      <div class="group-label" style="color:var(--n3); margin-top:6px">Growth</div>
+      <div class="nav-item"><span class="num">05</span><span class="icon">▲</span><span class="name">Growth Opportunities</span></div>
+      <div class="nav-item"><span class="num">06</span><span class="icon">➤</span><span class="name">Acquisition Plan</span></div>
+      <div class="nav-item"><span class="num">07</span><span class="icon">◑</span><span class="name">Funnel Improvements</span></div>
+
+      <div class="group-label" style="color:var(--n2); margin-top:6px">Assets</div>
+      <div class="nav-item"><span class="num">08</span><span class="icon">✦</span><span class="name">Marketing Assets</span></div>
+      <div class="nav-item"><span class="num">09</span><span class="icon">◉</span><span class="name">Sales Assets</span></div>
+      <div class="nav-item"><span class="num">10</span><span class="icon">⟳</span><span class="name">Retention Strategy</span></div>
+      <div class="nav-item"><span class="num">11</span><span class="icon">◈</span><span class="name">Social Media</span></div>
+
+      <div class="group-label" style="color:#9A9AA8; margin-top:6px">Execution</div>
+      <div class="nav-item"><span class="num">12</span><span class="icon">▣</span><span class="name">KPI Dashboard</span></div>
+      <div class="nav-item active"><span class="num mono" style="color:var(--n2)">13</span><span class="icon">★</span><span class="name">Top ROI Actions</span></div>
+      <div class="nav-item"><span class="num">14</span><span class="icon">①</span><span class="name">7-Day Plan</span></div>
+      <div class="nav-item"><span class="num">15</span><span class="icon">②</span><span class="name">30-Day Plan</span></div>
+      <div class="nav-item"><span class="num">16</span><span class="icon">③</span><span class="name">90-Day Plan</span></div>
+      <div class="nav-item"><span class="num">17</span><span class="icon">⚡</span><span class="name">Immediate Actions</span></div>
+    </div>
+    <!-- NO footer here in proposed layout -->
+  </div>
+
+  <!-- Right panel -->
+  <div class="right">
+
+    <!-- ── PROPOSED TOOLBAR (top of right panel) ── -->
+    <div class="toolbar-a">
+      <!-- Breadcrumb (left) -->
+      <div class="breadcrumb">
+        <span class="bc-group">Execution</span>
+        <span class="bc-sep">›</span>
+        <span class="bc-section">Top ROI Actions</span>
+      </div>
+
+      <!-- Global actions (centre) -->
+      <div class="action-row">
+        <button class="btn">← View Report</button>
+        <button class="btn">⎘ Copy Report</button>
+        <button class="btn">⎙ Print / PDF</button>
+        <button class="btn">⊕ New Report</button>
+        <button class="btn">⚙ Billing</button>
+        <div class="divider"></div>
+        <!-- Section-specific actions -->
+        <button class="btn primary">↻ Regen Section</button>
+        <button class="btn danger">⚡ Deep Dive</button>
+      </div>
+
+      <!-- Counter (right) -->
+      <span class="counter">13 / 17</span>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+      <div class="section-title-bar">
+        <div class="section-kicker">13 — Execution</div>
+        <div class="section-title">Top ROI Actions</div>
+        <div class="section-sub">Your highest-leverage moves ranked by impact, speed, and ease — do these first.</div>
+      </div>
+
+      <!-- Sample cards -->
+      <div class="card" style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div style="flex:1">
+          <div class="card-title">Launch free PLG tier to remove procurement friction</div>
+          <div class="card-body">Allow sub-10-person teams to sign up without a sales call. Add a usage-gated free plan capped at 3 pipelines. Set a Zapier trigger to alert sales when usage hits 80% of cap. Expected: 40% faster time-to-paid for SMB segment.</div>
+          <div style="font-size:10px;font-family:monospace;color:#9A9AA8;margin-top:6px;letter-spacing:0.08em">IMPACT 9 · SPEED 8 · DIFFICULTY 3</div>
+        </div>
+        <div style="text-align:center;margin-left:16px;flex-shrink:0">
+          <div class="score">24.0</div>
+          <div style="font-size:9px;font-family:monospace;color:#5C5C63;letter-spacing:0.1em;text-transform:uppercase;margin-top:2px">score</div>
+        </div>
+      </div>
+
+      <div class="card" style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div style="flex:1">
+          <div class="card-title">Cold LinkedIn DM sequence targeting agency ops directors</div>
+          <div class="card-body">Build a 5-step LinkedIn sequence using Sales Navigator. Filter: agency, 10-50 employees, ops title. Message 1: problem-led hook (pipeline chaos). Message 3: case study. Message 5: free audit offer. Target 50 new contacts/week.</div>
+          <div style="font-size:10px;font-family:monospace;color:#9A9AA8;margin-top:6px;letter-spacing:0.08em">IMPACT 8 · SPEED 7 · DIFFICULTY 4</div>
+        </div>
+        <div style="text-align:center;margin-left:16px;flex-shrink:0">
+          <div class="score">14.0</div>
+          <div style="font-size:9px;font-family:monospace;color:#5C5C63;letter-spacing:0.1em;text-transform:uppercase;margin-top:2px">score</div>
+        </div>
+      </div>
+
+      <!-- Prev / Next -->
+      <div style="display:flex;justify-content:space-between;margin-top:32px;gap:12px">
+        <button class="btn" style="padding:9px 16px">← KPI Dashboard</button>
+        <button class="btn" style="padding:9px 16px;border-color:var(--n2);color:var(--n2)">7-Day Plan →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

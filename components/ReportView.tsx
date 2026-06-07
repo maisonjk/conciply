@@ -195,49 +195,51 @@ export default function ReportView({ report, tier, input, reportId }: Props) {
           ))}
         </nav>
 
-        {/* Sidebar footer actions */}
-        <div style={{ padding:"12px 16px", borderTop:"1px solid #1E1E22", display:"flex", flexDirection:"column", gap:6 }}>
-          <a href="/" className="btn-ghost"
-            style={{ padding:"8px 12px", fontSize:11, textAlign:"center", letterSpacing:"0.08em" }}>
-            + New Report
-          </a>
-          {isPaid && (
-            <a href={`/workspace?id=${reportId}`} className="btn-neon"
-              style={{ padding:"8px 12px", fontSize:11, textAlign:"center", letterSpacing:"0.08em" }}>
-              Open Workspace →
-            </a>
-          )}
-        </div>
       </aside>
 
       {/* ── Right content panel ────────────────────────────────────────────── */}
       <main style={{ flex:1, minWidth:0, display:"flex", flexDirection:"column" }}>
 
-        {/* Section header bar */}
+        {/* ── Sticky toolbar: breadcrumb + global actions ── */}
         <div style={{
           position:"sticky", top:64, zIndex:20,
-          background:"rgba(10,10,11,0.95)", backdropFilter:"blur(8px)",
+          background:"rgba(10,10,11,0.97)", backdropFilter:"blur(8px)",
           borderBottom:"1px solid #1E1E22",
-          padding:"14px 32px",
-          display:"flex", alignItems:"center", justifyContent:"space-between", gap:16,
+          padding:"0 24px",
+          display:"flex", alignItems:"center", justifyContent:"space-between",
+          gap:12, height:48, flexWrap:"nowrap", overflowX:"auto",
         }}>
-          <div style={{ display:"flex", alignItems:"center", gap:12 }}>
-            {/* Group breadcrumb */}
-            <span style={{ fontSize:10, fontFamily:"var(--font-mono)", color: activeGroup.color,
+          {/* Breadcrumb — left */}
+          <div style={{ display:"flex", alignItems:"center", gap:8, flexShrink:0 }}>
+            <span style={{ fontSize:10, fontFamily:"var(--font-mono)", color:activeGroup.color,
                            letterSpacing:"0.12em", textTransform:"uppercase" }}>
               {activeGroup.label}
             </span>
             <span style={{ color:"#2A2A2E" }}>›</span>
-            <span style={{ fontSize:12, fontFamily:"var(--font-mono)", color:"#F4F4F1",
-                           letterSpacing:"0.06em" }}>
+            <span style={{ fontSize:11, fontFamily:"var(--font-mono)", color:"#F4F4F1",
+                           letterSpacing:"0.06em", whiteSpace:"nowrap" }}>
               {SECTION_LABELS[active]}
             </span>
           </div>
-          {/* Section counter */}
-          <span style={{ fontSize:10, fontFamily:"var(--font-mono)", color:"#5C5C63",
-                         letterSpacing:"0.1em" }}>
-            {sectionNum(active)} / {ALL_KEYS.length}
-          </span>
+
+          {/* Actions — right */}
+          <div style={{ display:"flex", alignItems:"center", gap:4, flexShrink:0 }}>
+            <a href="/" className="btn-ghost"
+              style={{ padding:"5px 10px", fontSize:10, letterSpacing:"0.08em", whiteSpace:"nowrap" }}>
+              + New Report
+            </a>
+            {isPaid && (
+              <a href={`/workspace?id=${reportId}`} className="btn-ghost"
+                style={{ padding:"5px 10px", fontSize:10, letterSpacing:"0.08em", whiteSpace:"nowrap",
+                         color:"var(--n1)", borderColor:"var(--n1)" }}>
+                Open Workspace →
+              </a>
+            )}
+            <span style={{ fontSize:10, fontFamily:"var(--font-mono)", color:"#5C5C63",
+                           letterSpacing:"0.1em", marginLeft:8, flexShrink:0 }}>
+              {sectionNum(active)} / {ALL_KEYS.length}
+            </span>
+          </div>
         </div>
 
         {/* Section content */}
