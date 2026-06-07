@@ -165,7 +165,7 @@ function WorkspaceContent() {
         <aside style={{
           width:260, flexShrink:0, borderRight:"2px solid #1E1E22",
           position:"sticky", top:64, height:"calc(100vh - 64px)",
-          overflowY:"auto", display:"flex", flexDirection:"column",
+          overflow:"hidden", display:"flex", flexDirection:"column",
           background:"#0A0A0B",
         }}>
           {/* Report title + tier badge */}
@@ -186,8 +186,8 @@ function WorkspaceContent() {
             </span>
           </div>
 
-          {/* Section nav */}
-          <nav style={{ flex:1, padding:"8px 0" }}>
+          {/* Section nav — only this scrolls, footer stays pinned */}
+          <nav style={{ flex:1, overflowY:"auto", padding:"8px 0" }}>
             {GROUPS.map(group => (
               <div key={group.label} style={{ marginBottom:4 }}>
                 <div style={{ padding:"10px 16px 6px", fontSize:9, fontFamily:"var(--font-mono)",

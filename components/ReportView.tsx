@@ -110,7 +110,7 @@ export default function ReportView({ report, tier, input, reportId }: Props) {
         borderRight:"2px solid #1E1E22",
         position:"sticky", top:64,
         height:"calc(100vh - 64px)",
-        overflowY:"auto",
+        overflow:"hidden",
         display:"flex", flexDirection:"column",
         background:"#0A0A0B",
       }}>
@@ -142,8 +142,8 @@ export default function ReportView({ report, tier, input, reportId }: Props) {
           </div>
         </div>
 
-        {/* Section groups */}
-        <nav style={{ flex:1, padding:"8px 0" }}>
+        {/* Section groups — only this scrolls, footer stays pinned */}
+        <nav style={{ flex:1, overflowY:"auto", padding:"8px 0" }}>
           {GROUPS.map(group => (
             <div key={group.label} style={{ marginBottom:4 }}>
               {/* Group label */}
