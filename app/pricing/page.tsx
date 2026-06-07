@@ -20,7 +20,7 @@ export default function PricingPage() {
             style={{ fontSize: "clamp(40px,6vw,80px)", marginBottom: 16, marginTop: 0 }}
           >
             Simple.<br />
-            <span style={{ color: "var(--n2)" }}>One-time.</span>
+            <span style={{ color: "var(--n2)" }}>Monthly.</span>
           </h1>
           <p
             style={{
@@ -31,8 +31,7 @@ export default function PricingPage() {
               margin: 0,
             }}
           >
-            No subscriptions. Pay once, use forever.
-            Upgrade anytime as your team grows.
+            Cancel anytime. Upgrade or downgrade as your team grows.
           </p>
         </div>
 

@@ -26,7 +26,7 @@ const TIERS = [
     tier: "founder" as LicenseTier,
     label: "Founder",
     price: "$19",
-    sub: "One-time payment",
+    sub: "Per month",
     badge: null,
     features: [
       { text: "5 reports",             active: true },
@@ -44,7 +44,7 @@ const TIERS = [
     tier: "pro" as LicenseTier,
     label: "Pro",
     price: "$49",
-    sub: "One-time payment",
+    sub: "Per month",
     badge: "Most popular",
     features: [
       { text: "20 reports",            active: true },
@@ -62,7 +62,7 @@ const TIERS = [
     tier: "agency" as LicenseTier,
     label: "Agency",
     price: "$99",
-    sub: "One-time payment",
+    sub: "Per month",
     badge: null,
     features: [
       { text: "Unlimited reports",     active: true },
