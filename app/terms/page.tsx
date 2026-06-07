@@ -4,17 +4,89 @@ export default function TermsPage() {
   return (
     <>
       <Nav />
-      <main className="shell" style={{ maxWidth:720, paddingTop:"clamp(48px,6vw,80px)", paddingBottom:80 }}>
-        <div className="kicker" style={{ marginBottom:16 }}>Legal</div>
-        <h1 className="display" style={{ fontSize:"clamp(32px,5vw,64px)", marginBottom:32 }}>Terms of Use</h1>
-        <div style={{ color:"#C4C4CC", fontSize:15, lineHeight:1.8 }}>
-          <p>Conciply Growth OS is provided as-is for strategic inspiration purposes only.</p>
-          <p style={{ marginTop:16 }}>AI-generated content may be inaccurate, incomplete, or not applicable to your specific situation. Always review output before acting on any recommendations. Do not rely solely on this tool for business decisions.</p>
-          <p style={{ marginTop:16 }}>License keys are non-refundable after use. One license per individual or team. Resale is not permitted.</p>
-          <p style={{ marginTop:16 }}>We reserve the right to update these terms at any time. Continued use constitutes acceptance.</p>
+      <main className="shell" style={{ maxWidth: 720, paddingTop: "clamp(48px,6vw,80px)", paddingBottom: 96 }}>
+        <div className="kicker" style={{ marginBottom: 16 }}>Legal</div>
+        <h1 className="display" style={{ fontSize: "clamp(32px,5vw,64px)", marginBottom: 8 }}>Terms of Use</h1>
+        <p className="font-mono" style={{ fontSize: 12, color: "#7A7A88", marginBottom: 48, letterSpacing: "0.06em" }}>
+          Effective: June 2025 · Last updated: June 2025
+        </p>
+
+        <div style={{ color: "#C4C4CC", fontSize: 15, lineHeight: 1.85 }}>
+
+          <Section title="1. Acceptance of Terms">
+            <p>By accessing or using Conciply ("the Service"), you agree to be bound by these Terms of Use. If you do not agree, do not use the Service.</p>
+          </Section>
+
+          <Section title="2. What Conciply Does">
+            <p>Conciply is an AI-powered growth strategy tool that analyzes a business or idea and generates a structured growth playbook using large language models. Output is intended for strategic inspiration and planning purposes only.</p>
+            <p style={{ marginTop: 12 }}>AI-generated content may be inaccurate, incomplete, or not applicable to your specific situation. Always review output critically before acting on any recommendations. Do not rely solely on this tool for business, financial, or legal decisions.</p>
+          </Section>
+
+          <Section title="3. Subscriptions and Billing">
+            <p>Paid plans are billed on a monthly recurring basis via Stripe. By subscribing, you authorize Conciply to charge your payment method each month until you cancel.</p>
+            <ul style={{ paddingLeft: 20, marginTop: 8 }}>
+              <li style={{ marginBottom: 6 }}>Subscriptions renew automatically at the end of each billing cycle.</li>
+              <li style={{ marginBottom: 6 }}>You may cancel at any time from your Stripe billing portal. Cancellation takes effect at the end of the current billing period — you retain access until then.</li>
+              <li style={{ marginBottom: 6 }}>No partial refunds are issued for unused time within a billing period.</li>
+              <li style={{ marginBottom: 6 }}>Refunds may be granted at our discretion for technical failures on our end. Contact us at hello@conciply.com within 7 days of the charge.</li>
+            </ul>
+          </Section>
+
+          <Section title="4. License Keys">
+            <p>Upon subscribing, you receive a license key that unlocks your plan features. License keys are:</p>
+            <ul style={{ paddingLeft: 20, marginTop: 8 }}>
+              <li style={{ marginBottom: 6 }}>For your personal or team use only — not for resale or redistribution.</li>
+              <li style={{ marginBottom: 6 }}>Tied to your subscription. If your subscription lapses, the key will no longer grant access.</li>
+              <li style={{ marginBottom: 6 }}>Your responsibility to keep secure. Do not share your key publicly.</li>
+            </ul>
+            <p style={{ marginTop: 12 }}>Agency plan subscribers may use the Service for client work. All other plans are for personal or internal business use only.</p>
+          </Section>
+
+          <Section title="5. Acceptable Use">
+            <p>You agree not to use Conciply to:</p>
+            <ul style={{ paddingLeft: 20, marginTop: 8 }}>
+              <li style={{ marginBottom: 6 }}>Submit confidential, personally identifiable, or sensitive third-party information.</li>
+              <li style={{ marginBottom: 6 }}>Attempt to reverse-engineer, scrape, or abuse the API.</li>
+              <li style={{ marginBottom: 6 }}>Circumvent rate limits or use automated tools to generate reports at scale beyond your plan.</li>
+              <li style={{ marginBottom: 6 }}>Resell, white-label, or repackage the Service without written permission.</li>
+            </ul>
+          </Section>
+
+          <Section title="6. Intellectual Property">
+            <p>The reports, playbooks, and content generated by Conciply for your inputs are yours to use. Conciply retains ownership of the platform, design, codebase, and underlying AI prompting system.</p>
+          </Section>
+
+          <Section title="7. Disclaimer of Warranties">
+            <p>The Service is provided "as is" without warranties of any kind, express or implied. We do not guarantee the accuracy, completeness, or fitness for purpose of any AI-generated output. Use at your own discretion.</p>
+          </Section>
+
+          <Section title="8. Limitation of Liability">
+            <p>To the maximum extent permitted by law, Conciply shall not be liable for any indirect, incidental, special, or consequential damages arising from your use of the Service. Our total liability to you shall not exceed the amount you paid in the 30 days prior to the claim.</p>
+          </Section>
+
+          <Section title="9. Changes to These Terms">
+            <p>We may update these Terms at any time. We will update the "Last updated" date above. Continued use of the Service after changes constitutes acceptance of the new terms.</p>
+          </Section>
+
+          <Section title="10. Contact">
+            <p>Questions about these Terms? Email us at <a href="mailto:hello@conciply.com" style={{ color: "var(--n1)", textDecoration: "underline" }}>hello@conciply.com</a>.</p>
+          </Section>
+
         </div>
       </main>
       <Footer />
     </>
+  );
+}
+
+function Section({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div style={{ marginBottom: 40 }}>
+      <h2 className="font-mono" style={{ fontSize: 13, fontWeight: 700, letterSpacing: "0.1em",
+                                          textTransform: "uppercase", color: "#F4F4F1", marginBottom: 12 }}>
+        {title}
+      </h2>
+      {children}
+    </div>
   );
 }
