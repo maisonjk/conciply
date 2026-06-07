@@ -106,13 +106,13 @@ export default function HeroInput() {
 
       <div className="kicker" style={{ marginBottom:16 }}>Autonomous Growth Operating System</div>
 
-      <h1 className="display" style={{ fontSize:"clamp(44px,8.5vw,128px)" }}>
-        Your entire<br />executive team.<br /><span style={{ color:"var(--n2)" }}>AI-powered.</span>
+      <h1 className="display" style={{ fontSize:"clamp(36px,6.5vw,96px)" }}>
+        Every great idea deserves<br />a <span style={{ color:"var(--n2)" }}>growth playbook.</span>
       </h1>
 
       <div style={{ display:"flex", flexWrap:"wrap", gap:8, marginTop:24, marginBottom:20 }}>
         {[{ label:"No login required", color:"var(--n3)" },
-          { label:"22 AI specialists",  color:"var(--n1)" },
+          { label:"20 AI specialists",  color:"var(--n1)" },
           { label:"Results in ~30s",    color:"var(--n2)" },
           { label:"15 languages",       color:"var(--n3)" }]
           .map(({ label, color }) => (
@@ -125,8 +125,7 @@ export default function HeroInput() {
       </div>
 
       <p style={{ fontSize:"clamp(17px,1.8vw,22px)", lineHeight:1.45, color:"#C4C4CC", maxWidth:640, marginBottom:16 }}>
-        Conciply deploys a full <span style={{ color:"#F4F4F1" }}>CEO, CMO, CRO, VP Growth, SDR and 17 more AI
-        specialists</span> to analyze any business or idea — SaaS, content creator, e-commerce, agency, or anything in between — and build a complete growth playbook in seconds.
+        Conciply deploys an <span style={{ color:"#F4F4F1" }}>AI executive team of 20 specialists</span> to analyze any business or idea and generate a custom growth playbook in seconds.
       </p>
 
       <p className="font-mono" style={{ fontSize:13, color:"#8A8A9A", letterSpacing:"0.04em", marginBottom:0 }}>
