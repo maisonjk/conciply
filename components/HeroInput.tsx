@@ -9,10 +9,10 @@ import { FREE_SECTIONS, SECTION_LABELS } from "@/lib/types";
 
 const EXAMPLES = [
   "B2B CRM for marketing agencies",
-  "AI note-taking app for developers",
-  "Restaurant inventory management SaaS",
-  "Subscription analytics for ecommerce",
-  "Dev tool for API load testing",
+  "YouTube channel about personal finance",
+  "Online boutique selling handmade jewelry",
+  "Freelance graphic design studio",
+  "Mobile app for local restaurant discovery",
 ];
 
 function getTodayCount() {
@@ -84,15 +84,15 @@ export default function HeroInput() {
         </div>
       )}
 
-      <div className="kicker" style={{ marginBottom:16 }}>Autonomous SaaS Growth Operating System</div>
+      <div className="kicker" style={{ marginBottom:16 }}>Autonomous Growth Operating System</div>
 
       <h1 className="display" style={{ fontSize:"clamp(44px,8.5vw,128px)" }}>
-        Your entire<br />growth team.<br /><span style={{ color:"var(--n2)" }}>On demand.</span>
+        Your entire<br />executive team.<br /><span style={{ color:"var(--n2)" }}>AI-powered.</span>
       </h1>
 
       <div style={{ display:"flex", flexWrap:"wrap", gap:8, marginTop:24, marginBottom:20 }}>
         {[{ label:"No login required", color:"var(--n3)" },
-          { label:"16 AI roles",        color:"var(--n1)" },
+          { label:"20 AI specialists",  color:"var(--n1)" },
           { label:"Results in ~30s",    color:"var(--n2)" }]
           .map(({ label, color }) => (
           <span key={label} className="font-mono"
@@ -104,15 +104,15 @@ export default function HeroInput() {
       </div>
 
       <p style={{ fontSize:"clamp(17px,1.8vw,22px)", lineHeight:1.45, color:"#C4C4CC", maxWidth:640, marginBottom:0 }}>
-        Conciply deploys a full <span style={{ color:"#F4F4F1" }}>CEO, CMO, CRO, VP Growth, SDR and 11 more AI
-        specialists</span> to analyze your SaaS and build a complete growth playbook — in seconds.
+        Conciply deploys a full <span style={{ color:"#F4F4F1" }}>CEO, CMO, CRO, VP Growth, SDR and 15 more AI
+        specialists</span> to analyze any business or idea — SaaS, content creator, e-commerce, agency, or anything in between — and build a complete growth playbook in seconds.
       </p>
 
       <div style={{ border:"2px solid #F4F4F1", background:"#121214", marginTop:32 }}>
         <div style={{ display:"flex", alignItems:"stretch", flexWrap:"wrap" }}>
           <textarea value={input} onChange={e => setInput(e.target.value.slice(0,1000))}
             onKeyDown={onKey} rows={2} maxLength={1000}
-            placeholder="Describe your SaaS — e.g. B2B analytics tool for restaurant chains"
+            placeholder="Describe your business or idea — e.g. YouTube channel about personal finance"
             style={{ flex:"1 1 420px", resize:"none", background:"transparent", border:"none",
                      outline:"none", color:"#F4F4F1", fontWeight:600,
                      fontSize:"clamp(20px,2.4vw,30px)", lineHeight:1.18,
@@ -176,7 +176,7 @@ function IdlePreview() {
           <div style={{ fontFamily:"var(--font-archivo), sans-serif", fontWeight:800,
                         fontSize:"clamp(16px,1.8vw,22px)",
                         textTransform:"uppercase", color:"#5C5C63" }}>
-            Enter your SaaS above to generate yours →
+            Enter your business or idea above to generate yours →
           </div>
         </div>
         <span className="font-mono" style={{ fontSize:11, color:"#3C3C42", letterSpacing:"0.1em" }}>SAMPLE</span>

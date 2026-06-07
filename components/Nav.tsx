@@ -89,11 +89,11 @@ export function VisionStatement() {
           <p className="font-mono" style={{ fontSize:13, color:"var(--n1)", letterSpacing:"0.12em",
                                             textTransform:"uppercase", margin:"0 0 20px" }}>Our Vision</p>
           <h2 className="display" style={{ fontSize:"clamp(28px,4vw,46px)", marginBottom:24, marginTop:0 }}>
-            Every SaaS deserves a world-class growth team.
+            Every business deserves a world-class executive team.
           </h2>
           <p style={{ fontSize:16, lineHeight:1.7, color:"#E0E0E0", maxWidth:420, margin:0 }}>
-            Conciply gives every founder — regardless of team size or budget — the same strategic
-            firepower as a Series B startup with a full growth org.
+            Conciply gives every founder, creator, and entrepreneur — regardless of team size or budget —
+            the same strategic firepower as a fully-staffed growth org.
           </p>
           <p className="display" style={{ marginTop:32, fontSize:18, color:"var(--n3)", marginBottom:0 }}>
             Think Like Owners. Execute Like a Team.
@@ -103,7 +103,8 @@ export function VisionStatement() {
           <p className="font-mono" style={{ fontSize:13, color:"var(--n2)", letterSpacing:"0.12em",
                                             textTransform:"uppercase", margin:"0 0 20px" }}>Our Mission</p>
           <p style={{ fontSize:16, lineHeight:1.8, color:"#E0E0E0", marginBottom:20, marginTop:0 }}>
-            Conciply exists to eliminate the growth gap between well-funded startups and bootstrapped founders.
+            Conciply exists to level the playing field — whether you're a SaaS founder, a content creator,
+            an e-commerce seller, or anyone with a business idea worth growing.
           </p>
           <p style={{ fontSize:16, lineHeight:1.8, color:"#E0E0E0", marginBottom:0 }}>
             Every recommendation is scored by ROI, speed, and difficulty — so you always know exactly
