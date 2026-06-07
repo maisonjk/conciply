@@ -17,10 +17,32 @@ body {
   margin: 0; padding: 0;
   background: #0A0A0B;
   color: #F4F4F1;
-  /* Fallback chain covers: Latin → Arabic → CJK (SC/TC/JP/KR) → Devanagari (Hindi) → system */
-  font-family: var(--font-grotesk), "Segoe UI", "Noto Sans Arabic", "Noto Sans SC",
-               "Noto Sans TC", "Noto Sans JP", "Noto Sans KR", "Noto Sans Devanagari",
-               "PingFang SC", "Hiragino Sans", "Malgun Gothic", Arial, sans-serif;
+  /*
+   * Full script coverage:
+   * Latin/Cyrillic   → Space Grotesk (loaded via next/font)
+   * Chinese (SC)     → PingFang SC (macOS/iOS), Microsoft YaHei (Win), Noto Sans SC (Android/Linux)
+   * Chinese (TC)     → PingFang TC, Microsoft JhengHei
+   * Japanese         → Hiragino Sans (macOS/iOS), Meiryo / Yu Gothic (Win), Noto Sans JP
+   * Korean           → Apple SD Gothic Neo (macOS/iOS), Malgun Gothic (Win), Noto Sans KR
+   * Hindi/Devanagari → Kohinoor Devanagari (Apple), Mangal (Win), Noto Sans Devanagari
+   * Arabic           → SF Arabic (Apple), Segoe UI (Win), Noto Sans Arabic
+   */
+  font-family:
+    var(--font-grotesk),
+    /* Chinese Simplified */
+    "PingFang SC", "Microsoft YaHei", "Noto Sans SC",
+    /* Chinese Traditional */
+    "PingFang TC", "Microsoft JhengHei",
+    /* Japanese */
+    "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans JP",
+    /* Korean */
+    "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR",
+    /* Hindi / Devanagari */
+    "Kohinoor Devanagari", "Mangal", "Noto Sans Devanagari",
+    /* Arabic */
+    "SF Arabic", "Segoe UI", "Noto Sans Arabic",
+    /* Catch-all */
+    "Arial Unicode MS", sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -29,7 +51,7 @@ a { color: inherit; text-decoration: none; }
 button { font-family: inherit; cursor: pointer; }
 
 .kicker {
-  font-family: var(--font-mono), monospace;
+  font-family: var(--font-mono), "SF Mono", "Courier New", monospace;
   font-size: 11px; letter-spacing: 0.22em;
   text-transform: uppercase; color: #C4C4CC;
 }

@@ -3,13 +3,14 @@ import type { GrowthReport } from "./types";
 const LANGUAGE_NAMES: Record<string, string> = {
   en: "English", es: "Spanish", fr: "French", de: "German",
   pt: "Portuguese", it: "Italian", nl: "Dutch", ar: "Arabic",
-  zh: "Chinese", ja: "Japanese", ko: "Korean", hi: "Hindi",
+  zh: "Simplified Chinese (简体中文)", ja: "Japanese (日本語)", ko: "Korean (한국어)", hi: "Hindi (हिन्दी)",
   ru: "Russian", tr: "Turkish", pl: "Polish",
 };
 
 export function buildSystemPrompt(language?: string): string {
+  const nonLatin = ["zh","ja","ko","hi","ar"].includes(language ?? "");
   const langInstruction = language && LANGUAGE_NAMES[language]
-    ? `- Respond entirely in ${LANGUAGE_NAMES[language]}. All fields, labels, and content in your JSON response must be in ${LANGUAGE_NAMES[language]}.`
+    ? `- Respond entirely in ${LANGUAGE_NAMES[language]}. Every single string value in the JSON must be written in ${LANGUAGE_NAMES[language]} — no English words mixed in.${nonLatin ? ` Use native script throughout (do NOT transliterate into Latin characters).` : ""}`
     : `- Detect the language the user writes in and respond entirely in that language. All fields, labels, and content in your JSON response must be in the user's language.`;
 
   return `You are an autonomous Growth Operating System acting as a complete team of 22 specialists:
