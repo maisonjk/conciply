@@ -65,17 +65,64 @@ export function exportReport(report: StoredReport): void {
   URL.revokeObjectURL(url);
 }
 
+// ── Cookie helpers (1-year expiry, SameSite=Lax) ─────────────────────────────
+function setCookie(name: string, value: string) {
+  const expires = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toUTCString();
+  document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/; SameSite=Lax`;
+}
+
+function getCookie(name: string): string | null {
+  const match = document.cookie.match(new RegExp(`(?:^|; )${name}=([^;]*)`));
+  return match ? decodeURIComponent(match[1]) : null;
+}
+
+function deleteCookie(name: string) {
+  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+}
+
+// ── License persistence ───────────────────────────────────────────────────────
 export function getLicensePlan(): string | null {
   if (typeof window === "undefined") return null;
-  return localStorage.getItem("conciply_plan");
+  // localStorage first, fall back to cookie if localStorage was cleared
+  const lsPlan = localStorage.getItem("conciply_plan");
+  const lsKey  = localStorage.getItem("conciply_key");
+  if (lsPlan && lsKey) return lsPlan;
+  // Restore from cookie
+  const ckKey  = getCookie("conciply_key");
+  const ckPlan = getCookie("conciply_plan");
+  if (ckKey && ckPlan) {
+    localStorage.setItem("conciply_key",  ckKey);
+    localStorage.setItem("conciply_plan", ckPlan);
+    return ckPlan;
+  }
+  return null;
 }
 
 export function getLicenseKey(): string | null {
   if (typeof window === "undefined") return null;
-  return localStorage.getItem("conciply_key");
+  const lsKey = localStorage.getItem("conciply_key");
+  if (lsKey) return lsKey;
+  // Restore from cookie
+  const ckKey  = getCookie("conciply_key");
+  const ckPlan = getCookie("conciply_plan");
+  if (ckKey && ckPlan) {
+    localStorage.setItem("conciply_key",  ckKey);
+    localStorage.setItem("conciply_plan", ckPlan);
+    return ckKey;
+  }
+  return null;
 }
 
 export function setLicense(key: string, plan: string): void {
-  localStorage.setItem("conciply_key", key);
+  localStorage.setItem("conciply_key",  key);
   localStorage.setItem("conciply_plan", plan);
+  setCookie("conciply_key",  key);
+  setCookie("conciply_plan", plan);
+}
+
+export function clearLicense(): void {
+  localStorage.removeItem("conciply_key");
+  localStorage.removeItem("conciply_plan");
+  deleteCookie("conciply_key");
+  deleteCookie("conciply_plan");
 }
