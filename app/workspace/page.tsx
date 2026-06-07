@@ -115,6 +115,23 @@ function WorkspaceContent() {
   const [deepDiveKey, setDeepDiveKey] = useState<SectionKey | null>(null);
   const [regenLoading, setRegenLoading] = useState<SectionKey | null>(null);
   const [copied, setCopied] = useState(false);
+  const [billingLoading, setBillingLoading] = useState(false);
+
+  const handleBilling = async () => {
+    setBillingLoading(true);
+    try {
+      const key = getLicenseKey();
+      const res = await fetch("/api/billing-portal", {
+        method: "POST",
+        headers: { ...(key ? { "x-conciply-license": key } : {}) },
+      });
+      const data = await res.json();
+      if (data.url) window.location.href = data.url;
+      else alert(data.error || "Could not open billing portal.");
+    } finally {
+      setBillingLoading(false);
+    }
+  };
 
   const handleCopy = () => {
     if (!stored) return;
@@ -179,10 +196,14 @@ function WorkspaceContent() {
               {stored.input}
             </h1>
           </div>
-          <div data-print-hide style={{ display:"flex", gap:6 }}>
+          <div data-print-hide style={{ display:"flex", gap:6, flexWrap:"wrap" }}>
             <a href={`/report?id=${stored.id}`} className="btn-ghost" style={{ padding:"8px 14px", fontSize:12 }}>
               View Report
             </a>
+            <button onClick={handleBilling} disabled={billingLoading} className="btn-ghost"
+              style={{ padding:"8px 14px", fontSize:12 }}>
+              {billingLoading ? "Opening…" : "Manage Billing"}
+            </button>
             <button onClick={handleCopy} className="btn-ghost"
               style={{ padding:"8px 14px", fontSize:12, minWidth:110 }}>
               {copied ? "✓ Copied!" : "Copy Report"}

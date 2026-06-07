@@ -24,7 +24,11 @@ export async function POST(req: NextRequest) {
     const tier = session.metadata?.tier as LicenseTier | undefined;
     if (!tier) return NextResponse.json({ ok: true });
 
-    const licenseKey = signLicense(tier, 0);
+    const customerId = typeof session.customer === "string"
+      ? session.customer
+      : session.customer?.id ?? "";
+
+    const licenseKey = signLicense(tier, 0, customerId);
     await kvSet(`license:${session.id}`, licenseKey);
   }
 
