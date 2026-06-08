@@ -5,7 +5,9 @@ import type { LicenseTier } from "@/lib/types";
 export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => ({}));
   const tier = body.tier as LicenseTier;
-  const priceId = PRICES[tier];
+  const annual = body.annual === true;
+  const key = annual ? (`${tier}_annual` as keyof typeof PRICES) : tier;
+  const priceId = PRICES[key];
 
   if (!priceId) {
     return NextResponse.json({ error: "Invalid tier." }, { status: 400 });
