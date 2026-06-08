@@ -15,13 +15,13 @@ const FREE_LIMIT = parseInt(process.env.FREE_TOTAL_LIMIT ?? "1", 10);
 // Free: gpt-4o-mini, fewer tokens
 type TierConfig = { model: string; maxTokens: number };
 const TIER_CONFIG: Record<string, TierConfig> = {
-  agency:  { model: "gpt-4o-mini", maxTokens: 12000 },
-  pro:     { model: "gpt-4o",      maxTokens: 14000 },
-  founder: { model: "gpt-4o",      maxTokens: 14000 },
-  free:    { model: "gpt-4o-mini", maxTokens: 6000  },
+  agency:  { model: "gpt-4o-mini", maxTokens: 6000 },
+  pro:     { model: "gpt-4o",      maxTokens: 6000 },
+  founder: { model: "gpt-4o",      maxTokens: 6000 },
+  free:    { model: "gpt-4o-mini", maxTokens: 6000 },
 };
 const DEFAULT_MODEL  = process.env.OPENAI_MODEL  || "gpt-4o";
-const DEFAULT_TOKENS = 14000;
+const DEFAULT_TOKENS = 6000;
 
 function getIP(req: NextRequest): string {
   return (
