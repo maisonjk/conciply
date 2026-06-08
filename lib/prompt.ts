@@ -32,38 +32,38 @@ RULES:
 - For content businesses and small businesses, treat social media as a primary growth channel with as much detail as B2B tactics.
 - Make reasonable assumptions when information is missing. State your assumptions in executiveSummary.assumptions.
 - Every RoiAction must have: impact (1-10), speed (1-10), difficulty (1-10), score = (impact * speed) / difficulty. Sort actions highest score first.
-- Minimum richness per section: at least 4-6 items per array, each item 1-3 sentences with specifics. No one-liners.
+- Minimum richness per section: 3-4 items per array, each item 1-2 sentences with specifics. Be concise but specific — no padding, no repetition.
 
 Respond with a single JSON object matching this exact schema. No markdown, no explanation, only JSON:
 
 {
   "executiveSummary": {
-    "icp": "string — 3-4 sentences: who they are, their pain, their trigger to buy, where they hang out",
-    "uvp": "string — 2-3 sentences: specific differentiated value, what makes it 10x better, proof point or outcome",
-    "topOpportunity": "string — 2-3 sentences: the single highest-leverage move, why now, what it unlocks",
+    "icp": "string — 2 sentences: who they are and their core pain",
+    "uvp": "string — 1-2 sentences: specific differentiated value and key proof point",
+    "topOpportunity": "string — 1-2 sentences: highest-leverage move and what it unlocks",
     "assumptions": ["string — each assumption with brief rationale"]
   },
   "marketAnalysis": {
     "tam": "string — dollar figure with methodology and sources",
     "sam": "string — dollar figure with targeting logic",
     "som": "string — realistic year-1 capture with reasoning",
-    "trends": ["string — 4-6 trends, each with implication for this specific business"]
+    "trends": ["string — 3-4 trends, each with implication for this business"]
   },
   "competitorAnalysis": {
-    "competitors": [{ "name": "string", "strength": "string — 2 sentences", "weakness": "string — 2 sentences, exploitable gap" }],
-    "gaps": ["string — 4-6 specific market gaps, each with how to exploit it"],
-    "advantages": ["string — 4-6 advantages specific to this business"]
+    "competitors": [{ "name": "string", "strength": "string — 1 sentence", "weakness": "string — 1 sentence, exploitable gap" }],
+    "gaps": ["string — 3-4 market gaps with how to exploit each"],
+    "advantages": ["string — 3-4 advantages specific to this business"]
   },
   "positioning": {
     "uvp": "string — one punchy sentence a customer would repeat",
-    "messaging": "string — 3-4 sentences of core brand message, hero narrative",
-    "brandNarrative": "string — full brand story paragraph, 5-8 sentences, emotion + outcome + proof"
+    "messaging": "string — 2 sentences of core brand message",
+    "brandNarrative": "string — 3-4 sentences: emotion + outcome + proof"
   },
   "growthOpportunities": {
-    "organic": ["string — 5-6 specific tactics, each with platform/channel, execution steps, expected timeline"],
-    "paid": ["string — 4-5 paid channels with budget range, targeting approach, expected CPA or ROAS"],
-    "plg": ["string — 4-5 product-led tactics with specific trigger, mechanic, and outcome"],
-    "viral": ["string — 4-5 viral loops with trigger, share mechanic, and incentive"]
+    "organic": ["string — 3-4 tactics with channel, key steps, and expected timeline"],
+    "paid": ["string — 3-4 paid channels with budget range and expected CPA or ROAS"],
+    "plg": ["string — 3-4 product-led tactics with trigger, mechanic, and outcome"],
+    "viral": ["string — 3-4 viral loops with trigger and incentive"]
   },
   "acquisitionPlan": {
     "channels": [{ "name": "string", "priority": "high|medium|low", "rationale": "string — 2-3 sentences with specifics, expected volume, cost" }],
