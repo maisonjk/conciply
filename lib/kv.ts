@@ -1,60 +1,34 @@
-// KV store — supports Upstash Redis (Render/any) and Vercel KV
-// Set UPSTASH_REDIS_REST_URL + UPSTASH_REDIS_REST_TOKEN for Render
-// Set KV_REST_API_URL + KV_REST_API_TOKEN for Vercel
+// KV via Upstash Redis REST API — works on any host, no SDK needed.
+// Set KV_REST_API_URL and KV_REST_API_TOKEN from your Upstash dashboard.
+// Falls back to a no-op if env vars are missing (dev without Redis).
 
-async function upstashRequest(method: "GET" | "SET", key: string, value?: unknown): Promise<unknown> {
-  const url = process.env.UPSTASH_REDIS_REST_URL;
-  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
-  if (!url || !token) return null;
+const url = () => process.env.KV_REST_API_URL?.replace(/\/$/, "");
+const token = () => process.env.KV_REST_API_TOKEN;
 
-  const endpoint = method === "GET"
-    ? `${url}/get/${encodeURIComponent(key)}`
-    : `${url}/set/${encodeURIComponent(key)}/${encodeURIComponent(JSON.stringify(value))}`;
-
-  const res = await fetch(endpoint, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  const data = await res.json() as { result: unknown };
-  if (method === "GET" && data.result !== null && data.result !== undefined) {
-    try { return JSON.parse(data.result as string); } catch { return data.result; }
-  }
-  return data.result ?? null;
-}
-
-type KVClient = { get: (k: string) => Promise<unknown>; set: (k: string, v: unknown) => Promise<void> };
-
-let _kv: KVClient | null = null;
-
-async function getKV(): Promise<KVClient> {
-  if (_kv) return _kv;
-
-  // 1. Upstash Redis (works on Render and anywhere)
-  if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) {
-    _kv = {
-      get: (k) => upstashRequest("GET", k),
-      set: (k, v) => upstashRequest("SET", k, v).then(() => undefined),
-    };
-    return _kv;
-  }
-
-  // 2. Vercel KV (legacy)
-  if (process.env.KV_REST_API_URL) {
-    try {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-var-requires
-      const mod: any = require("@vercel/kv");
-      if (mod?.kv) { _kv = mod.kv as KVClient; return _kv; }
-    } catch { /* fall through */ }
-  }
-
-  // 3. No-op fallback (dev / unconfigured)
-  _kv = { get: async () => null, set: async () => {} };
-  return _kv;
+function isConfigured(): boolean {
+  return !!(url() && token());
 }
 
 export async function kvGet<T>(key: string): Promise<T | null> {
-  return ((await getKV()).get(key)) as T | null;
+  if (!isConfigured()) return null;
+  const res = await fetch(`${url()}/get/${encodeURIComponent(key)}`, {
+    headers: { Authorization: `Bearer ${token()}` },
+  });
+  if (!res.ok) return null;
+  const json = await res.json() as { result: T | null };
+  return json.result ?? null;
 }
 
 export async function kvSet(key: string, value: unknown): Promise<void> {
-  return (await getKV()).set(key, value);
+  if (!isConfigured()) return;
+  const encoded = encodeURIComponent(key);
+  const body = typeof value === "string" ? value : JSON.stringify(value);
+  await fetch(`${url()}/set/${encoded}`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token()}`,
+      "Content-Type": "text/plain",
+    },
+    body,
+  });
 }

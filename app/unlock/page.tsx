@@ -15,28 +15,49 @@ function UnlockContent() {
     const sessionId = params.get("session_id");
     if (!sessionId) return;
 
+    // Poll up to 8 times (≈16s) to handle webhook race condition.
+    // The webhook fires async — the user's browser may arrive here before
+    // Stripe has delivered it and the KV key has been written.
     (async () => {
       setStatus("loading");
-      // Retry up to 5× with 2s delay — webhook may not have fired yet
-      let data: Record<string, string> | null = null;
-      for (let i = 0; i < 5; i++) {
+      const MAX_ATTEMPTS = 8;
+      const DELAY_MS = 2000;
+
+      for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
+        if (attempt > 0) {
+          await new Promise(r => setTimeout(r, DELAY_MS));
+        }
         const res = await fetch("/api/verify", {
           method: "POST", headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ key: sessionId }),
         });
-        if (res.ok) { data = await res.json(); break; }
-        if (i < 4) await new Promise(r => setTimeout(r, 2000));
+        const data = await res.json().catch(() => ({}));
+
+        if (res.status === 202 && data.retry) {
+          // Webhook not yet processed — keep polling
+          continue;
+        }
+
+        if (res.ok) {
+          // Use the real HMAC license key the API looked up from KV,
+          // NOT the Stripe session ID (which would fail future HMAC checks).
+          const licenseKey = data.licenseKey ?? sessionId;
+          setLicense(licenseKey, data.tier);
+          setMessage(`${data.tier} plan unlocked! Redirecting…`);
+          setStatus("success");
+          setTimeout(() => router.push("/"), 1500);
+          return;
+        }
+
+        // Non-retryable error — fall through to manual entry
+        setStatus("idle");
+        setMessage(data.error || "");
+        return;
       }
-      if (data) {
-        // data.licenseKey is the real HMAC key; fall back to sessionId for old tokens
-        setLicense(data.licenseKey ?? sessionId, data.tier);
-        setMessage(`${data.tier} plan unlocked! Redirecting…`);
-        setStatus("success");
-        setTimeout(() => router.push("/"), 1500);
-      } else {
-        setStatus("error");
-        setMessage("Could not retrieve your license. Please paste your key below or contact hello@conciply.com.");
-      }
+
+      // Exhausted retries — webhook never arrived
+      setStatus("error");
+      setMessage("License activation is taking longer than expected. Please paste your key below or try again in a minute.");
     })();
   }, [params, router]);
 
@@ -51,8 +72,7 @@ function UnlockContent() {
       });
       const data = await res.json();
       if (!res.ok) { setStatus("error"); setMessage(data.error || "Invalid key."); return; }
-      // Use the resolved licenseKey from server (handles session ID → real key lookup)
-      setLicense(data.licenseKey ?? k, data.tier);
+      setLicense(k, data.tier);
       setMessage(`${data.tier} plan unlocked!`);
       setStatus("success");
       setTimeout(() => router.push("/"), 1200);
@@ -72,6 +92,22 @@ function UnlockContent() {
         <div style={{ border:"2px solid var(--n3)", padding:24 }}>
           <span className="font-mono" style={{ color:"var(--n3)", fontWeight:700 }}>✓ {message}</span>
         </div>
+      ) : status === "loading" && params.get("session_id") ? (
+        // Stripe redirect — show activation progress, not a confusing key form
+        <div style={{ border:"2px solid #1E1E22", padding:24 }}>
+          <div className="font-mono" style={{ fontSize:11, letterSpacing:"0.14em", textTransform:"uppercase",
+                                              color:"var(--n2)", marginBottom:16 }}>
+            Activating your plan…
+          </div>
+          <div style={{ width:"100%", height:2, background:"#1E1E22", overflow:"hidden" }}>
+            <div style={{ height:"100%", width:"60%", background:"var(--n2)",
+                          animation:"slide 1s ease-in-out infinite alternate" }} />
+          </div>
+          <style>{`@keyframes slide{from{transform:translateX(0)}to{transform:translateX(70%)}}`}</style>
+          <p style={{ color:"#9A9AA8", fontSize:12, marginTop:16, fontFamily:"var(--font-mono)" }}>
+            Confirming payment with Stripe…
+          </p>
+        </div>
       ) : (
         <>
           <div style={{ border:"2px solid #F4F4F1", display:"flex", flexWrap:"wrap" }}>
@@ -86,7 +122,7 @@ function UnlockContent() {
               {status === "loading" ? "Verifying…" : "Unlock →"}
             </button>
           </div>
-          {status === "error" && (
+          {status === "error" && message && (
             <p className="font-mono" style={{ fontSize:13, color:"var(--n2)", marginTop:12 }}>{message}</p>
           )}
           <p style={{ color:"#9A9AA8", fontSize:13, marginTop:20 }}>
