@@ -51,12 +51,17 @@ export default function OutputSkeleton() {
 
       {/* Progress bar */}
       <div style={{ marginBottom: 28 }}>
-        <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:8 }}>
+        <div style={{ display:"flex", justifyContent:"space-between", alignItems:"baseline", marginBottom:10 }}>
           <span className="font-mono" style={{ fontSize:10, letterSpacing:"0.12em",
                           textTransform:"uppercase", color:"#5C5C63" }}>
             Building your playbook
           </span>
-          <span className="font-mono" style={{ fontSize:10, color:"var(--n1)", letterSpacing:"0.08em" }}>
+          <span className="display" style={{
+            fontSize:"clamp(48px,6vw,80px)", fontWeight:900, lineHeight:1,
+            color:"var(--n1)",
+            textShadow:"0 0 30px var(--n1)",
+            transition:"all 0.8s cubic-bezier(0.4,0,0.2,1)",
+          }}>
             {progress}%
           </span>
         </div>
