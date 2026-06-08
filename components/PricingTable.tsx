@@ -48,7 +48,7 @@ const TIERS: TierDef[] = [
     features: [
       { text: "5 reports",               active: true  },
       { text: "All 17 sections",         active: true  },
-      { text: "Workspace",  active: true  },
+      { text: "Workspace + regenerate",  active: true  },
       { text: "Copy & Print / PDF",      active: true  },
       { text: "Asset generators",        active: false },
       { text: "Client use",              active: false },
@@ -67,7 +67,7 @@ const TIERS: TierDef[] = [
     features: [
       { text: "20 reports",              active: true  },
       { text: "All 17 sections",         active: true  },
-      { text: "Workspace",  active: true  },
+      { text: "Workspace + regenerate",  active: true  },
       { text: "Asset generators",        active: true  },
       { text: "Copy & Print / PDF",      active: true  },
       { text: "Client use",              active: false },
@@ -86,7 +86,7 @@ const TIERS: TierDef[] = [
     features: [
       { text: "500 reports / month",      active: true  },
       { text: "All 17 sections",         active: true  },
-      { text: "Workspace",  active: true  },
+      { text: "Workspace + regenerate",  active: true  },
       { text: "Asset generators",        active: true  },
       { text: "Copy & Print / PDF",      active: true  },
       { text: "Client use",              active: true  },
