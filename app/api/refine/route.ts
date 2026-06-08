@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
   const limit = REPORT_LIMITS[license.tier];
   if (usedCount >= limit) {
     const msg = license.tier === "agency"
-      ? "Monthly report limit reached (1,000/month). Resets on the 1st."
+      ? "Monthly report limit reached (500/month). Resets on the 1st."
       : "Report limit reached for your plan.";
     return NextResponse.json({ error: msg }, { status: 429 });
   }

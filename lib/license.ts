@@ -50,7 +50,7 @@ export function verifyLicense(token: string): {
 export const REPORT_LIMITS: Record<LicenseTier, number> = {
   founder: 5,
   pro: 20,
-  agency: 1000, // per month — see getUsageKey()
+  agency: 500, // per month — see getUsageKey()
 };
 
 // Agency uses a monthly key so the cap resets automatically each month.
