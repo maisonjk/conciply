@@ -36,15 +36,17 @@ export default function Paywall() {
           Get all 17 sections, the 7/30/90-day plans, marketing assets, and sales scripts.
         </p>
         <div style={{ display:"flex", flexWrap:"wrap", gap:8, marginTop:32 }}>
-          {TIERS.map(({ tier, label, price, reports }) => (
-            <button key={tier} onClick={() => checkout(tier)} disabled={loading !== null}
-              className="btn-neon"
-              style={{ padding:"14px 24px", fontSize:16,
-                       background: tier === "pro" ? "var(--n2)" : "var(--n1)",
-                       borderColor: tier === "pro" ? "var(--n2)" : "var(--n1)" }}>
-              {loading === tier ? "Redirecting…" : `${label} ${price} · ${reports} →`}
-            </button>
-          ))}
+          {TIERS.map(({ tier, label, price, reports }) => {
+            const color = tier === "founder" ? "var(--n1)" : tier === "pro" ? "var(--n2)" : "var(--n3)";
+            return (
+              <button key={tier} onClick={() => checkout(tier)} disabled={loading !== null}
+                className="btn-neon"
+                style={{ padding:"14px 24px", fontSize:16,
+                         background: color, borderColor: color, color:"#000" }}>
+                {loading === tier ? "Redirecting…" : `${label} ${price} · ${reports} →`}
+              </button>
+            );
+          })}
         </div>
         <p style={{ marginTop:16 }}>
           <a href="/pricing" style={{ color:"#C4C4CC", fontSize:13, textDecoration:"underline" }}>
