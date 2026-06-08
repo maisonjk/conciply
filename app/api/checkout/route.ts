@@ -27,6 +27,11 @@ export async function POST(req: NextRequest) {
       success_url: `${base}/unlock?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${base}/pricing`,
       metadata: { tier },
+      subscription_data: {
+        // Cancellations take effect at end of billing period — never mid-month.
+        // Customers keep full access for the period they paid for.
+        metadata: { tier },
+      },
     });
     return NextResponse.json({ url: session.url });
   } catch (err) {
