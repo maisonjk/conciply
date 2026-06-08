@@ -63,9 +63,12 @@ export async function POST(req: NextRequest) {
     const usedCount = (await kvGet<number>(usageKey)) ?? 0;
     const limit = REPORT_LIMITS[license.tier];
     if (usedCount >= limit) {
-      const msg = license.tier === "agency"
-        ? "Monthly report limit reached (500/month). Resets on the 1st."
-        : "Report limit reached for your plan.";
+      const limitMap: Record<string, string> = {
+        agency:  "Monthly limit reached (500/month). Resets on the 1st.",
+        pro:     "Monthly limit reached (20/month). Resets on the 1st.",
+        founder: "Monthly limit reached (5/month). Resets on the 1st.",
+      };
+      const msg = limitMap[license.tier] ?? "Report limit reached for your plan.";
       return NextResponse.json({ paywall: true, error: msg }, { status: 429 });
     }
   }
