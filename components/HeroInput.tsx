@@ -225,7 +225,7 @@ export default function HeroInput() {
 
         <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center",
                       borderTop:"1px solid #2A2A2E", padding:"10px 16px 10px 28px" }}>
-          <span className="kicker">Free: Executive Summary · Top ROI Actions · Social Media Strategy</span>
+          <span className="kicker">Free: 8 of 17 sections — no login required</span>
           <div style={{ display:"flex", alignItems:"center", gap:12 }}>
             <select
               value={language}

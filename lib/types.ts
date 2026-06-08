@@ -9,7 +9,16 @@ export type SectionKey =
   | "retentionStrategy" | "socialMediaStrategy" | "kpiDashboard"
   | "topRoiActions" | "plan7Day" | "plan30Day" | "plan90Day" | "immediateActions";
 
-export const FREE_SECTIONS: SectionKey[] = ["executiveSummary", "topRoiActions", "socialMediaStrategy"];
+export const FREE_SECTIONS: SectionKey[] = [
+  "executiveSummary",
+  "marketAnalysis",
+  "competitorAnalysis",
+  "positioning",
+  "growthOpportunities",
+  "topRoiActions",
+  "socialMediaStrategy",
+  "immediateActions",
+];
 
 export const SECTION_LABELS: Record<SectionKey, string> = {
   executiveSummary:    "Executive Summary",
