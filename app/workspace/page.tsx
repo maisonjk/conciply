@@ -146,7 +146,8 @@ function WorkspaceContent() {
 
   if (!stored) return null;
 
-  const isPaid    = !!tier;
+  const isPaid      = !!tier;
+  const canDeepDive = tier === "pro" || tier === "agency";
   const activeGroup = GROUPS.find(g => g.keys.includes(active))!;
 
   return (
@@ -296,12 +297,19 @@ function WorkspaceContent() {
                          opacity: regenLoading ? 0.5 : 1 }}>
                 {regenLoading === active ? "↻ Regenerating…" : "↻ Regen Section"}
               </button>
-              {isPaid && (
+              {canDeepDive ? (
                 <button onClick={() => setDeepDiveKey(active)} className="btn-ghost"
                   style={{ padding:"5px 10px", fontSize:10, letterSpacing:"0.08em", whiteSpace:"nowrap",
                            color:"var(--n2)", borderColor:"var(--n2)" }}>
                   ⚡ Deep Dive
                 </button>
+              ) : isPaid && (
+                <a href="/pricing" className="btn-ghost"
+                  style={{ padding:"5px 10px", fontSize:10, letterSpacing:"0.08em", whiteSpace:"nowrap",
+                           color:"#5C5C63", borderColor:"#3C3C42", textDecoration:"none" }}
+                  title="Deep Dive is available on Pro and Agency plans">
+                  ⚡ Deep Dive ↑
+                </a>
               )}
 
               {/* Counter */}
