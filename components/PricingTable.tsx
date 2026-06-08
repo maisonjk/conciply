@@ -84,7 +84,7 @@ const TIERS: TierDef[] = [
     annualBilled: "$948 / year",
     badge: null,
     features: [
-      { text: "Unlimited reports",       active: true  },
+      { text: "1,000 reports / month",    active: true  },
       { text: "All 17 sections",         active: true  },
       { text: "Workspace",               active: true  },
       { text: "Asset generators",        active: true  },

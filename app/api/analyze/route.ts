@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getOpenAI, MODEL } from "@/lib/openai";
 import { checkRateLimit, getRemainingAttempts } from "@/lib/ratelimit";
-import { verifyLicense, REPORT_LIMITS } from "@/lib/license";
+import { verifyLicense, REPORT_LIMITS, getUsageKey } from "@/lib/license";
 import { buildSystemPrompt, buildUserMessage, parseReport } from "@/lib/prompt";
 import { kvGet, kvSet } from "@/lib/kv";
 import { FREE_SECTIONS } from "@/lib/types";
@@ -43,10 +43,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ paywall: true, error: "License revoked." }, { status: 403 });
     }
     // Track usage in KV (source of truth for report counts)
-    const usageKey = `usage:${licenseHeader}`;
+    const usageKey = getUsageKey(licenseHeader, license.tier);
     const usedCount = (await kvGet<number>(usageKey)) ?? 0;
     if (usedCount >= limit) {
-      return NextResponse.json({ paywall: true, error: "Report limit reached for your plan." }, { status: 429 });
+      const msg = license.tier === "agency"
+        ? "Monthly report limit reached (1,000/month). Resets on the 1st."
+        : "Report limit reached for your plan.";
+      return NextResponse.json({ paywall: true, error: msg }, { status: 429 });
     }
   }
 
@@ -80,7 +83,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Increment KV usage counter
-    const usageKey = `usage:${licenseHeader}`;
+    const usageKey = getUsageKey(licenseHeader, license.tier);
     const usedCount = (await kvGet<number>(usageKey)) ?? 0;
     await kvSet(usageKey, usedCount + 1);
     const limit = REPORT_LIMITS[license.tier];

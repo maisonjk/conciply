@@ -50,5 +50,16 @@ export function verifyLicense(token: string): {
 export const REPORT_LIMITS: Record<LicenseTier, number> = {
   founder: 5,
   pro: 20,
-  agency: Infinity,
+  agency: 1000, // per month — see getUsageKey()
 };
+
+// Agency uses a monthly key so the cap resets automatically each month.
+// Founder/Pro use a lifetime key (they paid for N reports total).
+export function getUsageKey(licenseKey: string, tier: LicenseTier): string {
+  if (tier === "agency") {
+    const now = new Date();
+    const month = `${now.getUTCFullYear()}-${String(now.getUTCMonth() + 1).padStart(2, "0")}`;
+    return `usage:${licenseKey}:${month}`;
+  }
+  return `usage:${licenseKey}`;
+}
