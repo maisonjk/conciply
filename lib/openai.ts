@@ -6,4 +6,5 @@ export function getOpenAI(): OpenAI {
   return _client;
 }
 
+// MODEL is kept for backwards-compat; the API route uses tier-based config
 export const MODEL = process.env.OPENAI_MODEL || "gpt-4o";

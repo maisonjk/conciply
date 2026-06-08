@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getOpenAI, MODEL } from "@/lib/openai";
+import { getOpenAI } from "@/lib/openai";
 import { checkRateLimit, getRemainingAttempts } from "@/lib/ratelimit";
 import { verifyLicense, REPORT_LIMITS, getUsageKey } from "@/lib/license";
 import { buildSystemPrompt, buildUserMessage, parseReport } from "@/lib/prompt";
@@ -8,6 +8,20 @@ import { FREE_SECTIONS } from "@/lib/types";
 import type { GrowthReport, SectionKey } from "@/lib/types";
 
 const FREE_LIMIT = parseInt(process.env.FREE_TOTAL_LIMIT ?? "1", 10);
+
+// Tier-based model config
+// Agency: high volume (500/mo) → gpt-4o-mini keeps cost ~$0.006/report ($3 total)
+// Pro/Founder: low volume → gpt-4o gives premium quality (~$0.10-0.15/report)
+// Free: gpt-4o-mini, fewer tokens
+type TierConfig = { model: string; maxTokens: number };
+const TIER_CONFIG: Record<string, TierConfig> = {
+  agency:  { model: "gpt-4o-mini", maxTokens: 12000 },
+  pro:     { model: "gpt-4o",      maxTokens: 14000 },
+  founder: { model: "gpt-4o",      maxTokens: 14000 },
+  free:    { model: "gpt-4o-mini", maxTokens: 6000  },
+};
+const DEFAULT_MODEL  = process.env.OPENAI_MODEL  || "gpt-4o";
+const DEFAULT_TOKENS = 14000;
 
 function getIP(req: NextRequest): string {
   return (
@@ -69,15 +83,18 @@ export async function POST(req: NextRequest) {
         controller.enqueue(encoder.encode(sse(data)));
 
       try {
+        const tierKey = license?.tier ?? "free";
+        const cfg = TIER_CONFIG[tierKey] ?? { model: DEFAULT_MODEL, maxTokens: DEFAULT_TOKENS };
+
         const openaiStream = await getOpenAI().chat.completions.create({
-          model: MODEL,
+          model: cfg.model,
           response_format: { type: "json_object" },
           messages: [
             { role: "system", content: buildSystemPrompt(language) },
             { role: "user",   content: buildUserMessage(input) },
           ],
           temperature: 0.7,
-          max_tokens: 14000,
+          max_tokens: cfg.maxTokens,
           stream: true,
         });
 
