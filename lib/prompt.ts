@@ -158,32 +158,7 @@ export function parseReport(raw: string): GrowthReport {
   try {
     data = JSON.parse(raw);
   } catch {
-    // JSON was truncated — try to rescue by closing open braces/brackets
-    let fixed = raw.trimEnd();
-
-    // Count unclosed braces and brackets
-    let braces = 0, brackets = 0;
-    let inString = false, escape = false;
-    for (const ch of fixed) {
-      if (escape)          { escape = false; continue; }
-      if (ch === "\\")     { escape = true; continue; }
-      if (ch === '"')      { inString = !inString; continue; }
-      if (inString)        continue;
-      if (ch === "{")      braces++;
-      else if (ch === "}") braces--;
-      else if (ch === "[") brackets++;
-      else if (ch === "]") brackets--;
-    }
-
-    // Strip trailing incomplete value (comma + partial string)
-    fixed = fixed.replace(/,\s*"[^"]*$/, "");   // unclosed key
-    fixed = fixed.replace(/,\s*$/, "");           // trailing comma
-
-    // Close any open arrays/objects
-    fixed += "]".repeat(Math.max(0, brackets));
-    fixed += "}".repeat(Math.max(0, braces));
-
-    data = JSON.parse(fixed); // throws if still broken
+    data = repairJson(raw);
   }
 
   const report = data as Record<string, unknown>;
@@ -191,4 +166,69 @@ export function parseReport(raw: string): GrowthReport {
     throw new Error("Invalid report shape: missing required sections");
   }
   return data as GrowthReport;
+}
+
+function repairJson(raw: string): unknown {
+  let fixed = raw.trimEnd();
+
+  // Walk the string tracking structural depth + whether we ended mid-string.
+  // This handles the most common truncation: OpenAI hits max_tokens inside a
+  // string value, producing "Unterminated string in JSON at position N".
+  let braces = 0, brackets = 0;
+  let inString = false, escape = false;
+  for (const ch of fixed) {
+    if (escape)          { escape = false; continue; }
+    if (ch === "\\")     { escape = true; continue; }
+    if (ch === '"')      { inString = !inString; continue; }
+    if (inString)        continue;
+    if (ch === "{")      braces++;
+    else if (ch === "}") braces--;
+    else if (ch === "[") brackets++;
+    else if (ch === "]") brackets--;
+  }
+
+  // Step 1: close the unterminated string (the "Unterminated string" error)
+  if (inString) fixed += '"';
+
+  // Step 2: strip the now-closed-but-truncated trailing value so the JSON is
+  // structurally valid. Four patterns in order of specificity:
+  //   a) ,"key": "truncated value"  — a full k/v pair whose value was cut short
+  //   b) ,"key": <non-string value> — k/v with number/bool/array that was cut
+  //   c) ,"orphaned key"            — key with no value at all
+  //   d) trailing comma             — leftover comma before the truncation
+  fixed = fixed
+    .replace(/,\s*"[^"\\]*(?:\\.[^"\\]*)*"\s*:\s*"[^"\\]*(?:\\.[^"\\]*)*("|$)\s*$/, "")
+    .replace(/,\s*"[^"]*"\s*:\s*[^,{}\[\]]*\s*$/, "")
+    .replace(/,\s*"[^"]*"\s*$/, "")
+    .replace(/,\s*$/, "");
+
+  // Step 3: close open arrays then objects (order matters)
+  fixed += "]".repeat(Math.max(0, brackets));
+  fixed += "}".repeat(Math.max(0, braces));
+
+  // Try parse — usually works now
+  try {
+    return JSON.parse(fixed);
+  } catch {
+    // Last resort: chop back to the last comma and re-close
+    const lastComma = fixed.lastIndexOf(",");
+    if (lastComma > 0) {
+      let trimmed = fixed.slice(0, lastComma);
+      let b = 0, br = 0, inS = false, esc = false;
+      for (const ch of trimmed) {
+        if (esc)         { esc = false; continue; }
+        if (ch === "\\") { esc = true; continue; }
+        if (ch === '"')  { inS = !inS; continue; }
+        if (inS) continue;
+        if (ch === "{")  b++;
+        else if (ch === "}") b--;
+        else if (ch === "[") br++;
+        else if (ch === "]") br--;
+      }
+      trimmed += "]".repeat(Math.max(0, br));
+      trimmed += "}".repeat(Math.max(0, b));
+      return JSON.parse(trimmed);
+    }
+    throw new Error("Unrepairable JSON");
+  }
 }
