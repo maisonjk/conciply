@@ -5,7 +5,7 @@ import type { LicenseTier } from "@/lib/types";
 const TIERS: { tier: LicenseTier; label: string; price: string; reports: string }[] = [
   { tier: "founder", label: "Founder", price: "$19", reports: "5 reports" },
   { tier: "pro",     label: "Pro",     price: "$49", reports: "20 reports" },
-  { tier: "agency",  label: "Agency",  price: "$99", reports: "Unlimited" },
+  { tier: "agency",  label: "Agency",  price: "$99", reports: "500/mo" },
 ];
 
 export default function Paywall() {
@@ -33,7 +33,7 @@ export default function Paywall() {
           Unlock your full<br /><span style={{ color:"var(--n2)" }}>growth playbook.</span>
         </h2>
         <p style={{ fontSize:"clamp(15px,1.6vw,18px)", lineHeight:1.5, color:"#C4C4CC", marginTop:18, maxWidth:560 }}>
-          Get all 16 sections, the 7/30/90-day plans, marketing assets, and sales scripts.
+          Get all 17 sections, the 7/30/90-day plans, marketing assets, and sales scripts.
         </p>
         <div style={{ display:"flex", flexWrap:"wrap", gap:8, marginTop:32 }}>
           {TIERS.map(({ tier, label, price, reports }) => (
