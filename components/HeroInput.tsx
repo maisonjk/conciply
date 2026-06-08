@@ -34,6 +34,23 @@ const EXAMPLES = [
   "Dev tool for API load testing",
 ];
 
+const LOADING_MESSAGES = [
+  "Briefing your 22-specialist team…",
+  "CEO + CMO mapping your market position…",
+  "Competitor Intelligence scanning rivals…",
+  "VP Growth identifying your top opportunities…",
+  "Performance Marketing building your ad strategy…",
+  "SEO Specialist researching your keywords…",
+  "Content Marketing drafting your playbook…",
+  "SDR writing your outreach scripts…",
+  "Funnel Architect optimizing your conversions…",
+  "Data Scientist scoring your ROI actions…",
+  "Retention Specialist designing your onboarding…",
+  "Social Media team building your content calendar…",
+  "CRO Specialist reviewing your 90-day plan…",
+  "Finalizing your complete growth report…",
+];
+
 function getTodayCount() {
   const base = 3241;
   const day = Math.floor(Date.now() / 86400000);
@@ -51,6 +68,7 @@ export default function HeroInput() {
   const [error, setError] = useState("");
   const [count, setCount] = useState(0);
   const [progress, setProgress] = useState(0);
+  const [loadingMsg, setLoadingMsg] = useState(LOADING_MESSAGES[0]);
 
   useEffect(() => { setCount(getTodayCount()); }, []);
 
@@ -62,14 +80,21 @@ export default function HeroInput() {
       return;
     }
     setProgress(0);
+    setLoadingMsg(LOADING_MESSAGES[0]);
     const startTime = Date.now();
-    const DURATION = 44000; // ~44s to reach 90% — matches typical generation time
+    const DURATION = 82000; // ~82s to reach 90% — matches 14k token generation time
     const id = setInterval(() => {
       const elapsed = Date.now() - startTime;
       // Ease-out curve: fast early, slows near 90%
       const raw = elapsed / DURATION;
       const eased = 1 - Math.pow(1 - Math.min(raw, 1), 2.2);
       setProgress(Math.min(Math.round(eased * 90), 90));
+      // Cycle through loading messages every ~6 seconds
+      const msgIndex = Math.min(
+        Math.floor(elapsed / 6000),
+        LOADING_MESSAGES.length - 1
+      );
+      setLoadingMsg(LOADING_MESSAGES[msgIndex]);
     }, 300);
     return () => clearInterval(id);
   }, [status]);
@@ -207,10 +232,13 @@ export default function HeroInput() {
                      justifyContent:"center", gap:4 }}>
             {status === "loading" ? (
               <>
-                <span style={{ fontSize:"clamp(18px,2vw,24px)", lineHeight:1 }}>Analyzing…</span>
-                <span className="font-mono" style={{ fontSize:13, fontWeight:700,
-                                                      letterSpacing:"0.06em", lineHeight:1 }}>
+                <span style={{ fontSize:"clamp(14px,1.6vw,18px)", lineHeight:1.2, textAlign:"center" }}>
                   {progress}%
+                </span>
+                <span className="font-mono" style={{ fontSize:10, fontWeight:400,
+                                                      letterSpacing:"0.04em", lineHeight:1,
+                                                      color:"rgba(244,244,241,0.55)", textAlign:"center" }}>
+                  ~90 sec
                 </span>
               </>
             ) : "Analyze ↵"}
@@ -228,6 +256,18 @@ export default function HeroInput() {
               transition:"width 0.3s ease-out",
               boxShadow:"0 0 8px var(--n3)",
             }} />
+          </div>
+        )}
+
+        {/* Cycling status message — shown below input during loading */}
+        {status === "loading" && (
+          <div className="font-mono" style={{
+            position:"absolute", bottom:-28, left:0, right:0,
+            fontSize:11, color:"#6A6A75", letterSpacing:"0.06em",
+            textAlign:"left", paddingLeft:28,
+            whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis",
+          }}>
+            ▶ {loadingMsg}
           </div>
         )}
 
