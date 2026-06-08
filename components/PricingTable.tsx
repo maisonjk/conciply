@@ -248,6 +248,18 @@ export default function PricingTable() {
                 >
                   {subLine}
                 </div>
+
+                {/* Billing notice */}
+                {tier && (
+                  <div
+                    className="font-mono"
+                    style={{ fontSize: 10, color: "#4A4A55", marginTop: 6, letterSpacing: "0.04em" }}
+                  >
+                    {annual
+                      ? "Billed once per year. Renews annually."
+                      : "Billed monthly. Cancel anytime."}
+                  </div>
+                )}
               </div>
 
               {/* Divider */}
@@ -355,6 +367,19 @@ export default function PricingTable() {
           );
         })}
       </div>
+
+      {/* Billing footnote */}
+      <p
+        className="font-mono"
+        style={{
+          fontSize: 11, color: "#4A4A55", letterSpacing: "0.04em",
+          textAlign: "center", margin: "16px 0 0",
+        }}
+      >
+        {annual
+          ? "Annual plans are billed as a yearly subscription. Your card will be charged the full annual amount today and renews automatically each year. Cancel anytime before renewal."
+          : "Monthly plans are recurring subscriptions charged each month. Cancel anytime — no lock-in."}
+      </p>
     </div>
   );
 }
