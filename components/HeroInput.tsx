@@ -7,6 +7,25 @@ import Paywall from "./Paywall";
 import type { GrowthReport } from "@/lib/types";
 import { FREE_SECTIONS, SECTION_LABELS } from "@/lib/types";
 
+const LANGUAGES = [
+  { code: "auto",  label: "🌐 Auto-detect" },
+  { code: "en",    label: "🇺🇸 English" },
+  { code: "es",    label: "🇪🇸 Español" },
+  { code: "fr",    label: "🇫🇷 Français" },
+  { code: "de",    label: "🇩🇪 Deutsch" },
+  { code: "pt",    label: "🇧🇷 Português" },
+  { code: "it",    label: "🇮🇹 Italiano" },
+  { code: "nl",    label: "🇳🇱 Nederlands" },
+  { code: "ar",    label: "🇸🇦 العربية" },
+  { code: "zh",    label: "🇨🇳 中文" },
+  { code: "ja",    label: "🇯🇵 日本語" },
+  { code: "ko",    label: "🇰🇷 한국어" },
+  { code: "hi",    label: "🇮🇳 हिन्दी" },
+  { code: "ru",    label: "🇷🇺 Русский" },
+  { code: "tr",    label: "🇹🇷 Türkçe" },
+  { code: "pl",    label: "🇵🇱 Polski" },
+];
+
 const EXAMPLES = [
   "B2B CRM for marketing agencies",
   "AI note-taking app for developers",
@@ -27,6 +46,7 @@ type Status = "idle" | "loading" | "done" | "error" | "paywall";
 export default function HeroInput() {
   const router = useRouter();
   const [input, setInput] = useState("");
+  const [language, setLanguage] = useState("auto");
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState("");
   const [count, setCount] = useState(0);
@@ -68,7 +88,7 @@ export default function HeroInput() {
           "Content-Type": "application/json",
           ...(key ? { "x-conciply-license": key } : {}),
         },
-        body: JSON.stringify({ input: q }),
+        body: JSON.stringify({ input: q, language: language === "auto" ? undefined : language }),
       });
 
       if (!res.ok) {
@@ -206,9 +226,27 @@ export default function HeroInput() {
         <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center",
                       borderTop:"1px solid #2A2A2E", padding:"10px 16px 10px 28px" }}>
           <span className="kicker">Free: Executive Summary + Top 10 ROI Actions</span>
-          <span className="font-mono" style={{ fontSize:12, color: input.length > 900 ? "var(--n2)" : "#5C5C63" }}>
-            {input.length}/1000
-          </span>
+          <div style={{ display:"flex", alignItems:"center", gap:12 }}>
+            <select
+              value={language}
+              onChange={e => setLanguage(e.target.value)}
+              style={{
+                background:"transparent", border:"1px solid #3C3C42",
+                color:"#D0D0D8", fontFamily:"var(--font-mono), monospace",
+                fontSize:11, letterSpacing:"0.08em", padding:"4px 8px",
+                cursor:"pointer", outline:"none",
+              }}
+            >
+              {LANGUAGES.map(l => (
+                <option key={l.code} value={l.code} style={{ background:"#0A0A0B" }}>
+                  {l.label}
+                </option>
+              ))}
+            </select>
+            <span className="font-mono" style={{ fontSize:12, color: input.length > 900 ? "var(--n2)" : "#5C5C63" }}>
+              {input.length}/1000
+            </span>
+          </div>
         </div>
       </div>
 
