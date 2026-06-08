@@ -20,7 +20,7 @@ export default function PricingPage() {
             style={{ fontSize: "clamp(40px,6vw,80px)", marginBottom: 16, marginTop: 0 }}
           >
             Simple.<br />
-            <span style={{ color: "var(--n2)" }}>Monthly.</span>
+            <span style={{ color: "var(--n2)" }}>No surprises.</span>
           </h1>
           <p
             style={{

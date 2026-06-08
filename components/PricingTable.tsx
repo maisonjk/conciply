@@ -121,76 +121,56 @@ export default function PricingTable() {
     <div>
       {/* ── Billing toggle ── */}
       <div style={{
-        display: "flex", alignItems: "center", justifyContent: "center",
-        gap: 16, marginBottom: 40,
+        display: "flex", flexDirection: "column",
+        alignItems: "center", justifyContent: "center",
+        gap: 14, marginBottom: 48,
       }}>
-        <button
-          onClick={() => setAnnual(false)}
-          className="font-mono"
-          style={{
-            fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase",
-            border: "none", background: "transparent", cursor: "pointer",
-            color: !annual ? "#F4F4F1" : "#5C5C63",
-            fontWeight: !annual ? 700 : 400,
-            padding: "6px 0",
-            borderBottom: !annual ? "2px solid #F4F4F1" : "2px solid transparent",
-            transition: "color .15s",
-          }}
-        >
-          Monthly
-        </button>
-
-        {/* Toggle pill */}
-        <button
-          onClick={() => setAnnual(a => !a)}
-          style={{
-            position: "relative", width: 48, height: 26,
-            border: "2px solid #3C3C42",
-            background: annual ? "var(--n3)" : "#1A1A1E",
-            cursor: "pointer", padding: 0,
-            transition: "background .2s",
-          }}
-          aria-label="Toggle billing period"
-        >
-          <span style={{
-            position: "absolute", top: 3,
-            left: annual ? 22 : 4,
-            width: 16, height: 16,
-            background: annual ? "#000" : "#5C5C63",
-            transition: "left .2s, background .2s",
-          }} />
-        </button>
-
-        <button
-          onClick={() => setAnnual(true)}
-          className="font-mono"
-          style={{
-            fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase",
-            border: "none", background: "transparent", cursor: "pointer",
-            color: annual ? "#F4F4F1" : "#5C5C63",
-            fontWeight: annual ? 700 : 400,
-            padding: "6px 0",
-            borderBottom: annual ? "2px solid var(--n3)" : "2px solid transparent",
-            transition: "color .15s",
-            display: "flex", alignItems: "center", gap: 8,
-          }}
-        >
-          Annual
-        </button>
-
-        {/* Savings badge — only visible when annual */}
-        <span
-          className="font-mono"
-          style={{
-            fontSize: 10, letterSpacing: "0.1em", textTransform: "uppercase",
-            fontWeight: 700, color: "#000", background: "var(--n3)",
-            padding: "3px 8px",
-            opacity: annual ? 1 : 0,
-            transition: "opacity .2s",
-          }}
-        >
-          2 months free
-        </span>
+        {/* Segmented control */}
+        <div style={{
+          display: "inline-flex",
+          border: "2px solid #3C3C42",
+          background: "#0A0A0B",
+        }}>
+          <button
+            onClick={() => setAnnual(false)}
+            className="font-mono"
+            style={{
+              padding: "12px 32px",
+              fontSize: 12, letterSpacing: "0.12em", textTransform: "uppercase",
+              fontWeight: 700, border: "none", cursor: "pointer",
+              background: !annual ? "#F4F4F1" : "transparent",
+              color: !annual ? "#000" : "#5C5C63",
+              transition: "background .15s, color .15s",
+            }}
+          >
+            Monthly
+          </button>
+          <div style={{ width: 2, background: "#3C3C42", flexShrink: 0 }} />
+          <button
+            onClick={() => setAnnual(true)}
+            className="font-mono"
+            style={{
+              padding: "12px 32px",
+              fontSize: 12, letterSpacing: "0.12em", textTransform: "uppercase",
+              fontWeight: 700, border: "none", cursor: "pointer",
+              background: annual ? "var(--n3)" : "transparent",
+              color: annual ? "#000" : "#5C5C63",
+              transition: "background .15s, color .15s",
+              display: "flex", alignItems: "center", gap: 10,
+            }}
+          >
+            Annual
+            <span style={{
+              fontSize: 9, letterSpacing: "0.1em", fontWeight: 800,
+              background: annual ? "#000" : "#2A2A2E",
+              color: annual ? "var(--n3)" : "#5C5C63",
+              padding: "2px 6px",
+              transition: "background .15s, color .15s",
+            }}>
+              2 MONTHS FREE
+            </span>
+          </button>
+        </div>
       </div>
 
       {/* ── Plan cards ── */}
