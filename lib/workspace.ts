@@ -65,64 +65,52 @@ export function exportReport(report: StoredReport): void {
   URL.revokeObjectURL(url);
 }
 
-// ── Cookie helpers (1-year expiry, SameSite=Lax) ─────────────────────────────
-function setCookie(name: string, value: string) {
-  const expires = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toUTCString();
-  document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/; SameSite=Lax`;
+// ── Cookie helpers ────────────────────────────────────────────────────────────
+// Cookies survive Safari ITP clears and "Clear History and Website Data".
+// We dual-store: localStorage (fast reads) + cookie (resilient fallback).
+const COOKIE_MAX_AGE = 60 * 60 * 24 * 365; // 1 year in seconds
+
+function setCookie(name: string, value: string): void {
+  document.cookie = `${name}=${encodeURIComponent(value)}; max-age=${COOKIE_MAX_AGE}; path=/; SameSite=Lax`;
 }
 
 function getCookie(name: string): string | null {
-  const match = document.cookie.match(new RegExp(`(?:^|; )${name}=([^;]*)`));
-  return match ? decodeURIComponent(match[1]) : null;
-}
-
-function deleteCookie(name: string) {
-  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+  const match = document.cookie
+    .split("; ")
+    .find(row => row.startsWith(`${name}=`));
+  return match ? decodeURIComponent(match.split("=")[1]) : null;
 }
 
 // ── License persistence ───────────────────────────────────────────────────────
+
 export function getLicensePlan(): string | null {
   if (typeof window === "undefined") return null;
-  // localStorage first, fall back to cookie if localStorage was cleared
-  const lsPlan = localStorage.getItem("conciply_plan");
-  const lsKey  = localStorage.getItem("conciply_key");
-  if (lsPlan && lsKey) return lsPlan;
-  // Restore from cookie
-  const ckKey  = getCookie("conciply_key");
-  const ckPlan = getCookie("conciply_plan");
-  if (ckKey && ckPlan) {
-    localStorage.setItem("conciply_key",  ckKey);
-    localStorage.setItem("conciply_plan", ckPlan);
-    return ckPlan;
+  // localStorage first (fast), fall back to cookie, auto-restore if found
+  const fromStorage = localStorage.getItem("conciply_plan");
+  if (fromStorage) return fromStorage;
+  const fromCookie = getCookie("conciply_plan");
+  if (fromCookie) {
+    // Restore into localStorage so future reads are fast
+    localStorage.setItem("conciply_plan", fromCookie);
+    const keyCookie = getCookie("conciply_key");
+    if (keyCookie) localStorage.setItem("conciply_key", keyCookie);
   }
-  return null;
+  return fromCookie;
 }
 
 export function getLicenseKey(): string | null {
   if (typeof window === "undefined") return null;
-  const lsKey = localStorage.getItem("conciply_key");
-  if (lsKey) return lsKey;
-  // Restore from cookie
-  const ckKey  = getCookie("conciply_key");
-  const ckPlan = getCookie("conciply_plan");
-  if (ckKey && ckPlan) {
-    localStorage.setItem("conciply_key",  ckKey);
-    localStorage.setItem("conciply_plan", ckPlan);
-    return ckKey;
-  }
-  return null;
+  const fromStorage = localStorage.getItem("conciply_key");
+  if (fromStorage) return fromStorage;
+  const fromCookie = getCookie("conciply_key");
+  if (fromCookie) localStorage.setItem("conciply_key", fromCookie);
+  return fromCookie;
 }
 
 export function setLicense(key: string, plan: string): void {
-  localStorage.setItem("conciply_key",  key);
+  // Write to both stores so either one can rescue the other
+  localStorage.setItem("conciply_key", key);
   localStorage.setItem("conciply_plan", plan);
-  setCookie("conciply_key",  key);
+  setCookie("conciply_key", key);
   setCookie("conciply_plan", plan);
-}
-
-export function clearLicense(): void {
-  localStorage.removeItem("conciply_key");
-  localStorage.removeItem("conciply_plan");
-  deleteCookie("conciply_key");
-  deleteCookie("conciply_plan");
 }
