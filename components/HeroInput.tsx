@@ -30,8 +30,29 @@ export default function HeroInput() {
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState("");
   const [count, setCount] = useState(0);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => { setCount(getTodayCount()); }, []);
+
+  // Animate progress 0 → 90% while loading, then snap to 100 on completion
+  useEffect(() => {
+    if (status !== "loading") {
+      if (status === "done") setProgress(100);
+      else setProgress(0);
+      return;
+    }
+    setProgress(0);
+    const startTime = Date.now();
+    const DURATION = 44000; // ~44s to reach 90% — matches typical generation time
+    const id = setInterval(() => {
+      const elapsed = Date.now() - startTime;
+      // Ease-out curve: fast early, slows near 90%
+      const raw = elapsed / DURATION;
+      const eased = 1 - Math.pow(1 - Math.min(raw, 1), 2.2);
+      setProgress(Math.min(Math.round(eased * 90), 90));
+    }, 300);
+    return () => clearInterval(id);
+  }, [status]);
 
   const run = useCallback(async (text: string) => {
     const q = text.trim();
@@ -108,7 +129,7 @@ export default function HeroInput() {
         specialists</span> to analyze your SaaS and build a complete growth playbook — in seconds.
       </p>
 
-      <div style={{ border:"2px solid #F4F4F1", background:"#121214", marginTop:32 }}>
+      <div style={{ border:"2px solid #F4F4F1", background:"#121214", marginTop:32, position:"relative" }}>
         <div style={{ display:"flex", alignItems:"stretch", flexWrap:"wrap" }}>
           <textarea value={input} onChange={e => setInput(e.target.value.slice(0,1000))}
             onKeyDown={onKey} rows={2} maxLength={1000}
@@ -121,10 +142,35 @@ export default function HeroInput() {
           <button className="btn-neon" onClick={() => run(input)}
             disabled={status === "loading" || !input.trim()}
             style={{ flex:"0 0 auto", minWidth:200, fontSize:"clamp(18px,2vw,24px)",
-                     padding:"0 36px", borderLeft:"2px solid #F4F4F1" }}>
-            {status === "loading" ? "Analyzing…" : "Analyze ↵"}
+                     padding:"0 36px", borderLeft:"2px solid #F4F4F1",
+                     display:"flex", flexDirection:"column", alignItems:"center",
+                     justifyContent:"center", gap:4 }}>
+            {status === "loading" ? (
+              <>
+                <span style={{ fontSize:"clamp(18px,2vw,24px)", lineHeight:1 }}>Analyzing…</span>
+                <span className="font-mono" style={{ fontSize:13, fontWeight:700,
+                                                      letterSpacing:"0.06em", lineHeight:1 }}>
+                  {progress}%
+                </span>
+              </>
+            ) : "Analyze ↵"}
           </button>
         </div>
+
+        {/* Progress bar — runs along the bottom edge of the input box */}
+        {status === "loading" && (
+          <div style={{ position:"absolute", bottom:0, left:0, right:0, height:3,
+                        background:"#1E1E22", overflow:"hidden" }}>
+            <div style={{
+              height:"100%",
+              width:`${progress}%`,
+              background:"var(--n3)",
+              transition:"width 0.3s ease-out",
+              boxShadow:"0 0 8px var(--n3)",
+            }} />
+          </div>
+        )}
+
         <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center",
                       borderTop:"1px solid #2A2A2E", padding:"10px 16px 10px 28px" }}>
           <span className="kicker">Free: Executive Summary + Top 10 ROI Actions</span>
