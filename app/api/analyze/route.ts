@@ -15,7 +15,7 @@ const FREE_LIMIT = parseInt(process.env.FREE_TOTAL_LIMIT ?? "1", 10);
 // Free: gpt-4o-mini, fewer tokens
 type TierConfig = { model: string; maxTokens: number };
 const TIER_CONFIG: Record<string, TierConfig> = {
-  agency:  { model: "gpt-4o-mini", maxTokens: 14000 },
+  agency:  { model: "gpt-4o",      maxTokens: 14000 },
   pro:     { model: "gpt-4o",      maxTokens: 14000 },
   founder: { model: "gpt-4o",      maxTokens: 14000 },
   free:    { model: "gpt-4o-mini", maxTokens: 14000 },
@@ -64,7 +64,7 @@ export async function POST(req: NextRequest) {
     const limit = REPORT_LIMITS[license.tier];
     if (usedCount >= limit) {
       const limitMap: Record<string, string> = {
-        agency:  "Monthly limit reached (500/month). Resets on the 1st.",
+        agency:  "Monthly limit reached (100/month). Resets on the 1st.",
         pro:     "Monthly limit reached (20/month). Resets on the 1st.",
         founder: "Monthly limit reached (5/month). Resets on the 1st.",
       };
