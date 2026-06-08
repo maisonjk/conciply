@@ -41,6 +41,20 @@ function getTodayCount() {
   return base + seed;
 }
 
+const LOADING_MESSAGES = [
+  "Assembling your AI executive team…",
+  "Analyzing market size and trends…",
+  "Studying your competitors…",
+  "Identifying growth opportunities…",
+  "Building your acquisition plan…",
+  "Crafting your social media strategy…",
+  "Writing your sales playbook…",
+  "Designing your retention strategy…",
+  "Calculating your top ROI actions…",
+  "Writing your 7-day sprint plan…",
+  "Finalizing your growth playbook…",
+];
+
 type Status = "idle" | "loading" | "done" | "error" | "paywall";
 
 export default function HeroInput() {
@@ -50,13 +64,26 @@ export default function HeroInput() {
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState("");
   const [count, setCount] = useState(0);
+  const [loadingMsg, setLoadingMsg] = useState(LOADING_MESSAGES[0]);
 
   useEffect(() => { setCount(getTodayCount()); }, []);
+
+  // Cycle through status messages while loading
+  useEffect(() => {
+    if (status !== "loading") return;
+    let i = 0;
+    const interval = setInterval(() => {
+      i = (i + 1) % LOADING_MESSAGES.length;
+      setLoadingMsg(LOADING_MESSAGES[i]);
+    }, 2200);
+    return () => clearInterval(interval);
+  }, [status]);
 
   const run = useCallback(async (text: string) => {
     const q = text.trim();
     if (!q || status === "loading") return;
     setStatus("loading");
+    setLoadingMsg(LOADING_MESSAGES[0]);
     setError("");
 
     try {
@@ -69,19 +96,48 @@ export default function HeroInput() {
         },
         body: JSON.stringify({ input: q, language: language === "auto" ? undefined : language }),
       });
-      const data = await res.json();
 
+      // Non-streaming error (quota exceeded, auth failure etc.)
       if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
         if (res.status === 429 || data?.paywall) { setStatus("paywall"); return; }
         setError(data?.error || "Something went wrong.");
         setStatus("error");
         return;
       }
 
-      const stored = saveReport(q, data.report as GrowthReport);
-      setStatus("done");
-      setCount(c => c + 1);
-      router.push(`/report?id=${stored.id}`);
+      // Consume SSE stream
+      const reader = res.body!.getReader();
+      const decoder = new TextDecoder();
+      let buffer = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+
+        // Parse complete SSE lines
+        const lines = buffer.split("\n");
+        buffer = lines.pop() ?? "";
+
+        for (const line of lines) {
+          if (!line.startsWith("data: ")) continue;
+          try {
+            const event = JSON.parse(line.slice(6));
+            if (event.type === "chunk") {
+              // Progress ping — message cycling handled by useEffect above
+            } else if (event.type === "done") {
+              const stored = saveReport(q, event.report as GrowthReport);
+              setStatus("done");
+              setCount(c => c + 1);
+              router.push(`/report?id=${stored.id}`);
+            } else if (event.type === "error") {
+              setError(event.error || "Something went wrong.");
+              setStatus("error");
+            }
+          } catch { /* partial JSON chunk, skip */ }
+        }
+      }
     } catch {
       setError("Network error. Please try again.");
       setStatus("error");
@@ -153,6 +209,20 @@ export default function HeroInput() {
             {status === "loading" ? "Analyzing…" : "Analyze ↵"}
           </button>
         </div>
+
+        {/* Live status message while loading */}
+        {status === "loading" && (
+          <div style={{ borderTop:"1px solid #2A2A2E", padding:"12px 28px",
+                        display:"flex", alignItems:"center", gap:10 }}>
+            <span style={{ width:7, height:7, background:"var(--n1)", display:"inline-block",
+                           borderRadius:"50%", animation:"pulseBlock 1s infinite", flexShrink:0 }} />
+            <span className="font-mono" style={{ fontSize:12, color:"var(--n1)",
+                            letterSpacing:"0.06em", transition:"opacity 0.3s" }}>
+              {loadingMsg}
+            </span>
+          </div>
+        )}
+
         <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center",
                       borderTop:"1px solid #2A2A2E", padding:"10px 16px 10px 28px" }}>
           <span className="kicker">Free: Executive Summary · Top ROI Actions · Social Media Strategy</span>
