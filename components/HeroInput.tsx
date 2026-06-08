@@ -4,8 +4,8 @@ import { useRouter } from "next/navigation";
 import { saveReport, getLicenseKey } from "@/lib/workspace";
 import OutputSkeleton from "./OutputSkeleton";
 import Paywall from "./Paywall";
+import DemoPreview from "./DemoPreview";
 import type { GrowthReport } from "@/lib/types";
-import { FREE_SECTIONS, SECTION_LABELS } from "@/lib/types";
 
 const LANGUAGES = [
   { code: "auto",  label: "🌐 Auto-detect" },
@@ -276,51 +276,8 @@ export default function HeroInput() {
       )}
       {status === "loading" && <OutputSkeleton />}
       {status === "paywall" && <Paywall />}
-      {status === "idle" && <IdlePreview />}
+      {status === "idle" && <DemoPreview />}
     </section>
   );
 }
 
-function IdlePreview() {
-  return (
-    <div style={{ marginTop:"clamp(56px,7vw,96px)" }}>
-      <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between",
-                    flexWrap:"wrap", gap:12, border:"2px solid #2A2A2E",
-                    padding:"18px 28px", marginBottom:2 }}>
-        <div>
-          <div className="kicker" style={{ marginBottom:4 }}>Example output · B2B CRM for agencies</div>
-          <div style={{ fontFamily:"var(--font-archivo), sans-serif", fontWeight:800,
-                        fontSize:"clamp(16px,1.8vw,22px)",
-                        textTransform:"uppercase", color:"#5C5C63" }}>
-            Enter your business or idea above to generate yours →
-          </div>
-        </div>
-        <span className="font-mono" style={{ fontSize:11, color:"#3C3C42", letterSpacing:"0.1em" }}>SAMPLE</span>
-      </div>
-      <div style={{ opacity:0.5, pointerEvents:"none" }}>
-        <div className="cardgrid">
-          {FREE_SECTIONS.map(key => (
-            <div key={key} style={{ gridColumn:"span 6", background:"#0A0A0B", padding:28 }}>
-              <div className="kicker" style={{ marginBottom:12, color:"var(--n1)" }}>
-                {SECTION_LABELS[key]}
-              </div>
-              <div style={{ color:"#C4C4CC", fontSize:15, lineHeight:1.6 }}>
-                {key === "executiveSummary"
-                  ? "ICP: Agency ops leads frustrated by HubSpot complexity and price. Core advantage: 3x faster pipeline visibility at 40% lower cost."
-                  : "#1 Score 9.2 · Launch free PLG tier — removes procurement friction for sub-10 person teams."}
-              </div>
-            </div>
-          ))}
-          <div style={{ gridColumn:"span 3", background:"#0A0A0B", padding:28, borderTop:"2px solid var(--n2)" }}>
-            <div className="kicker" style={{ color:"var(--n2)", marginBottom:8 }}>🔒 Market Analysis</div>
-            <div style={{ color:"#3C3C42", fontSize:13 }}>Unlock to see TAM / SAM / SOM…</div>
-          </div>
-          <div style={{ gridColumn:"span 3", background:"#0A0A0B", padding:28, borderTop:"2px solid var(--n2)" }}>
-            <div className="kicker" style={{ color:"var(--n2)", marginBottom:8 }}>🔒 Acquisition Plan</div>
-            <div style={{ color:"#3C3C42", fontSize:13 }}>Cold outreach, SEO, paid channels…</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
