@@ -133,7 +133,7 @@ export default function PricingTable() {
         }}>
           <button
             onClick={() => setAnnual(false)}
-            className="font-mono"
+            className="font-mono billing-toggle-btn"
             style={{
               padding: "12px 32px",
               fontSize: 12, letterSpacing: "0.12em", textTransform: "uppercase",
@@ -148,7 +148,7 @@ export default function PricingTable() {
           <div style={{ width: 2, background: "#3C3C42", flexShrink: 0 }} />
           <button
             onClick={() => setAnnual(true)}
-            className="font-mono"
+            className="font-mono billing-toggle-btn"
             style={{
               padding: "12px 32px",
               fontSize: 12, letterSpacing: "0.12em", textTransform: "uppercase",
@@ -160,13 +160,14 @@ export default function PricingTable() {
             }}
           >
             Annual
-            <span style={{
-              fontSize: 9, letterSpacing: "0.1em", fontWeight: 800,
-              background: annual ? "#000" : "#2A2A2E",
-              color: annual ? "var(--n3)" : "#5C5C63",
-              padding: "2px 6px",
-              transition: "background .15s, color .15s",
-            }}>
+            <span
+              className="billing-toggle-badge"
+              style={{
+                background: annual ? "#000" : "#2A2A2E",
+                color: annual ? "var(--n3)" : "#5C5C63",
+                transition: "background .15s, color .15s",
+              }}
+            >
               2 MONTHS FREE
             </span>
           </button>
@@ -174,12 +175,7 @@ export default function PricingTable() {
       </div>
 
       {/* ── Plan cards ── */}
-      <div style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(4, 1fr)",
-        gap: 0,
-        border: "2px solid #F4F4F1",
-      }}>
+      <div className="pricing-grid">
         {TIERS.map(({ tier, label, monthlyPrice, annualPrice, annualBilled, badge, features, cta, href, accent, highlight }) => {
           const price   = annual ? annualPrice   : monthlyPrice;
           const subLine = annual ? annualBilled  : "Per month";

@@ -84,9 +84,7 @@ export function Footer() {
 export function VisionStatement() {
   return (
     <section style={{ borderTop:"2px solid #F4F4F1", marginTop:80 }}>
-      <div className="shell" style={{ padding:"clamp(48px,7vw,96px) clamp(16px,4vw,40px)",
-                                       display:"grid", gridTemplateColumns:"1fr 1fr",
-                                       gap:"clamp(40px,6vw,80px)", alignItems:"start" }}>
+      <div className="shell vision-grid" style={{ padding:"clamp(48px,7vw,96px) clamp(16px,4vw,40px)" }}>
         <div>
           <p className="font-mono" style={{ fontSize:13, color:"var(--n1)", letterSpacing:"0.12em",
                                             textTransform:"uppercase", margin:"0 0 20px" }}>Our Vision</p>
@@ -101,7 +99,7 @@ export function VisionStatement() {
             Think Like Owners. Execute Like a Team.
           </p>
         </div>
-        <div style={{ borderLeft:"2px solid #F4F4F1", paddingLeft:"clamp(24px,4vw,56px)" }}>
+        <div className="mission-col" style={{ borderLeft:"2px solid #F4F4F1", paddingLeft:"clamp(24px,4vw,56px)" }}>
           <p className="font-mono" style={{ fontSize:13, color:"var(--n2)", letterSpacing:"0.12em",
                                             textTransform:"uppercase", margin:"0 0 20px" }}>Our Mission</p>
           <p style={{ fontSize:16, lineHeight:1.8, color:"#E0E0E0", marginBottom:20, marginTop:0 }}>
