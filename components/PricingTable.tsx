@@ -252,8 +252,8 @@ export default function PricingTable() {
                     style={{ fontSize: 10, color: "#4A4A55", marginTop: 6, letterSpacing: "0.04em" }}
                   >
                     {annual
-                      ? "Billed once per year. Renews annually."
-                      : "Billed monthly. Cancel anytime."}
+                      ? "Billed once per year. Renews annually. Cancel before renewal to stop."
+                      : "Billed monthly. Cancel anytime — access continues until end of paid period."}
                   </div>
                 )}
               </div>
@@ -373,8 +373,8 @@ export default function PricingTable() {
         }}
       >
         {annual
-          ? "Annual plans are billed as a yearly subscription. Your card will be charged the full annual amount today and renews automatically each year. Cancel anytime before renewal."
-          : "Monthly plans are recurring subscriptions charged each month. Cancel anytime — no lock-in."}
+          ? "Annual plans are billed as a single yearly charge. Renews automatically each year. Cancel before your renewal date to stop — no refunds for the current year."
+          : "Monthly plans renew automatically each month. You can cancel at any time, but you keep full access until the end of the billing period you already paid for — no partial refunds."}
       </p>
       <p
         className="font-mono"
@@ -383,7 +383,7 @@ export default function PricingTable() {
           textAlign: "center", margin: "8px 0 0",
         }}
       >
-        Each report generation and section regeneration counts as 1 report toward your quota.
+        Each report generation and section regeneration counts as 1 report toward your quota. Cancellations take effect at the end of your current billing period — no mid-period refunds.
       </p>
     </div>
   );
