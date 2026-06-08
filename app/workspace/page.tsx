@@ -376,7 +376,57 @@ function WorkspaceContent() {
           @media (max-width: 768px) {
             [data-ws-toggle] { display: block !important; }
           }
+          @media print {
+            /* Hide everything except the print container */
+            body > * { display: none !important; }
+            #print-report { display: block !important; }
+          }
         `}</style>
+      </div>
+
+      {/* ── Hidden print container — renders ALL sections for Print / PDF ── */}
+      <div id="print-report" style={{ display:"none" }}>
+        <div style={{ fontFamily:"system-ui, sans-serif", padding:"24px 32px", maxWidth:900, margin:"0 auto" }}>
+          {/* Cover */}
+          <div style={{ borderBottom:"3px solid #000", paddingBottom:16, marginBottom:32 }}>
+            <div style={{ fontSize:11, letterSpacing:"0.12em", textTransform:"uppercase",
+                          color:"#666", marginBottom:6, fontFamily:"monospace" }}>
+              Conciply Growth Playbook
+            </div>
+            <h1 style={{ fontSize:28, fontWeight:900, margin:"0 0 8px", lineHeight:1.1 }}>
+              {stored.input}
+            </h1>
+            <div style={{ fontSize:12, color:"#666", fontFamily:"monospace" }}>
+              {tier?.toUpperCase()} PLAN · Generated {new Date(stored.createdAt).toLocaleDateString("en-GB", { day:"numeric", month:"long", year:"numeric" })} · conciply.com
+            </div>
+          </div>
+
+          {/* All sections */}
+          {ALL_KEYS.map((key, i) => {
+            const group = GROUPS.find(g => g.keys.includes(key))!;
+            return (
+              <div key={key} style={{ marginBottom:40, pageBreakInside:"avoid" }}>
+                <div style={{ display:"flex", alignItems:"baseline", gap:10, borderBottom:"1px solid #ddd",
+                              paddingBottom:8, marginBottom:16 }}>
+                  <span style={{ fontSize:10, fontFamily:"monospace", color:"#999",
+                                 letterSpacing:"0.1em", textTransform:"uppercase" }}>
+                    {String(i+1).padStart(2,"0")} — {group.label}
+                  </span>
+                  <h2 style={{ fontSize:18, fontWeight:800, margin:0, textTransform:"uppercase",
+                               letterSpacing:"-0.01em" }}>
+                    {SECTION_LABELS[key]}
+                  </h2>
+                </div>
+                <SectionCard sectionKey={key} report={stored.report} locked={false} />
+              </div>
+            );
+          })}
+
+          <div style={{ borderTop:"2px solid #000", paddingTop:12, marginTop:40,
+                        fontSize:11, color:"#999", fontFamily:"monospace", textAlign:"center" }}>
+            Powered by Conciply · conciply.com · AI-generated for strategic inspiration
+          </div>
+        </div>
       </div>
 
       {deepDiveKey && stored && (

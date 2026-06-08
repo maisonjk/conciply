@@ -88,6 +88,7 @@ export default function ReportView({ report, tier, input, reportId }: Props) {
   const activeGroup = GROUPS.find(g => g.keys.includes(active))!;
 
   return (
+    <>
     <div style={{ display:"flex", minHeight:"calc(100vh - 64px)", position:"relative" }}>
 
       {/* ── Mobile sidebar toggle ──────────────────────────────────────────── */}
@@ -303,12 +304,60 @@ export default function ReportView({ report, tier, input, reportId }: Props) {
         </div>
       </main>
 
-      {/* ── Mobile styles injected inline ─────────────────────────────────── */}
+      {/* ── Mobile + print styles ─────────────────────────────────────────── */}
       <style>{`
         @media (max-width: 768px) {
           [data-mobile-toggle] { display: block !important; }
         }
+        @media print {
+          body > * { display: none !important; }
+          #print-report-view { display: block !important; }
+        }
       `}</style>
     </div>
+
+    {/* ── Hidden print container — all sections ── */}
+    <div id="print-report-view" style={{ display:"none" }}>
+      <div style={{ fontFamily:"system-ui, sans-serif", padding:"24px 32px", maxWidth:900, margin:"0 auto" }}>
+        <div style={{ borderBottom:"3px solid #000", paddingBottom:16, marginBottom:32 }}>
+          <div style={{ fontSize:11, letterSpacing:"0.12em", textTransform:"uppercase",
+                        color:"#666", marginBottom:6, fontFamily:"monospace" }}>
+            Conciply Growth Playbook
+          </div>
+          <h1 style={{ fontSize:28, fontWeight:900, margin:"0 0 8px", lineHeight:1.1 }}>
+            {input}
+          </h1>
+          <div style={{ fontSize:12, color:"#666", fontFamily:"monospace" }}>
+            {tier ? `${tier.toUpperCase()} PLAN · ` : "FREE · "}conciply.com
+          </div>
+        </div>
+        {ALL_KEYS.map((key, i) => {
+          const group = GROUPS.find(g => g.keys.includes(key))!;
+          const locked = !isPaid && !FREE_SECTIONS.includes(key);
+          if (locked) return null;
+          return (
+            <div key={key} style={{ marginBottom:40, pageBreakInside:"avoid" }}>
+              <div style={{ display:"flex", alignItems:"baseline", gap:10, borderBottom:"1px solid #ddd",
+                            paddingBottom:8, marginBottom:16 }}>
+                <span style={{ fontSize:10, fontFamily:"monospace", color:"#999",
+                               letterSpacing:"0.1em", textTransform:"uppercase" }}>
+                  {String(i+1).padStart(2,"0")} — {group.label}
+                </span>
+                <h2 style={{ fontSize:18, fontWeight:800, margin:0, textTransform:"uppercase",
+                             letterSpacing:"-0.01em" }}>
+                  {SECTION_LABELS[key]}
+                </h2>
+              </div>
+              <SectionCard sectionKey={key} report={report} locked={false} />
+            </div>
+          );
+        })}
+        <div style={{ borderTop:"2px solid #000", paddingTop:12, marginTop:40,
+                      fontSize:11, color:"#999", fontFamily:"monospace", textAlign:"center" }}>
+          Powered by Conciply · conciply.com · AI-generated for strategic inspiration
+        </div>
+      </div>
+    </div>
+    </>
   );
 }
