@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Nav, { Footer } from "@/components/Nav";
 import SectionCard from "@/components/SectionCard";
 import AssetGenerator from "@/components/AssetGenerator";
-import { getReport, getLicensePlan, getLicenseKey, updateReportSection } from "@/lib/workspace";
+import { getReport, getLicensePlan, getLicenseKey } from "@/lib/workspace";
 import { SECTION_LABELS, FREE_SECTIONS } from "@/lib/types";
 import type { StoredReport, SectionKey, GrowthReport } from "@/lib/types";
 
@@ -85,7 +85,6 @@ function WorkspaceContent() {
   const [active, setActive]           = useState<SectionKey>("executiveSummary");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [deepDiveKey, setDeepDiveKey] = useState<SectionKey | null>(null);
-  const [regenLoading, setRegenLoading] = useState<SectionKey | null>(null);
   const [copied, setCopied]           = useState(false);
   const [billingLoading, setBillingLoading] = useState(false);
   const [billingError, setBillingError] = useState("");
@@ -98,27 +97,6 @@ function WorkspaceContent() {
     setStored(r);
     setTier(plan);
   }, [id, router]);
-
-  const handleRegenerate = async (key: SectionKey) => {
-    if (!stored) return;
-    setRegenLoading(key);
-    try {
-      const licenseKey = getLicenseKey();
-      const sectionData = JSON.stringify((stored.report as unknown as Record<string, unknown>)[key] ?? {});
-      const res = await fetch("/api/refine", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", ...(licenseKey ? { "x-conciply-license": licenseKey } : {}) },
-        body: JSON.stringify({ sectionKey: key, input: stored.input, currentContent: sectionData }),
-      });
-      const data = await res.json();
-      if (res.ok && data.section) {
-        updateReportSection(stored.id, key, data.section as GrowthReport[typeof key]);
-        setStored(getReport(stored.id));
-      }
-    } finally {
-      setRegenLoading(null);
-    }
-  };
 
   const handleCopy = () => {
     if (!stored) return;
@@ -216,12 +194,6 @@ function WorkspaceContent() {
                                      color: isActive ? "#F4F4F1" : "#9A9AA8", lineHeight:1.3 }}>
                         {SECTION_LABELS[key]}
                       </span>
-                      {regenLoading === key && (
-                        <span style={{ marginLeft:"auto", fontSize:10, color:"var(--n1)",
-                                       fontFamily:"var(--font-mono)", animation:"pulse 1s infinite" }}>
-                          ↻
-                        </span>
-                      )}
                     </button>
                   );
                 })}
@@ -288,14 +260,6 @@ function WorkspaceContent() {
               {/* Divider */}
               <div style={{ width:1, height:20, background:"#2A2A2E", margin:"0 4px", flexShrink:0 }} />
 
-              {/* Section-specific actions */}
-              <button onClick={() => handleRegenerate(active)}
-                disabled={regenLoading !== null} className="btn-ghost"
-                style={{ padding:"5px 10px", fontSize:10, letterSpacing:"0.08em", whiteSpace:"nowrap",
-                         color:"var(--n1)", borderColor:"var(--n1)",
-                         opacity: regenLoading ? 0.5 : 1 }}>
-                {regenLoading === active ? "↻ Regenerating…" : "↻ Regen Section"}
-              </button>
               {isPaid && (
                 <button onClick={() => setDeepDiveKey(active)} className="btn-ghost"
                   style={{ padding:"5px 10px", fontSize:10, letterSpacing:"0.08em", whiteSpace:"nowrap",
@@ -334,20 +298,11 @@ function WorkspaceContent() {
               )}
             </div>
 
-            {regenLoading === active ? (
-              <div style={{ padding:"32px 0" }}>
-                <div className="skel" style={{ height:12, width:"40%", marginBottom:12 }} />
-                <div className="skel" style={{ height:12, width:"65%", marginBottom:8 }} />
-                <div className="skel" style={{ height:12, width:"50%" }} />
-                <div className="kicker" style={{ marginTop:20, color:"var(--n1)" }}>Regenerating section…</div>
-              </div>
-            ) : (
-              <SectionCard
+            <SectionCard
                 sectionKey={active}
                 report={stored.report}
                 locked={false}
               />
-            )}
 
             {/* Prev / Next navigation */}
             <div style={{ display:"flex", justifyContent:"space-between", marginTop:40, gap:12 }}>

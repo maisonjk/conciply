@@ -7,7 +7,6 @@ interface Props {
   report: Partial<GrowthReport>;
   locked: boolean;
   onDeepDive?: (key: SectionKey) => void;
-  onRegenerate?: (key: SectionKey) => void;
 }
 
 // ── Shared style helpers ─────────────────────────────────────────────────────
@@ -631,7 +630,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
   );
 }
 
-export default function SectionCard({ sectionKey, report, locked, onDeepDive, onRegenerate }: Props) {
+export default function SectionCard({ sectionKey, report, locked, onDeepDive }: Props) {
   if (locked) {
     return (
       <div style={{ position:"relative", overflow:"hidden", marginBottom:2 }}>
@@ -693,10 +692,6 @@ export default function SectionCard({ sectionKey, report, locked, onDeepDive, on
                     padding:"14px 24px", borderBottom:"1px solid #2A2A2E" }}>
         <span className="kicker" style={{ color:"var(--n1)" }}>{SECTION_LABELS[sectionKey]}</span>
         <div style={{ display:"flex", gap:6 }}>
-          {onRegenerate && (
-            <button className="btn-ghost" onClick={() => onRegenerate(sectionKey)}
-              style={{ padding:"6px 12px", fontSize:11 }}>↻ Regen</button>
-          )}
           {onDeepDive && (
             <button className="btn-ghost" onClick={() => onDeepDive(sectionKey)}
               style={{ padding:"6px 12px", fontSize:11, borderColor:"var(--n2)", color:"var(--n2)" }}>
