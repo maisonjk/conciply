@@ -70,19 +70,48 @@ export default function HeroInput() {
         },
         body: JSON.stringify({ input: q }),
       });
-      const data = await res.json();
 
       if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
         if (res.status === 429 || data?.paywall) { setStatus("paywall"); return; }
         setError(data?.error || "Something went wrong.");
         setStatus("error");
         return;
       }
 
-      const stored = saveReport(q, data.report as GrowthReport);
-      setStatus("done");
-      setCount(c => c + 1);
-      router.push(`/report?id=${stored.id}`);
+      // API streams SSE — read line by line until we get the "done" event
+      const reader = res.body?.getReader();
+      const decoder = new TextDecoder();
+      if (!reader) throw new Error("No response body");
+
+      let buffer = "";
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n");
+        buffer = lines.pop() ?? "";
+        for (const line of lines) {
+          if (!line.startsWith("data: ")) continue;
+          const payload = JSON.parse(line.slice(6));
+          if (payload.type === "error") {
+            setError(payload.error || "Something went wrong.");
+            setStatus("error");
+            return;
+          }
+          if (payload.type === "paywall") {
+            setStatus("paywall");
+            return;
+          }
+          if (payload.type === "done") {
+            const stored = saveReport(q, payload.report as GrowthReport);
+            setStatus("done");
+            setCount(c => c + 1);
+            router.push(`/report?id=${stored.id}`);
+            return;
+          }
+        }
+      }
     } catch {
       setError("Network error. Please try again.");
       setStatus("error");
