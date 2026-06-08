@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
 
   // ── Quota checks (before streaming starts) ────────────────────────────
   if (!license) {
-    const allowed = checkRateLimit(ip, FREE_LIMIT);
+    const allowed = await checkRateLimit(ip, FREE_LIMIT);
     if (!allowed) {
       return NextResponse.json({ paywall: true, error: "Free limit reached." }, { status: 429 });
     }
@@ -135,7 +135,7 @@ export async function POST(req: NextRequest) {
             (freeReport as Record<SectionKey, unknown>)[key] =
               (fullReport as Record<SectionKey, unknown>)[key];
           }
-          remaining = getRemainingAttempts(ip, FREE_LIMIT);
+          remaining = await getRemainingAttempts(ip, FREE_LIMIT);
           send({ type: "done", report: freeReport, remaining, tier: null });
         }
       } catch (err) {

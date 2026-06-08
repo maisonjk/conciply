@@ -112,6 +112,9 @@ export default function HeroInput() {
           }
         }
       }
+      // Stream closed without a done/error event — server likely crashed mid-stream
+      setError("The server closed the connection before finishing. Please try again.");
+      setStatus("error");
     } catch {
       setError("Network error. Please try again.");
       setStatus("error");

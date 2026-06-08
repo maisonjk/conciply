@@ -48,10 +48,13 @@ export async function POST(req: NextRequest) {
       break;
     }
 
-    // ── Subscription paused (payment failed repeatedly) ───────────────────
+    // ── Subscription payment failed repeatedly (all Stripe retries exhausted) ─
+    // Do NOT revoke on "past_due" — that fires on the first failed payment while
+    // Stripe is still retrying. Only revoke once Stripe gives up ("unpaid") or
+    // the subscription is fully cancelled ("canceled").
     case "customer.subscription.updated": {
       const sub = event.data.object as Stripe.Subscription;
-      if (sub.status === "past_due" || sub.status === "unpaid" || sub.status === "canceled") {
+      if (sub.status === "unpaid" || sub.status === "canceled") {
         const customerId = typeof sub.customer === "string" ? sub.customer : sub.customer.id;
         await revokeByCustomer(customerId, `subscription_${sub.status}`);
       }
