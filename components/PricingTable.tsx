@@ -383,7 +383,7 @@ export default function PricingTable() {
           textAlign: "center", margin: "8px 0 0",
         }}
       >
-        Each report generation and section regeneration counts as 1 report toward your quota. Cancellations take effect at the end of your current billing period — no mid-period refunds.
+        Cancellations take effect at the end of your current billing period — no mid-period refunds.
       </p>
     </div>
   );
