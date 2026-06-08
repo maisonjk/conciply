@@ -88,6 +88,7 @@ function WorkspaceContent() {
   const [regenLoading, setRegenLoading] = useState<SectionKey | null>(null);
   const [copied, setCopied]           = useState(false);
   const [billingLoading, setBillingLoading] = useState(false);
+  const [billingError, setBillingError] = useState("");
 
   useEffect(() => {
     const plan = getLicensePlan();
@@ -137,7 +138,7 @@ function WorkspaceContent() {
       });
       const data = await res.json();
       if (data.url) window.location.href = data.url;
-      else alert(data.error || "Could not open billing portal.");
+      else { setBillingError(data.error || "Could not open billing portal."); setTimeout(() => setBillingError(""), 4000); }
     } finally {
       setBillingLoading(false);
     }
@@ -145,7 +146,7 @@ function WorkspaceContent() {
 
   if (!stored) return null;
 
-  const isPro     = tier === "pro" || tier === "agency";
+  const isPaid    = !!tier;
   const activeGroup = GROUPS.find(g => g.keys.includes(active))!;
 
   return (
@@ -260,25 +261,28 @@ function WorkspaceContent() {
               {/* Global actions */}
               <a href={`/report?id=${stored.id}`} className="btn-ghost"
                 style={{ padding:"5px 10px", fontSize:10, letterSpacing:"0.08em", whiteSpace:"nowrap" }}>
-                ← Report
+                ← View Report
               </a>
               <button onClick={handleCopy} className="btn-ghost"
                 style={{ padding:"5px 10px", fontSize:10, letterSpacing:"0.08em", whiteSpace:"nowrap",
                          color: copied ? "var(--n3)" : undefined,
                          borderColor: copied ? "var(--n3)" : undefined }}>
-                {copied ? "✓ Copied" : "⎘ Copy"}
+                {copied ? "✓ Copied!" : "⎘ Copy Report"}
               </button>
               <button onClick={() => window.print()} className="btn-ghost"
                 style={{ padding:"5px 10px", fontSize:10, letterSpacing:"0.08em", whiteSpace:"nowrap" }}>
-                ⎙ Print
+                ⎙ Print / PDF
               </button>
               <a href="/" className="btn-ghost"
                 style={{ padding:"5px 10px", fontSize:10, letterSpacing:"0.08em", whiteSpace:"nowrap" }}>
-                + New
+                ⊕ New Report
               </a>
               <button onClick={handleBilling} disabled={billingLoading} className="btn-ghost"
-                style={{ padding:"5px 10px", fontSize:10, letterSpacing:"0.08em", whiteSpace:"nowrap" }}>
-                {billingLoading ? "…" : "⚙ Billing"}
+                title={billingError || undefined}
+                style={{ padding:"5px 10px", fontSize:10, letterSpacing:"0.08em", whiteSpace:"nowrap",
+                         color: billingError ? "var(--n2)" : undefined,
+                         borderColor: billingError ? "var(--n2)" : undefined }}>
+                {billingLoading ? "Opening…" : billingError ? "⚠ Billing error" : "⚙ Billing"}
               </button>
 
               {/* Divider */}
@@ -290,9 +294,9 @@ function WorkspaceContent() {
                 style={{ padding:"5px 10px", fontSize:10, letterSpacing:"0.08em", whiteSpace:"nowrap",
                          color:"var(--n1)", borderColor:"var(--n1)",
                          opacity: regenLoading ? 0.5 : 1 }}>
-                {regenLoading === active ? "↻ …" : "↻ Regen"}
+                {regenLoading === active ? "↻ Regenerating…" : "↻ Regen Section"}
               </button>
-              {isPro && (
+              {isPaid && (
                 <button onClick={() => setDeepDiveKey(active)} className="btn-ghost"
                   style={{ padding:"5px 10px", fontSize:10, letterSpacing:"0.08em", whiteSpace:"nowrap",
                            color:"var(--n2)", borderColor:"var(--n2)" }}>
