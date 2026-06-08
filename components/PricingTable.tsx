@@ -245,17 +245,6 @@ export default function PricingTable() {
                   {subLine}
                 </div>
 
-                {/* Billing notice */}
-                {tier && (
-                  <div
-                    className="font-mono"
-                    style={{ fontSize: 10, color: "#4A4A55", marginTop: 6, letterSpacing: "0.04em" }}
-                  >
-                    {annual
-                      ? "Billed once per year. Renews annually. Cancel before renewal to stop."
-                      : "Billed monthly. Cancel anytime — access continues until end of paid period."}
-                  </div>
-                )}
               </div>
 
               {/* Divider */}
@@ -368,22 +357,13 @@ export default function PricingTable() {
       <p
         className="font-mono"
         style={{
-          fontSize: 11, color: "#4A4A55", letterSpacing: "0.04em",
-          textAlign: "center", margin: "16px 0 0",
+          fontSize: 12, color: "#7A7A88", letterSpacing: "0.03em",
+          textAlign: "center", margin: "16px 0 0", lineHeight: 1.6,
         }}
       >
         {annual
           ? "Annual plans are billed as a single yearly charge. Renews automatically each year. Cancel before your renewal date to stop — no refunds for the current year."
-          : "Monthly plans renew automatically each month. You can cancel at any time, but you keep full access until the end of the billing period you already paid for — no partial refunds."}
-      </p>
-      <p
-        className="font-mono"
-        style={{
-          fontSize: 11, color: "#4A4A55", letterSpacing: "0.04em",
-          textAlign: "center", margin: "8px 0 0",
-        }}
-      >
-        Cancellations take effect at the end of your current billing period — no mid-period refunds.
+          : "Monthly plans renew automatically each month. You can cancel at any time, but you keep full access until the end of the billing period you already paid for — no partial refunds. Cancellations take effect at the end of your current billing period — no mid-period refunds."}
       </p>
     </div>
   );
