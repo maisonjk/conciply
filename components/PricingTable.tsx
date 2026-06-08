@@ -48,7 +48,7 @@ const TIERS: TierDef[] = [
     features: [
       { text: "5 reports",               active: true  },
       { text: "All 17 sections",         active: true  },
-      { text: "Workspace (edit + regen)",active: true  },
+      { text: "Workspace + regenerate",  active: true  },
       { text: "Copy & Print / PDF",      active: true  },
       { text: "Asset generators",        active: false },
       { text: "Client use",              active: false },
@@ -67,7 +67,7 @@ const TIERS: TierDef[] = [
     features: [
       { text: "20 reports",              active: true  },
       { text: "All 17 sections",         active: true  },
-      { text: "Workspace",               active: true  },
+      { text: "Workspace + regenerate",  active: true  },
       { text: "Asset generators",        active: true  },
       { text: "Copy & Print / PDF",      active: true  },
       { text: "Client use",              active: false },
@@ -86,7 +86,7 @@ const TIERS: TierDef[] = [
     features: [
       { text: "1,000 reports / month",    active: true  },
       { text: "All 17 sections",         active: true  },
-      { text: "Workspace",               active: true  },
+      { text: "Workspace + regenerate",  active: true  },
       { text: "Asset generators",        active: true  },
       { text: "Copy & Print / PDF",      active: true  },
       { text: "Client use",              active: true  },
@@ -379,6 +379,15 @@ export default function PricingTable() {
         {annual
           ? "Annual plans are billed as a yearly subscription. Your card will be charged the full annual amount today and renews automatically each year. Cancel anytime before renewal."
           : "Monthly plans are recurring subscriptions charged each month. Cancel anytime — no lock-in."}
+      </p>
+      <p
+        className="font-mono"
+        style={{
+          fontSize: 11, color: "#4A4A55", letterSpacing: "0.04em",
+          textAlign: "center", margin: "8px 0 0",
+        }}
+      >
+        Each report generation and section regeneration counts as 1 report toward your quota.
       </p>
     </div>
   );
