@@ -634,18 +634,55 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
 export default function SectionCard({ sectionKey, report, locked, onDeepDive, onRegenerate }: Props) {
   if (locked) {
     return (
-      <div style={{ border:"1px solid #1E1E22", padding:"20px 24px", marginBottom:2,
-                    display:"flex", alignItems:"center", gap:16 }}>
-        <span style={{ color:"var(--n2)", fontSize:18 }}>🔒</span>
-        <div>
-          <div className="kicker" style={{ color:"var(--n2)", marginBottom:4 }}>
-            {SECTION_LABELS[sectionKey]}
+      <div style={{ position:"relative", overflow:"hidden", marginBottom:2 }}>
+        {/* Blurred fake content underneath */}
+        <div style={{ filter:"blur(4px)", userSelect:"none", pointerEvents:"none",
+                      border:"1px solid #1E1E22", padding:"20px 24px", opacity:0.55 }}>
+          <div style={{ marginBottom:16 }}>
+            <div style={{ height:12, background:"#2A2A2E", borderRadius:2, width:"72%", marginBottom:8 }} />
+            <div style={{ height:12, background:"#2A2A2E", borderRadius:2, width:"88%", marginBottom:8 }} />
+            <div style={{ height:12, background:"#2A2A2E", borderRadius:2, width:"60%", marginBottom:8 }} />
+            <div style={{ height:12, background:"#2A2A2E", borderRadius:2, width:"80%" }} />
           </div>
-          <div style={{ fontSize:13, color:"#5C5C63" }}>Unlock with a paid plan to view this section.</div>
+          <div style={{ display:"flex", gap:12, marginBottom:16 }}>
+            {[1,2,3].map(i => (
+              <div key={i} style={{ flex:1, border:"1px solid #2A2A2E", padding:"12px 14px" }}>
+                <div style={{ height:10, background:"#3A3A42", borderRadius:2, width:"60%", marginBottom:6 }} />
+                <div style={{ height:10, background:"#2A2A2E", borderRadius:2, width:"90%", marginBottom:4 }} />
+                <div style={{ height:10, background:"#2A2A2E", borderRadius:2, width:"75%" }} />
+              </div>
+            ))}
+          </div>
+          <div style={{ marginBottom:8 }}>
+            <div style={{ height:10, background:"#2A2A2E", borderRadius:2, width:"95%", marginBottom:6 }} />
+            <div style={{ height:10, background:"#2A2A2E", borderRadius:2, width:"82%", marginBottom:6 }} />
+            <div style={{ height:10, background:"#2A2A2E", borderRadius:2, width:"70%" }} />
+          </div>
         </div>
-        <a href="/pricing" className="btn-neon" style={{ marginLeft:"auto", padding:"8px 16px", fontSize:13 }}>
-          Unlock →
-        </a>
+
+        {/* Overlay CTA */}
+        <div style={{
+          position:"absolute", inset:0,
+          background:"linear-gradient(to bottom, rgba(10,10,11,0.5) 0%, rgba(10,10,11,0.92) 60%)",
+          display:"flex", flexDirection:"column",
+          alignItems:"center", justifyContent:"center",
+          gap:12, padding:"24px 32px",
+        }}>
+          <span style={{ fontSize:22 }}>🔒</span>
+          <div style={{ textAlign:"center" }}>
+            <div className="font-mono" style={{ fontSize:11, letterSpacing:"0.12em",
+                           textTransform:"uppercase", color:"var(--n2)", marginBottom:6 }}>
+              {SECTION_LABELS[sectionKey]}
+            </div>
+            <div style={{ fontSize:13, color:"#9A9AA8", lineHeight:1.5 }}>
+              Unlock this section with a paid plan.
+            </div>
+          </div>
+          <a href="/pricing" className="btn-neon"
+            style={{ padding:"10px 24px", fontSize:12, marginTop:4 }}>
+            Unlock from $19 →
+          </a>
+        </div>
       </div>
     );
   }
