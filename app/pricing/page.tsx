@@ -20,7 +20,7 @@ export default function PricingPage() {
             style={{ fontSize: "clamp(40px,6vw,80px)", marginBottom: 16, marginTop: 0 }}
           >
             Simple.<br />
-            <span style={{ color: "var(--n2)" }}>No surprises.</span>
+            <span style={{ color: "var(--n2)" }}>Flexible.</span>
           </h1>
           <p
             style={{
@@ -31,7 +31,7 @@ export default function PricingPage() {
               margin: 0,
             }}
           >
-            Cancel anytime. Upgrade or downgrade as your team grows.
+            Monthly or annual billing. Cancel before your next renewal and you won&apos;t be charged again.
           </p>
         </div>
 
