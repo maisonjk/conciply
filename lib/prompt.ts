@@ -32,7 +32,10 @@ RULES:
 - For content businesses and small businesses, treat social media as a primary growth channel with as much detail as B2B tactics.
 - Make reasonable assumptions when information is missing. State your assumptions in executiveSummary.assumptions.
 - Every RoiAction must have: impact (1-10), speed (1-10), difficulty (1-10), score = (impact * speed) / difficulty. Sort actions highest score first.
-- Minimum richness per section: 3-4 items per array, each item 1-2 sentences with specifics. Be concise but specific — no padding, no repetition.
+- MINIMUM RICHNESS — non-negotiable: 5-7 items per array, each item 2-4 sentences. If you are producing fewer items or shorter sentences you are failing the user.
+- DEPTH REQUIREMENT: Every tactic must include (1) the exact action, (2) the specific tool or platform to use, (3) a concrete metric or outcome to aim for, and (4) a realistic timeframe. Vague advice is worse than no advice.
+- DO NOT TRUNCATE. Write every single section to completion. Do not abbreviate, shorten, or summarise. The customer is paying for a comprehensive playbook — give them one.
+- LENGTH SIGNAL: A high-quality report will be 10,000-14,000 tokens. If yours is shorter, you have not been specific enough.
 
 Respond with a single JSON object matching this exact schema. No markdown, no explanation, only JSON:
 
@@ -41,18 +44,18 @@ Respond with a single JSON object matching this exact schema. No markdown, no ex
     "icp": "string — 2 sentences: who they are and their core pain",
     "uvp": "string — 1-2 sentences: specific differentiated value and key proof point",
     "topOpportunity": "string — 1-2 sentences: highest-leverage move and what it unlocks",
-    "assumptions": ["string — each assumption with brief rationale"]
+    "assumptions": ["string — each assumption with brief rationale, min 4 assumptions"]
   },
   "marketAnalysis": {
-    "tam": "string — dollar figure with methodology and sources",
-    "sam": "string — dollar figure with targeting logic",
-    "som": "string — realistic year-1 capture with reasoning",
-    "trends": ["string — 3-4 trends, each with implication for this business"]
+    "tam": "string — dollar figure with methodology, source references, and growth rate",
+    "sam": "string — dollar figure with detailed targeting logic and market share rationale",
+    "som": "string — realistic year-1 and year-3 capture with specific reasoning",
+    "trends": ["string — 5-6 trends, each 2-3 sentences explaining the trend and its specific implication for this business"]
   },
   "competitorAnalysis": {
-    "competitors": [{ "name": "string", "strength": "string — 1 sentence", "weakness": "string — 1 sentence, exploitable gap" }],
-    "gaps": ["string — 3-4 market gaps with how to exploit each"],
-    "advantages": ["string — 3-4 advantages specific to this business"]
+    "competitors": [{ "name": "string", "strength": "string — 2 sentences", "weakness": "string — 2 sentences on the exploitable gap and how to win against them" }],
+    "gaps": ["string — 5-6 market gaps, each 2-3 sentences on the opportunity and exact approach to exploit it"],
+    "advantages": ["string — 5-6 advantages specific to this business with concrete supporting detail"]
   },
   "positioning": {
     "uvp": "string — one punchy sentence a customer would repeat",
@@ -60,36 +63,36 @@ Respond with a single JSON object matching this exact schema. No markdown, no ex
     "brandNarrative": "string — 3-4 sentences: emotion + outcome + proof"
   },
   "growthOpportunities": {
-    "organic": ["string — 3-4 tactics with channel, key steps, and expected timeline"],
-    "paid": ["string — 3-4 paid channels with budget range and expected CPA or ROAS"],
-    "plg": ["string — 3-4 product-led tactics with trigger, mechanic, and outcome"],
-    "viral": ["string — 3-4 viral loops with trigger and incentive"]
+    "organic": ["string — 6-7 organic tactics, each 2-3 sentences: channel, exact steps, tool, expected timeline and outcome"],
+    "paid": ["string — 5-6 paid channels, each 2-3 sentences: platform, audience targeting approach, budget range, expected CPA or ROAS"],
+    "plg": ["string — 5-6 product-led growth tactics, each 2-3 sentences: trigger, mechanic, expected outcome with metric"],
+    "viral": ["string — 5-6 viral loops, each 2-3 sentences: trigger, incentive structure, expected coefficient"]
   },
   "acquisitionPlan": {
-    "channels": [{ "name": "string", "priority": "high|medium|low", "rationale": "string — 2-3 sentences with specifics, expected volume, cost" }],
-    "tactics": ["string — 5-6 specific go-to-market tactics with step-by-step actions"],
-    "budgetGuidance": "string — 3-4 sentences: budget split across channels, rationale, ramp timeline"
+    "channels": [{ "name": "string", "priority": "high|medium|low", "rationale": "string — 3-4 sentences: why this channel, specific targeting approach, expected volume and cost, how to measure success" }],
+    "tactics": ["string — 7-8 specific go-to-market tactics, each with numbered step-by-step actions, tool names, and expected outcome"],
+    "budgetGuidance": "string — 5-6 sentences: exact budget split across channels with percentages, rationale for each allocation, ramp timeline, when to rebalance"
   },
   "funnelImprovements": {
-    "awareness": ["string — 4-5 specific tactics with platform, format, frequency, and hook"],
-    "activation": ["string — 4-5 activation optimizations with specific copy, UX, or flow changes"],
-    "retention": ["string — 4-5 retention mechanisms with trigger, message, timing"],
-    "referral": ["string — 4-5 referral/word-of-mouth tactics with specific incentive structure"]
+    "awareness": ["string — 6-7 tactics, each 2-3 sentences: platform, format, posting frequency, specific hook or angle, expected reach"],
+    "activation": ["string — 6-7 activation optimizations, each 2-3 sentences: specific copy change, UX improvement, or flow change, and the conversion impact expected"],
+    "retention": ["string — 6-7 retention mechanisms, each 2-3 sentences: trigger, message content, timing, expected churn reduction"],
+    "referral": ["string — 5-6 referral tactics, each 2-3 sentences: specific incentive structure, how to launch, expected referral rate"]
   },
   "marketingAssets": {
-    "landingCopy": "string — full above-the-fold copy: headline, subheadline, 3 bullet benefits, CTA button text",
-    "adCopy": ["string — 6 ad headlines or hooks, each under 10 words, high-curiosity or pain-driven"],
-    "emailSequence": [{ "subject": "string — curiosity subject line", "body": "string — 4-6 sentence email body, specific value", "cta": "string — specific CTA text" }]
+    "landingCopy": "string — complete above-the-fold copy block: hero headline, subheadline, 5 benefit bullets, social proof line, and CTA button text. Write it ready to paste.",
+    "adCopy": ["string — 8-10 ad headlines or hooks, each under 10 words, alternating between curiosity, pain, and outcome angles — label each angle type"],
+    "emailSequence": [{ "subject": "string — curiosity subject line", "body": "string — 6-8 sentence email body, opens with specific pain, builds to value, includes a micro-story or stat", "cta": "string — specific CTA text with button copy and landing page destination" }]
   },
   "salesAssets": {
-    "outreachScript": "string — complete cold DM or email, 5-8 sentences, personalised to ICP, specific pain + offer + CTA",
-    "discoveryQuestions": ["string — 6 deep discovery questions that uncover budget, urgency, and decision criteria"],
-    "objections": [{ "objection": "string", "response": "string — 3-4 sentence reframe with social proof or proof point" }]
+    "outreachScript": "string — complete cold DM or email, 8-10 sentences, personalised to ICP, references a specific pain point, makes a specific offer, includes social proof, clear CTA. Write it ready to send.",
+    "discoveryQuestions": ["string — 8 deep discovery questions that uncover budget, urgency, decision criteria, and blockers — include the reason each question matters"],
+    "objections": [{ "objection": "string", "response": "string — 4-5 sentence reframe: acknowledge, pivot, use specific social proof or data point, close with a question" }]
   },
   "retentionStrategy": {
-    "onboarding": ["string — 5-6 onboarding steps with specific actions, timing, and success metric"],
-    "engagementLoops": ["string — 5-6 engagement loops with trigger, action, variable reward"],
-    "upsells": ["string — 4-5 upsell/cross-sell moments with timing, offer, and framing"]
+    "onboarding": ["string — 6-7 onboarding steps, each 2-3 sentences: exact action, tool used, timing, and success metric that signals the user hit the 'aha moment'"],
+    "engagementLoops": ["string — 6-7 engagement loops, each 2-3 sentences: trigger, specific action to prompt, variable reward mechanic, and expected DAU/WAU impact"],
+    "upsells": ["string — 5-6 upsell/cross-sell moments, each 2-3 sentences: timing trigger, specific offer framing, expected conversion rate and revenue lift"]
   },
   "socialMediaStrategy": {
     "platforms": [
@@ -114,14 +117,14 @@ Respond with a single JSON object matching this exact schema. No markdown, no ex
     "viralFormulas": ["string — 5-6 proven viral content formulas adapted specifically for this business, e.g. 'Before/After', 'Day in the life', 'Mistake I made'"]
   },
   "kpiDashboard": {
-    "metrics": [{ "metric": "string", "target": "string — specific number or range", "frequency": "daily|weekly|monthly" }],
-    "targets": ["string — 5-6 specific 90-day targets with numbers"],
-    "warnings": ["string — 4-5 red flags with specific threshold and response action"]
+    "metrics": [{ "metric": "string", "target": "string — specific number or range with baseline assumption", "frequency": "daily|weekly|monthly" }],
+    "targets": ["string — 8-10 specific 30/60/90-day targets with exact numbers and how to hit them"],
+    "warnings": ["string — 6-7 red flags, each 2 sentences: specific threshold that triggers alarm and exact response action to take"]
   },
   "topRoiActions": {
     "actions": [{
       "title": "string",
-      "description": "string — 3-4 sentences: what exactly to do, specific tools/steps, expected outcome with timeframe",
+      "description": "string — 4-5 sentences: what exactly to do step by step, specific tools/platforms, expected outcome with timeframe, how to measure success",
       "impact": number,
       "speed": number,
       "difficulty": number,
@@ -129,17 +132,17 @@ Respond with a single JSON object matching this exact schema. No markdown, no ex
     }]
   },
   "plan7Day": {
-    "days": [{ "day": number, "tasks": ["string — specific task with deliverable, tool, and time estimate"] }]
+    "days": [{ "day": number, "tasks": ["string — specific task with exact deliverable, tool to use, and realistic time estimate in minutes"] }]
   },
   "plan30Day": {
-    "weeks": [{ "week": number, "focus": "string", "tasks": ["string — specific task with measurable outcome"] }]
+    "weeks": [{ "week": number, "focus": "string — theme for the week", "tasks": ["string — 4-6 specific tasks per week, each with measurable outcome and tool"] }]
   },
   "plan90Day": {
-    "months": [{ "month": number, "theme": "string", "milestones": ["string — specific milestone with metric target"] }]
+    "months": [{ "month": number, "theme": "string — month theme", "milestones": ["string — 4-6 specific milestones per month with exact metric target and how to measure it"] }]
   },
   "immediateActions": {
-    "next24h": ["string — 5-6 actions, each completable in under 2 hours, with specific tool and outcome"],
-    "next72h": ["string — 5-6 actions that build on 24h work, each with specific deliverable"]
+    "next24h": ["string — 6-8 actions completable today, each 2 sentences: exact steps, specific tool, and concrete outcome to aim for"],
+    "next72h": ["string — 6-8 actions that build on 24h work, each 2 sentences: specific deliverable, tool, and metric to hit"]
   }
 }`;
 }

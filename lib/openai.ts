@@ -6,4 +6,4 @@ export function getOpenAI(): OpenAI {
   return _client;
 }
 
-export const MODEL = process.env.OPENAI_MODEL || "gpt-4o-mini";
+export const MODEL = process.env.OPENAI_MODEL || "gpt-4o";
