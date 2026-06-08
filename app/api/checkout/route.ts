@@ -6,8 +6,13 @@ export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => ({}));
   const tier = body.tier as LicenseTier;
   const annual = body.annual === true;
-  const key = annual ? (`${tier}_annual` as keyof typeof PRICES) : tier;
-  const priceId = PRICES[key];
+
+  // Try annual price first; fall back to monthly if annual env var not set
+  const annualKey = `${tier}_annual` as keyof typeof PRICES;
+  const monthlyKey = tier as keyof typeof PRICES;
+  const priceId = annual
+    ? (PRICES[annualKey] || PRICES[monthlyKey])
+    : PRICES[monthlyKey];
 
   if (!priceId) {
     return NextResponse.json({ error: "Invalid tier." }, { status: 400 });
