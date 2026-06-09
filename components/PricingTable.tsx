@@ -89,7 +89,7 @@ const TIERS: TierDef[] = [
     annualBilled: "$948 / year",
     badge: null,
     features: [
-      { text: "100 reports / month",      active: true  },
+      { text: "60 reports / month",       active: true  },
       { text: "All 17 sections",         active: true  },
       { text: "Workspace + regenerate",  active: true  },
       { text: "Asset generators",        active: true  },
@@ -373,8 +373,8 @@ export default function PricingTable() {
         }}
       >
         {annual
-          ? "Annual plans are billed as a single yearly charge. Renews automatically each year. Cancel before your renewal date to stop — no refunds for the current year."
-          : "Monthly plans renew automatically each month. You can cancel at any time, but you keep full access until the end of the billing period you already paid for — no partial refunds. Cancellations take effect at the end of your current billing period — no mid-period refunds."}
+          ? "Annual plans are billed as a single yearly charge. Renews automatically. Cancel before your renewal date to stop — no refunds for the current year."
+          : "Monthly plans renew automatically. Cancel any time — you keep full access until the end of the period you already paid for. No partial refunds."}
       </p>
     </div>
   );

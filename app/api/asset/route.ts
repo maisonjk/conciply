@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getOpenAI, MODEL } from "@/lib/openai";
 import { verifyLicense } from "@/lib/license";
+import { kvGet } from "@/lib/kv";
 import { SECTION_LABELS } from "@/lib/types";
 import type { SectionKey, GrowthReport } from "@/lib/types";
 
@@ -9,6 +10,12 @@ export async function POST(req: NextRequest) {
   const license = verifyLicense(licenseHeader);
   if (!license || license.tier === "founder") {
     return NextResponse.json({ error: "Pro or Agency license required." }, { status: 401 });
+  }
+
+  // Check revocation (same as /api/analyze and /api/refine)
+  const revoked = await kvGet<string>(`revoked:${licenseHeader}`);
+  if (revoked) {
+    return NextResponse.json({ error: "License revoked." }, { status: 403 });
   }
 
   const body = await req.json().catch(() => ({}));

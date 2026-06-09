@@ -642,7 +642,7 @@ function IdlePreview() {
             <div style={{ padding:"12px 14px 10px", borderBottom:"1px solid #1E1E22" }}>
               <div className="font-mono" style={{ fontSize:9, color:"#5C5C63", letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:4 }}>Report</div>
               <div style={{ fontSize:12, fontWeight:700, color:"#C4C4CC", lineHeight:1.3, fontFamily:"var(--font-grotesk), sans-serif" }}>B2B CRM tool</div>
-              <div className="font-mono" style={{ fontSize:9, color:"var(--n3)", marginTop:6, letterSpacing:"0.06em" }}>Free · 2 of 17 unlocked</div>
+              <div className="font-mono" style={{ fontSize:9, color:"var(--n3)", marginTop:6, letterSpacing:"0.06em" }}>Free · 8 of 17 sections</div>
             </div>
 
             {/* Section groups */}

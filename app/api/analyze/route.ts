@@ -10,9 +10,8 @@ import type { GrowthReport, SectionKey } from "@/lib/types";
 const FREE_LIMIT = parseInt(process.env.FREE_TOTAL_LIMIT ?? "1", 10);
 
 // Tier-based model config
-// Agency: high volume (500/mo) → gpt-4o-mini keeps cost ~$0.006/report ($3 total)
-// Pro/Founder: low volume → gpt-4o gives premium quality (~$0.10-0.15/report)
-// Free: gpt-4o-mini, fewer tokens
+// Agency: up to 60/mo · Pro: up to 20/mo · Founder: up to 5/mo
+// All paid tiers use gpt-4o for full quality. Free uses gpt-4o-mini.
 type TierConfig = { model: string; maxTokens: number };
 const TIER_CONFIG: Record<string, TierConfig> = {
   agency:  { model: "gpt-4o",      maxTokens: 14000 },
@@ -95,21 +94,27 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ paywall: true, error: "Free limit reached." }, { status: 429 });
     }
   } else {
-    const revoked = await kvGet<string>(`revoked:${licenseHeader}`);
-    if (revoked) {
-      return NextResponse.json({ paywall: true, error: "License revoked." }, { status: 403 });
-    }
-    const usageKey = getUsageKey(licenseHeader, license.tier);
-    const usedCount = (await kvGet<number>(usageKey)) ?? 0;
-    const limit = REPORT_LIMITS[license.tier];
-    if (usedCount >= limit) {
-      const limitMap: Record<string, string> = {
-        agency:  "Monthly limit reached (100/month). Resets on the 1st.",
-        pro:     "Monthly limit reached (20/month). Resets on the 1st.",
-        founder: "Monthly limit reached (5/month). Resets on the 1st.",
-      };
-      const msg = limitMap[license.tier] ?? "Report limit reached for your plan.";
-      return NextResponse.json({ paywall: true, error: msg }, { status: 429 });
+    try {
+      const revoked = await kvGet<string>(`revoked:${licenseHeader}`);
+      if (revoked) {
+        return NextResponse.json({ paywall: true, error: "License revoked." }, { status: 403 });
+      }
+      const usageKey = getUsageKey(licenseHeader, license.tier);
+      const usedCount = (await kvGet<number>(usageKey)) ?? 0;
+      const limit = REPORT_LIMITS[license.tier];
+      if (usedCount >= limit) {
+        const limitMap: Record<string, string> = {
+          agency:  "Monthly limit reached (60/month). Resets on the 1st.",
+          pro:     "Monthly limit reached (20/month). Resets on the 1st.",
+          founder: "Monthly limit reached (5/month). Resets on the 1st.",
+        };
+        const msg = limitMap[license.tier] ?? "Report limit reached for your plan.";
+        return NextResponse.json({ paywall: true, error: msg }, { status: 429 });
+      }
+    } catch {
+      // KV unavailable — allow the request through rather than blocking paying customers.
+      // Quota will be enforced again on the next request once KV recovers.
+      console.warn("[analyze] KV quota check failed — allowing request through");
     }
   }
 

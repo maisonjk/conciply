@@ -3,7 +3,7 @@ import { nanoid } from "nanoid";
 import type { StoredReport, SectionKey, GrowthReport } from "./types";
 
 const KEY = "conciply_reports";
-const MAX = 20;
+const MAX = 60; // matches agency plan limit (highest tier)
 
 export function loadReports(): StoredReport[] {
   if (typeof window === "undefined") return [];
