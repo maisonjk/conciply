@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Nav, { Footer } from "@/components/Nav";
 import SectionCard from "@/components/SectionCard";
 import AssetGenerator from "@/components/AssetGenerator";
-import { getReport, getLicensePlan, getLicenseKey, updateReportSection } from "@/lib/workspace";
+import { getReport, loadReports, getLicensePlan, getLicenseKey, updateReportSection } from "@/lib/workspace";
 import { SECTION_LABELS, FREE_SECTIONS } from "@/lib/types";
 import type { StoredReport, SectionKey, GrowthReport } from "@/lib/types";
 
@@ -84,6 +84,8 @@ function WorkspaceContent() {
   const [tier, setTier]               = useState<string | null>(null);
   const [active, setActive]           = useState<SectionKey>("executiveSummary");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [historyOpen, setHistoryOpen] = useState(false);
+  const [allReports, setAllReports]   = useState<StoredReport[]>([]);
   const [deepDiveKey, setDeepDiveKey] = useState<SectionKey | null>(null);
   const [copied, setCopied]           = useState(false);
   const [billingLoading, setBillingLoading] = useState(false);
@@ -93,6 +95,7 @@ function WorkspaceContent() {
     const plan = getLicensePlan();
     if (!plan) { router.push("/unlock"); return; }
     const r = getReport(id);
+    setAllReports(loadReports().reverse()); // newest first
     if (!r) { router.push("/"); return; }
     setStored(r);
     setTier(plan);
@@ -166,6 +169,48 @@ function WorkspaceContent() {
               {tier} · editing
             </span>
           </div>
+
+          {/* Report history — collapsible */}
+          {allReports.length > 1 && (
+            <div style={{ borderBottom:"1px solid #1E1E22" }}>
+              <button
+                onClick={() => setHistoryOpen(o => !o)}
+                style={{ width:"100%", background:"transparent", border:"none", cursor:"pointer",
+                         padding:"10px 16px", display:"flex", alignItems:"center",
+                         justifyContent:"space-between", gap:8 }}>
+                <span style={{ fontSize:9, fontFamily:"var(--font-mono)", fontWeight:700,
+                               letterSpacing:"0.14em", textTransform:"uppercase", color:"#5C5C63" }}>
+                  Recent Reports
+                </span>
+                <span style={{ fontSize:10, color:"#3C3C42" }}>{historyOpen ? "▲" : "▼"}</span>
+              </button>
+              {historyOpen && (
+                <div style={{ maxHeight:200, overflowY:"auto", paddingBottom:8 }}>
+                  {allReports.map(r => {
+                    const isCurrent = r.id === stored.id;
+                    return (
+                      <button key={r.id}
+                        onClick={() => { router.push(`/workspace?id=${r.id}`); setHistoryOpen(false); }}
+                        style={{ width:"100%", textAlign:"left", border:"none", cursor:"pointer",
+                                 padding:"8px 16px", background: isCurrent ? "#16161A" : "transparent",
+                                 borderLeft: isCurrent ? "2px solid #5C5C63" : "2px solid transparent" }}>
+                        <div style={{ fontSize:11, fontWeight:600, color: isCurrent ? "#F4F4F1" : "#9A9AA8",
+                                      lineHeight:1.3, fontFamily:"var(--font-archivo), sans-serif",
+                                      display:"-webkit-box", WebkitLineClamp:2,
+                                      WebkitBoxOrient:"vertical", overflow:"hidden" }}>
+                          {r.input}
+                        </div>
+                        <div style={{ fontSize:9, fontFamily:"var(--font-mono)", color:"#3C3C42",
+                                      letterSpacing:"0.06em", marginTop:3 }}>
+                          {new Date(r.createdAt).toLocaleDateString(undefined, { month:"short", day:"numeric", year:"numeric" })}
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Section nav — only this scrolls, footer stays pinned */}
           <nav style={{ flex:1, overflowY:"auto", padding:"8px 0" }}>
