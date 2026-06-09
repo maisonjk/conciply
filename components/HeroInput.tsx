@@ -268,9 +268,9 @@ export default function HeroInput() {
   };
 
   return (
-    <section style={{ padding:"clamp(40px,6vw,84px) 0 80px" }}>
+    <section style={{ padding:"clamp(20px,3vw,44px) 0 40px" }}>
       {count > 0 && (
-        <div className="font-mono" style={{ display:"flex", alignItems:"center", gap:8, marginBottom:18 }}>
+        <div className="font-mono" style={{ display:"flex", alignItems:"center", gap:8, marginBottom:10 }}>
           <span style={{ width:8, height:8, background:"var(--n3)", display:"inline-block",
                          borderRadius:"50%", animation:"pulseBlock 2s infinite" }} />
           <span style={{ fontSize:12, color:"#9A9AA8", letterSpacing:"0.08em" }}>
@@ -279,13 +279,13 @@ export default function HeroInput() {
         </div>
       )}
 
-      <div className="kicker" style={{ marginBottom:16 }}>Autonomous SaaS Growth Operating System</div>
+      <div className="kicker" style={{ marginBottom:10 }}>Autonomous SaaS Growth Operating System</div>
 
-      <h1 className="display" style={{ fontSize:"clamp(31px,6vw,90px)" }}>
-        A 22-specialist<br />growth team.<br /><span style={{ color:"var(--n1)" }}>On demand for any business.</span>
+      <h1 className="display" style={{ fontSize:"clamp(28px,4.6vw,72px)", lineHeight:1.05 }}>
+        A 22-specialist<br />growth team.<br /><span style={{ color:"var(--n3)" }}>On demand for any business.</span>
       </h1>
 
-      <div style={{ display:"flex", flexWrap:"wrap", gap:8, marginTop:24, marginBottom:20 }}>
+      <div style={{ display:"flex", flexWrap:"wrap", gap:8, marginTop:14, marginBottom:12 }}>
         {[{ label:"No login required", color:"var(--n3)" },
           { label:"22 AI specialists",  color:"var(--n1)" },
           { label:"Any business or idea", color:"var(--n2)" }]
@@ -298,12 +298,12 @@ export default function HeroInput() {
         ))}
       </div>
 
-      <p style={{ fontSize:"clamp(17px,1.8vw,22px)", lineHeight:1.45, color:"#C4C4CC", maxWidth:640, marginBottom:16 }}>
+      <p style={{ fontSize:"clamp(15px,1.4vw,18px)", lineHeight:1.4, color:"#C4C4CC", maxWidth:640, marginBottom:10 }}>
         Conciply deploys <span style={{ color:"#F4F4F1" }}>22 AI specialists — including CEO, CMO, CRO, VP Growth, SDR and more —</span> to analyze any business or idea and build a <span style={{ color:"#F4F4F1" }}>17-section growth playbook, fully written and ready to execute.</span>
       </p>
 
       {/* ── Specialist marquee ── */}
-      <div style={{ margin:"28px 0", overflow:"hidden", borderTop:"1px solid #2A2A2E", borderBottom:"1px solid #2A2A2E", position:"relative" }}>
+      <div style={{ margin:"14px 0", overflow:"hidden", borderTop:"1px solid #2A2A2E", borderBottom:"1px solid #2A2A2E", position:"relative" }}>
         {/* fade edges */}
         <div style={{ position:"absolute", inset:0, left:0, width:60, background:"linear-gradient(90deg,#0A0A0B,transparent)", zIndex:2, pointerEvents:"none" }} />
         <div style={{ position:"absolute", inset:0, left:"auto", right:0, width:60, background:"linear-gradient(270deg,#0A0A0B,transparent)", zIndex:2, pointerEvents:"none" }} />
@@ -328,7 +328,7 @@ export default function HeroInput() {
         {" "}— type in your language or pick one below.
       </p>
 
-      <div style={{ border:"2px solid #F4F4F1", background:"#121214", marginTop:32, position:"relative" }}>
+      <div style={{ border:"2px solid #F4F4F1", background:"#121214", marginTop:16, position:"relative" }}>
         <div style={{ display:"flex", alignItems:"stretch", flexWrap:"wrap" }}>
           <textarea value={input} onChange={e => setInput(e.target.value.slice(0,1000))}
             onKeyDown={onKey} rows={2} maxLength={1000}
