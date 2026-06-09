@@ -9,7 +9,7 @@ export function ProofBar() {
   const stats = [
     { value: "22", label: "AI specialists per report" },
     { value: "17", label: "sections, fully written" },
-    { value: "~60s", label: "average generation time" },
+    { value: "Fast", label: "generation, no waiting" },
     { value: "100%", label: "free for your first report" },
     { value: "0", label: "login required" },
   ];
@@ -65,7 +65,7 @@ export function HowItWorks() {
       num: "03",
       color: "var(--n3)",
       title: "Execute your 17-section playbook",
-      body: "In ~60 seconds you have a complete growth strategy — market sizing, competitor gaps, acquisition channels, 7/30/90-day plans and more. Ready to execute.",
+      body: "Get a complete growth strategy — market sizing, competitor gaps, acquisition channels, 7/30/90-day plans and more. Ready to execute.",
       detail: "Copy sections, print the full report, or work through each section in the dashboard.",
     },
   ];
@@ -202,7 +202,7 @@ export function WhatYouGet() {
           </div>
           <div style={{ maxWidth: 320 }}>
             <p style={{ fontSize: 14, color: "#7A7A88", lineHeight: 1.65, margin: "0 0 12px", fontFamily: "var(--font-grotesk), sans-serif" }}>
-              Most growth consultants charge $3,000–8,000 for a fraction of this. Conciply generates the full playbook in 60 seconds.
+              Most growth consultants charge $3,000–8,000 for a fraction of this. Conciply generates the full playbook on demand.
             </p>
             <p className="font-mono" style={{ fontSize: 10, color: "#3C3C42", letterSpacing: "0.08em" }}>
               Free sections marked below · Upgrade for all 17
@@ -289,7 +289,7 @@ export function WhatYouGet() {
             Generate your free report →
           </a>
           <span className="font-mono" style={{ fontSize: 10, color: "#3C3C42", letterSpacing: "0.08em" }}>
-            8 of 17 sections free · no login · ~60 seconds
+            8 of 17 sections free · no login required
           </span>
         </div>
       </div>
@@ -409,7 +409,7 @@ export function FinalCTA() {
               Ready when you are
             </p>
             <h2 className="display" style={{ fontSize: "clamp(28px,4vw,56px)", margin: "0 0 16px", lineHeight: 1.0, color: "#F4F4F1" }}>
-              Your growth playbook<br />is 60 seconds away.
+              Your growth playbook,<br />on demand.
             </h2>
             <p style={{ fontSize: 14, color: "#5C5C63", fontFamily: "var(--font-grotesk), sans-serif", margin: 0, lineHeight: 1.6 }}>
               No sign-up. No credit card. Drop in your business and see exactly what a full strategy looks like.

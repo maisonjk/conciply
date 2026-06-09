@@ -283,7 +283,7 @@ export default function HeroInput() {
       <p className="kicker" style={{ marginBottom:14, color:"#5C5C63" }}>Autonomous Growth OS</p>
 
       {/* ── H1 — Tier 1: The Claim ── */}
-      <h1 className="display" style={{ fontSize:"clamp(44px,7vw,108px)", lineHeight:1.0, marginBottom:28 }}>
+      <h1 className="display" style={{ fontSize:"clamp(36px,5.5vw,86px)", lineHeight:1.0, marginBottom:28 }}>
         A 22-specialist<br />growth team.<br /><span style={{ color:"var(--n1)" }}>On demand for any business.</span>
       </h1>
 
@@ -295,7 +295,7 @@ export default function HeroInput() {
       }}>
         Drop in any business or idea. Your team of{" "}
         <span style={{ color:"#C4C4CC" }}>22 AI specialists</span> — CEO, CMO, CRO, VP Growth and more —
-        deliver a <span style={{ color:"#C4C4CC" }}>17-section growth playbook</span> in 60 seconds.
+        deliver a <span style={{ color:"#C4C4CC" }}>17-section growth playbook</span> — fully written, ready to execute.
         Fully written. Ready to execute.
       </p>
 
@@ -892,7 +892,7 @@ function IdlePreview() {
                     borderBottom:"2px solid #F4F4F1", padding:"14px 20px",
                     display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:8 }}>
         <span className="font-mono" style={{ fontSize:11, color:"#5C5C63", letterSpacing:"0.04em" }}>
-          Enter your business or idea above — your playbook generates in 60 seconds.
+          Enter your business or idea above and get your full growth playbook.
         </span>
         <span className="font-mono" style={{ fontSize:10, color:"#2A2A2E", letterSpacing:"0.1em", textTransform:"uppercase" }}>
           No login required
