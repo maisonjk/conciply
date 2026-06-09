@@ -52,6 +52,7 @@ export default function RestorePage() {
             <div style={{ border:"2px solid #F4F4F1", display:"flex", flexWrap:"wrap" }}>
               <input value={key} onChange={e => setKey(e.target.value)}
                 onKeyDown={e => e.key === "Enter" && restore()}
+                aria-label="License key"
                 placeholder="Paste your license key…" className="font-mono"
                 style={{ flex:"1 1 280px", background:"transparent", border:"none", outline:"none",
                          color:"#F4F4F1", fontSize:14, padding:"18px 20px" }} />

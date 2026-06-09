@@ -138,6 +138,7 @@ function WorkspaceContent() {
 
         {/* Mobile toggle */}
         <button onClick={() => setSidebarOpen(o => !o)} className="font-mono"
+          aria-label={sidebarOpen ? "Close workspace menu" : "Open workspace menu"}
           style={{ display:"none", position:"fixed", bottom:24, right:24, zIndex:50,
                    background:"var(--n2)", color:"#000", border:"none", padding:"12px 18px",
                    fontSize:12, letterSpacing:"0.1em", cursor:"pointer" }}

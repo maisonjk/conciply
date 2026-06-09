@@ -105,6 +105,10 @@ export default function HeroInput() {
     setStatus("loading");
     setError("");
 
+    // Hard 150s timeout — if OpenAI stalls mid-stream, surface a recoverable error
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 150000);
+
     try {
       const key = getLicenseKey();
       const res = await fetch("/api/analyze", {
@@ -114,6 +118,7 @@ export default function HeroInput() {
           ...(key ? { "x-conciply-license": key } : {}),
         },
         body: JSON.stringify({ input: q, language: language === "auto" ? undefined : language }),
+        signal: controller.signal,
       });
 
       if (!res.ok) {
@@ -160,9 +165,15 @@ export default function HeroInput() {
       // Stream closed without a done/error event — server likely crashed mid-stream
       setError("The server closed the connection before finishing. Please try again.");
       setStatus("error");
-    } catch {
-      setError("Network error. Please try again.");
+    } catch (err) {
+      if (err instanceof Error && err.name === "AbortError") {
+        setError("Generation timed out — OpenAI is busy right now. Please try again in a moment.");
+      } else {
+        setError("Network error. Please try again.");
+      }
       setStatus("error");
+    } finally {
+      clearTimeout(timeoutId);
     }
   }, [status, router]);
 
@@ -218,6 +229,7 @@ export default function HeroInput() {
         <div style={{ display:"flex", alignItems:"stretch", flexWrap:"wrap" }}>
           <textarea value={input} onChange={e => setInput(e.target.value.slice(0,1000))}
             onKeyDown={onKey} rows={2} maxLength={1000}
+            aria-label="Describe your SaaS or business"
             placeholder="Describe your SaaS — e.g. B2B analytics tool for restaurant chains"
             style={{ flex:"1 1 420px", resize:"none", background:"transparent", border:"none",
                      outline:"none", color:"#F4F4F1", fontWeight:600,

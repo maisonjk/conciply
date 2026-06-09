@@ -113,6 +113,7 @@ function UnlockContent() {
           <div style={{ border:"2px solid #F4F4F1", display:"flex", flexWrap:"wrap" }}>
             <input value={key} onChange={e => setKey(e.target.value)}
               onKeyDown={e => e.key === "Enter" && verify()}
+              aria-label="License key"
               placeholder="Paste your license key…" className="font-mono"
               style={{ flex:"1 1 280px", background:"transparent", border:"none", outline:"none",
                        color:"#F4F4F1", fontSize:14, padding:"18px 20px" }} />
@@ -127,7 +128,7 @@ function UnlockContent() {
           )}
           <p style={{ color:"#9A9AA8", fontSize:13, marginTop:20 }}>
             Your license key was emailed after purchase.{" "}
-            <a href="/restore" style={{ color:"var(--n1)", textDecoration:"underline" }}>Can&#39;t find it?</a>
+            <a href="/restore" className="font-mono" style={{ color:"var(--n1)", textDecoration:"underline", letterSpacing:"0.06em", textTransform:"uppercase", fontSize:11 }}>Restore access →</a>
           </p>
         </>
       )}

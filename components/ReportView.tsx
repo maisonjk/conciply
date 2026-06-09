@@ -95,6 +95,7 @@ export default function ReportView({ report, tier, input, reportId }: Props) {
       <button
         onClick={() => setSidebarOpen(o => !o)}
         className="font-mono"
+        aria-label={sidebarOpen ? "Close sections menu" : "Open sections menu"}
         style={{
           display:"none", position:"fixed", bottom:24, right:24, zIndex:50,
           background:"var(--n1)", color:"#000", border:"none", padding:"12px 18px",
