@@ -19,7 +19,8 @@ export default function Nav() {
     <header style={{ position:"sticky", top:0, zIndex:40,
                      background:"rgba(10,10,11,0.82)", backdropFilter:"blur(14px)",
                      borderBottom:"2px solid #F4F4F1" }}>
-      <div className="shell" style={{ height:64, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+      <div className="shell" style={{ height:64, display:"flex", alignItems:"center", justifyContent:"space-between",
+                                       paddingLeft: path === "/workspace" ? 16 : undefined }}>
         <Link href="/" style={{ display:"flex", alignItems:"center", gap:12 }}>
           <span style={{ display:"flex", gap:3 }}>
             <span style={{ width:11, height:22, background:"var(--n1)", display:"inline-block" }} />
