@@ -1,6 +1,6 @@
 import Nav, { Footer, VisionStatement } from "@/components/Nav";
 import HeroInput from "@/components/HeroInput";
-import { ProofBar, HowItWorks, WhatYouGet, Testimonials, FinalCTA } from "@/components/LandingSections";
+import { ProofBar, HowItWorks, WhatYouGet, LandingPricing, FinalCTA } from "@/components/LandingSections";
 
 export default function HomePage() {
   return (
@@ -11,7 +11,7 @@ export default function HomePage() {
       <HowItWorks />
       <WhatYouGet />
       <VisionStatement />
-      <Testimonials />
+      <LandingPricing />
       <FinalCTA />
       <Footer />
     </>

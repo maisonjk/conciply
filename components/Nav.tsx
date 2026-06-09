@@ -30,9 +30,6 @@ export default function Nav() {
           <span className="display" style={{ fontSize:22 }}>Conciply</span>
         </Link>
         <nav style={{ display:"flex", gap:2, alignItems:"center" }}>
-          <span className="nav-links-desktop">
-            {navLink("/pricing", "Pricing")}
-          </span>
         </nav>
       </div>
     </header>

@@ -1,6 +1,7 @@
 "use client";
 import type { SectionKey } from "@/lib/types";
 import { FREE_SECTIONS } from "@/lib/types";
+import PricingTable from "@/components/PricingTable";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // PROOF BAR — raw signal, zero fluff
@@ -9,7 +10,7 @@ export function ProofBar() {
   const stats = [
     { value: "22", label: "AI specialists per report" },
     { value: "17", label: "sections, fully written" },
-    { value: "Fast", label: "generation, no waiting" },
+    { value: "Private", label: "zero data stored — ever" },
     { value: "100%", label: "free for your first report" },
     { value: "0", label: "login required" },
   ];
@@ -427,7 +428,7 @@ export function FinalCTA() {
             }}>
               Start free →
             </a>
-            <a href="/pricing" style={{
+            <a href="#pricing" style={{
               display: "inline-flex", alignItems: "center",
               color: "#5C5C63", padding: "4px 0",
               fontFamily: "var(--font-mono), monospace",
@@ -435,7 +436,7 @@ export function FinalCTA() {
               textTransform: "uppercase", textDecoration: "none",
               borderBottom: "1px solid #2A2A2E",
             }}>
-              See all plans
+              See all plans ↓
             </a>
           </div>
         </div>
@@ -446,6 +447,40 @@ export function FinalCTA() {
           .final-cta-grid > div:last-child { align-items: flex-start !important; }
         }
       `}</style>
+    </section>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LANDING PRICING — embedded pricing table with section header
+// ─────────────────────────────────────────────────────────────────────────────
+export function LandingPricing() {
+  return (
+    <section id="pricing" style={{ borderBottom: "2px solid #F4F4F1" }}>
+      <div className="shell" style={{ padding: "clamp(56px,7vw,96px) clamp(16px,4vw,40px)" }}>
+
+        {/* Section header */}
+        <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 24, marginBottom: "clamp(40px,5vw,64px)", flexWrap: "wrap" }}>
+          <div>
+            <p className="font-mono" style={{ fontSize: 11, color: "var(--n2)", letterSpacing: "0.14em", textTransform: "uppercase", margin: "0 0 12px" }}>
+              Pricing
+            </p>
+            <h2 className="display" style={{ fontSize: "clamp(28px,4vw,52px)", margin: 0, lineHeight: 1.0 }}>
+              Simple.<br /><span style={{ color: "var(--n2)" }}>Flexible.</span>
+            </h2>
+          </div>
+          <p style={{ fontSize: 14, color: "#7A7A88", lineHeight: 1.65, margin: 0, maxWidth: 360, fontFamily: "var(--font-grotesk), sans-serif" }}>
+            Monthly or annual billing. Cancel before your next renewal — no questions asked.
+            Already purchased?{" "}
+            <a href="/unlock" style={{ color: "var(--n1)", textDecoration: "underline", textUnderlineOffset: 3 }}>
+              Restore your license →
+            </a>
+          </p>
+        </div>
+
+        <PricingTable />
+
+      </div>
     </section>
   );
 }
