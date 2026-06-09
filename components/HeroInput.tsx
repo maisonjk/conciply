@@ -279,50 +279,61 @@ export default function HeroInput() {
         </div>
       )}
 
-      <div className="kicker" style={{ marginBottom:10 }}>Autonomous SaaS Growth Operating System</div>
+      {/* ── Kicker ── */}
+      <p className="kicker" style={{ marginBottom:14, color:"#5C5C63" }}>Autonomous Growth OS</p>
 
-      <h1 className="display" style={{ fontSize:"clamp(28px,4.6vw,72px)", lineHeight:1.05 }}>
+      {/* ── H1 — Tier 1: The Claim ── */}
+      <h1 className="display" style={{ fontSize:"clamp(36px,5.5vw,86px)", lineHeight:1.0, marginBottom:28 }}>
         A 22-specialist<br />growth team.<br /><span style={{ color:"var(--n3)" }}>On demand for any business.</span>
       </h1>
 
-      <div style={{ display:"flex", flexWrap:"wrap", gap:8, marginTop:14, marginBottom:12 }}>
+      {/* ── Body — Tier 2: The Proof ── */}
+      <p style={{
+        fontSize:"clamp(14px,1.1vw,16px)", lineHeight:1.65,
+        color:"#7A7A88", maxWidth:520, marginBottom:20,
+        fontFamily:"var(--font-grotesk), sans-serif",
+      }}>
+        Drop in any business or idea. Your team of{" "}
+        <span style={{ color:"#C4C4CC" }}>22 AI specialists</span> — CEO, CMO, CRO, VP Growth and more —
+        deliver a <span style={{ color:"#C4C4CC" }}>17-section growth playbook</span> in 60 seconds.
+        Fully written. Ready to execute.
+      </p>
+
+      {/* ── Badges — Tier 3: Proof points ── */}
+      <div style={{ display:"flex", flexWrap:"wrap", gap:6, marginBottom:18 }}>
         {[{ label:"No login required", color:"var(--n3)" },
           { label:"22 AI specialists",  color:"var(--n1)" },
           { label:"Any business or idea", color:"var(--n2)" }]
           .map(({ label, color }) => (
           <span key={label} className="font-mono"
-            style={{ fontSize:11, fontWeight:700, letterSpacing:"0.14em", textTransform:"uppercase",
-                     color:"#000", background:color, padding:"5px 12px" }}>
+            style={{ fontSize:10, fontWeight:700, letterSpacing:"0.14em", textTransform:"uppercase",
+                     color:"#000", background:color, padding:"4px 10px" }}>
             {label}
           </span>
         ))}
       </div>
 
-      <p style={{ fontSize:"clamp(15px,1.4vw,18px)", lineHeight:1.4, color:"#C4C4CC", maxWidth:640, marginBottom:10 }}>
-        Conciply deploys <span style={{ color:"#F4F4F1" }}>22 AI specialists — including CEO, CMO, CRO, VP Growth, SDR and more —</span> to analyze any business or idea and build a <span style={{ color:"#F4F4F1" }}>17-section growth playbook, fully written and ready to execute.</span>
-      </p>
-
-      {/* ── Specialist marquee ── */}
-      <div style={{ margin:"14px 0", overflow:"hidden", borderTop:"1px solid #2A2A2E", borderBottom:"1px solid #2A2A2E", position:"relative" }}>
-        {/* fade edges */}
+      {/* ── Specialist marquee — Tier 3 ── */}
+      <div style={{ margin:"0 0 12px", overflow:"hidden", borderTop:"1px solid #1E1E22", borderBottom:"1px solid #1E1E22", position:"relative" }}>
         <div style={{ position:"absolute", inset:0, left:0, width:60, background:"linear-gradient(90deg,#0A0A0B,transparent)", zIndex:2, pointerEvents:"none" }} />
         <div style={{ position:"absolute", inset:0, left:"auto", right:0, width:60, background:"linear-gradient(270deg,#0A0A0B,transparent)", zIndex:2, pointerEvents:"none" }} />
-        <div style={{ display:"flex", width:"max-content", animation:"marquee 32s linear infinite", padding:"10px 0" }}>
+        <div style={{ display:"flex", width:"max-content", animation:"marquee 32s linear infinite", padding:"8px 0" }}>
           {[...SPECIALISTS, ...SPECIALISTS].map((s, i) => (
             <span key={i} className="font-mono" style={{ display:"inline-flex", alignItems:"center", gap:16, paddingRight:32, whiteSpace:"nowrap" }}>
-              <span style={{ fontSize:11, letterSpacing:"0.1em", textTransform:"uppercase", color: SPECIALIST_COLORS[i % SPECIALIST_COLORS.length] }}>
+              <span style={{ fontSize:10, letterSpacing:"0.1em", textTransform:"uppercase", color: SPECIALIST_COLORS[i % SPECIALIST_COLORS.length] }}>
                 {s}
               </span>
-              <span style={{ width:3, height:3, borderRadius:"50%", background:"#3C3C42", flexShrink:0, display:"inline-block" }} />
+              <span style={{ width:3, height:3, borderRadius:"50%", background:"#2A2A2E", flexShrink:0, display:"inline-block" }} />
             </span>
           ))}
         </div>
         <style>{`@keyframes marquee { 0% { transform: translateX(0) } 100% { transform: translateX(-50%) } }`}</style>
       </div>
 
-      <p className="font-mono" style={{ fontSize:13, color:"#8A8A9A", letterSpacing:"0.04em", marginBottom:0 }}>
-        🌐 Available in{" "}
-        <span style={{ color:"var(--n1)" }}>
+      {/* ── Language line — Tier 4: Utility ── */}
+      <p className="font-mono" style={{ fontSize:10, color:"#4A4A55", letterSpacing:"0.04em", marginBottom:0, lineHeight:1.5 }}>
+        Available in{" "}
+        <span style={{ color:"#5C5C63" }}>
           English, Español, Français, Deutsch, Português, Italiano, Nederlands, العربية, 中文, 日本語, 한국어, हिन्दी, Русский, Türkçe, Polski
         </span>
         {" "}— type in your language or pick one below.
