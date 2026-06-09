@@ -282,7 +282,7 @@ export default function HeroInput() {
       <div className="kicker" style={{ marginBottom:16 }}>Autonomous SaaS Growth Operating System</div>
 
       <h1 className="display" style={{ fontSize:"clamp(31px,6vw,90px)" }}>
-        A 22-specialist<br />growth team.<br /><span style={{ color:"var(--n2)" }}>On demand for any business.</span>
+        A 22-specialist<br />growth team.<br /><span style={{ color:"var(--n1)" }}>On demand for any business.</span>
       </h1>
 
       <div style={{ display:"flex", flexWrap:"wrap", gap:8, marginTop:24, marginBottom:20 }}>
