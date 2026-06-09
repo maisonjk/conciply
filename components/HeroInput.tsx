@@ -203,7 +203,7 @@ export default function HeroInput() {
 
       <p style={{ fontSize:"clamp(17px,1.8vw,22px)", lineHeight:1.45, color:"#C4C4CC", maxWidth:640, marginBottom:16 }}>
         Conciply deploys a full <span style={{ color:"#F4F4F1" }}>CEO, CMO, CRO, VP Growth, SDR and 11 more AI
-        specialists</span> to analyze your SaaS and build a complete growth playbook — in seconds.
+        specialists</span> to analyze your SaaS and build a <span style={{ color:"#F4F4F1" }}>17-section growth playbook — fully written, ready to execute.</span>
       </p>
 
       <p className="font-mono" style={{ fontSize:13, color:"#8A8A9A", letterSpacing:"0.04em", marginBottom:0 }}>
