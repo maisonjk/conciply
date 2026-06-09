@@ -33,9 +33,6 @@ export default function Nav() {
           <span className="nav-links-desktop">
             {navLink("/pricing", "Pricing")}
           </span>
-          <Link href="/#analyze" className="btn-neon" style={{ padding:"9px 18px", fontSize:13, marginLeft:8 }}>
-            Start free
-          </Link>
         </nav>
       </div>
     </header>
