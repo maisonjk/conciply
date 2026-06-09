@@ -242,7 +242,7 @@ export default function PricingTable() {
               }}>
                 <p style={{
                   fontFamily: "var(--font-mono), monospace",
-                  fontSize: 10, color: "#4A4A55",
+                  fontSize: 10, color: "#7A7A8A",
                   letterSpacing: "0.08em", margin: 0, lineHeight: 1,
                   whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
                 }}>
@@ -268,7 +268,7 @@ export default function PricingTable() {
                 {tier && (
                   <span style={{
                     fontFamily: "var(--font-mono), monospace",
-                    fontSize: 10, color: "#3C3C42",
+                    fontSize: 10, color: "#6A6A7A",
                     letterSpacing: "0.06em", lineHeight: 1,
                     paddingBottom: 4,          // sits at cap-height of the price
                   }}>
@@ -285,7 +285,7 @@ export default function PricingTable() {
                 <span style={{
                   fontFamily: "var(--font-mono), monospace",
                   fontSize: 9, letterSpacing: "0.14em", textTransform: "uppercase",
-                  color: annual && tier ? "var(--n3)" : "#3C3C42",
+                  color: annual && tier ? "var(--n3)" : "#6A6A7A",
                   lineHeight: 1,
                 }}>
                   {subLine}
@@ -309,7 +309,7 @@ export default function PricingTable() {
                     style={{
                       height: 40, display: "flex",
                       alignItems: "center", gap: 10,
-                      borderBottom: i < features.length - 1 ? "1px solid #0E0E10" : "none",
+                      borderBottom: i < features.length - 1 ? "1px solid #1A1A1E" : "none",
                       flexShrink: 0,
                     }}
                   >
@@ -318,7 +318,7 @@ export default function PricingTable() {
                       flexShrink: 0, width: 14, textAlign: "center",
                       fontFamily: "var(--font-mono), monospace",
                       fontSize: 11, lineHeight: 1,
-                      color: f.active ? accent : "#2A2A2E",
+                      color: f.active ? accent : "#555562",
                     }}>
                       {f.active ? "✓" : "—"}
                     </span>
@@ -326,7 +326,7 @@ export default function PricingTable() {
                     <span style={{
                       fontFamily: "var(--font-grotesk), sans-serif",
                       fontSize: 12, lineHeight: 1, fontWeight: f.active ? 500 : 400,
-                      color: f.active ? "#D4D4DC" : "#3C3C42",
+                      color: f.active ? "#E8E8F0" : "#7A7A8A",
                       whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
                     }}>
                       {f.text}
@@ -343,8 +343,8 @@ export default function PricingTable() {
                   href={href}
                   style={{
                     display: "flex", alignItems: "center", justifyContent: "center",
-                    height: 44, border: "2px solid #2A2A2E",
-                    color: "#5C5C63",
+                    height: 44, border: "2px solid #4A4A54",
+                    color: "#9A9AA8",
                     fontFamily: "var(--font-archivo), sans-serif",
                     fontSize: 11, fontWeight: 800,
                     letterSpacing: "0.08em", textTransform: "uppercase",
@@ -356,8 +356,8 @@ export default function PricingTable() {
                     (e.currentTarget as HTMLAnchorElement).style.color = "#F4F4F1";
                   }}
                   onMouseLeave={e => {
-                    (e.currentTarget as HTMLAnchorElement).style.borderColor = "#2A2A2E";
-                    (e.currentTarget as HTMLAnchorElement).style.color = "#5C5C63";
+                    (e.currentTarget as HTMLAnchorElement).style.borderColor = "#4A4A54";
+                    (e.currentTarget as HTMLAnchorElement).style.color = "#9A9AA8";
                   }}
                 >
                   {cta}
