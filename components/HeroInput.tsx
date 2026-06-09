@@ -473,27 +473,117 @@ export default function HeroInput() {
 }
 
 const PREVIEW_SECTIONS = [
-  { key: "executiveSummary",    label: "Executive Summary",   color: "var(--n1)", icon: "◈", free: true,
-    text: "ICP: Agency ops leads frustrated by HubSpot complexity and price. Core advantage: 3x faster pipeline visibility at 40% lower cost." },
-  { key: "topRoiActions",       label: "Top ROI Actions",     color: "var(--n1)", icon: "★", free: true,
-    text: "#1 Score 9.2 · Launch free PLG tier — removes procurement friction for sub-10 person teams." },
-  { key: "marketAnalysis",      label: "Market Analysis",     color: "var(--n2)", icon: "◎", free: false,
-    text: "TAM $4.2B · SAM $820M · SOM $41M. Key trend: mid-market abandoning Salesforce for lighter CRMs." },
-  { key: "competitorAnalysis",  label: "Competitor Analysis", color: "var(--n2)", icon: "⊕", free: false,
-    text: "HubSpot owns 38% share but over-priced for agencies. Pipedrive weak on reporting. Gap: analytics-first CRM." },
-  { key: "acquisitionPlan",     label: "Acquisition Plan",    color: "var(--n3)", icon: "➤", free: false,
-    text: "Priority: LinkedIn outbound → agency Slack communities → G2 review push. Budget split: 60% content, 40% paid." },
-  { key: "socialMediaStrategy", label: "Social Media",        color: "var(--n3)", icon: "◈", free: false,
-    text: "LinkedIn: thought leadership on agency ops. YouTube: CRM comparison walkthroughs. Reddit: r/sales community." },
-  { key: "plan7Day",            label: "7-Day Sprint",        color: "#9A9AA8",   icon: "①", free: false,
-    text: "Day 1-2: cold email sequence live. Day 3-4: G2 profile + 5 reviews. Day 5-7: first LinkedIn post series." },
-  { key: "immediateActions",    label: "Immediate Actions",   color: "#9A9AA8",   icon: "⚡", free: false,
-    text: "Next 24h: message 10 agency founders on LinkedIn. Next 72h: publish CRM comparison landing page." },
+  { key: "executiveSummary", label: "Executive Summary", color: "var(--n1)", icon: "◈", free: true,
+    chip: "Score 9.4 / 10",
+    bullets: [
+      "ICP: Agency ops leads frustrated by HubSpot complexity and price",
+      "Core advantage: 3× faster pipeline visibility at 40% lower total cost",
+      "Biggest opportunity: mid-market CRM switch cycle peaks Q3 — act now",
+    ]},
+  { key: "topRoiActions", label: "Top ROI Actions", color: "var(--n1)", icon: "★", free: true,
+    chip: "3 priority moves",
+    bullets: [
+      "#1 · Launch free PLG tier — removes procurement friction for sub-10 teams",
+      "#2 · G2 review push — 15 reviews converts 22% more mid-market trials",
+      "#3 · LinkedIn outbound to agency ops directors — 34% response rate",
+    ]},
+  { key: "marketAnalysis", label: "Market Analysis", color: "var(--n2)", icon: "◎", free: false,
+    chip: "TAM $4.2B",
+    bullets: ["TAM $4.2B · SAM $820M · SOM $41M", "Mid-market abandoning Salesforce at 2× 2022 rate", "Gap: analytics-first CRM under $50/seat — no strong incumbent"]},
+  { key: "competitorAnalysis", label: "Competitor Analysis", color: "var(--n2)", icon: "⊕", free: false,
+    chip: "Gap identified",
+    bullets: ["HubSpot: 38% share, over-priced for agencies under 25 seats", "Pipedrive: weak on reporting — top churn reason cited by users", "Your gap: analytics + simplicity at agency-friendly price"]},
+  { key: "acquisitionPlan", label: "Acquisition Plan", color: "var(--n3)", icon: "➤", free: false,
+    chip: "3 channels",
+    bullets: ["LinkedIn outbound → agency Slack communities → G2 review push", "Budget split: 60% content, 40% paid — flip at 500 MRR", "Target CAC $180 within 90 days based on comparable PLG launches"]},
+  { key: "socialMediaStrategy", label: "Social Media", color: "var(--n3)", icon: "◈", free: false,
+    chip: "4-week calendar",
+    bullets: ["LinkedIn: agency ops thought leadership — 3× / week", "YouTube: CRM comparison walkthroughs — 2× / month", "Reddit: r/sales community engagement — daily for 30 days"]},
+  { key: "plan7Day", label: "7-Day Sprint", color: "#9A9AA8", icon: "①", free: false,
+    chip: "Day-by-day",
+    bullets: ["Day 1–2: cold email sequence live + first 50 prospects loaded", "Day 3–4: G2 profile live + 5 review requests sent", "Day 5–7: first LinkedIn post series published + tracking live"]},
+  { key: "immediateActions", label: "Immediate Actions", color: "#9A9AA8", icon: "⚡", free: false,
+    chip: "Next 24–72h",
+    bullets: ["Next 24h: message 10 agency founders on LinkedIn with personalised note", "Next 48h: publish CRM comparison landing page with SEO targeting", "Next 72h: schedule first G2 review request campaign"]},
+];
+
+const PREVIEW_GROUPS = [
+  { label: "Analysis", color: "var(--n1)", keys: ["executiveSummary", "topRoiActions"] },
+  { label: "Market",   color: "var(--n2)", keys: ["marketAnalysis", "competitorAnalysis"] },
+  { label: "Growth",   color: "var(--n3)", keys: ["acquisitionPlan", "socialMediaStrategy"] },
+  { label: "Execution",color: "#9A9AA8",   keys: ["plan7Day", "immediateActions"] },
 ];
 
 function IdlePreview() {
   const [activeIdx, setActiveIdx] = useState(0);
   const active = PREVIEW_SECTIONS[activeIdx];
+
+  const ContentPanel = ({ isMobile }: { isMobile?: boolean }) => (
+    <div style={{ flex:1, padding: isMobile ? "20px 16px" : "22px 28px", position:"relative", minHeight: isMobile ? 160 : 260 }}>
+      {/* Section header row */}
+      <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:14 }}>
+        <span style={{ fontSize:16, color: active.color, lineHeight:1 }}>{active.free ? active.icon : "▪"}</span>
+        <span className="kicker" style={{ color: active.color, fontSize:10 }}>{active.label}</span>
+        <span className="font-mono" style={{
+          fontSize:8, letterSpacing:"0.1em", textTransform:"uppercase",
+          marginLeft:"auto", padding:"2px 7px",
+          color: active.free ? active.color : "#3C3C42",
+          border: `1px solid ${active.free ? active.color : "#2A2A2E"}`,
+        }}>
+          {active.free ? "Free" : "Pro"}
+        </span>
+      </div>
+
+      {active.free ? (
+        <>
+          {/* Metric chip */}
+          <div style={{
+            display:"inline-flex", alignItems:"center", gap:6,
+            background:`${active.color}12`, border:`1px solid ${active.color}30`,
+            padding:"4px 10px", marginBottom:14,
+          }}>
+            <span style={{ width:5, height:5, borderRadius:"50%", background:active.color, display:"inline-block" }} />
+            <span className="font-mono" style={{ fontSize:9, color:active.color, letterSpacing:"0.1em", textTransform:"uppercase" }}>
+              {active.chip}
+            </span>
+          </div>
+          {/* Bullet list */}
+          <ul style={{ margin:0, padding:0, listStyle:"none", display:"flex", flexDirection:"column", gap:9 }}>
+            {active.bullets.map((b, i) => (
+              <li key={i} style={{ display:"flex", gap:10, alignItems:"flex-start" }}>
+                <span style={{ color:active.color, fontSize:10, flexShrink:0, marginTop:3, lineHeight:1 }}>›</span>
+                <span style={{ fontSize: isMobile ? 13 : 14, color:"#C4C4CC", lineHeight:1.55, fontFamily:"var(--font-grotesk), sans-serif" }}>{b}</span>
+              </li>
+            ))}
+          </ul>
+        </>
+      ) : (
+        <div style={{ position:"relative" }}>
+          {/* Skeleton */}
+          <div style={{ display:"flex", flexDirection:"column", gap:10, filter:"blur(5px)", userSelect:"none", pointerEvents:"none" }}>
+            <div style={{ height:20, background:"#161618", width:"32%", borderRadius:2 }} />
+            {[88, 72, 94].map((w, i) => (
+              <div key={i} style={{ display:"flex", gap:8, alignItems:"center" }}>
+                <div style={{ width:8, height:8, background:"#161618", flexShrink:0, borderRadius:1 }} />
+                <div style={{ height:13, background:"#161618", width:`${w}%`, borderRadius:2 }} />
+              </div>
+            ))}
+          </div>
+          {/* Unlock CTA */}
+          <div style={{ position:"absolute", inset:0, display:"flex", alignItems:"center", justifyContent:"center" }}>
+            <a href="/pricing" className="font-mono" style={{
+              fontSize:10, letterSpacing:"0.1em", textTransform:"uppercase",
+              color:"var(--n2)", textDecoration:"none",
+              border:"1px solid var(--n2)", padding:"7px 16px",
+              background:"#0A0A0B", whiteSpace:"nowrap",
+            }}>
+              Unlock all 17 sections →
+            </a>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 
   return (
     <div style={{ marginTop:"clamp(40px,5vw,72px)" }}>
@@ -506,7 +596,7 @@ function IdlePreview() {
         }
       `}</style>
 
-      {/* Section label */}
+      {/* Divider label */}
       <div style={{ display:"flex", alignItems:"center", gap:16, marginBottom:20 }}>
         <div style={{ height:1, flex:1, background:"#1E1E22" }} />
         <span className="font-mono" style={{ fontSize:10, color:"#3C3C42", letterSpacing:"0.16em", textTransform:"uppercase", whiteSpace:"nowrap" }}>
@@ -515,154 +605,114 @@ function IdlePreview() {
         <div style={{ height:1, flex:1, background:"#1E1E22" }} />
       </div>
 
-      {/* ── OS window chrome ── */}
+      {/* OS window */}
       <div style={{ border:"2px solid #F4F4F1", background:"#0A0A0B", overflow:"hidden" }}>
 
         {/* Title bar */}
-        <div style={{ borderBottom:"2px solid #1E1E22", padding:"10px 16px",
+        <div style={{ borderBottom:"2px solid #1E1E22", padding:"9px 16px",
                       display:"flex", alignItems:"center", gap:12, background:"#111113" }}>
           <div style={{ display:"flex", gap:5 }}>
             <span style={{ width:10, height:10, borderRadius:"50%", background:"#FF5F57", display:"inline-block" }} />
             <span style={{ width:10, height:10, borderRadius:"50%", background:"#FFBD2E", display:"inline-block" }} />
             <span style={{ width:10, height:10, borderRadius:"50%", background:"#28C840", display:"inline-block" }} />
           </div>
-          <div style={{ flex:1, background:"#0A0A0B", border:"1px solid #2A2A2E",
-                        padding:"5px 14px", display:"flex", alignItems:"center", gap:8 }}>
-            <span style={{ width:6, height:6, borderRadius:"50%", background:"var(--n3)", display:"inline-block" }} />
-            <span className="font-mono" style={{ fontSize:10, color:"#5C5C63", letterSpacing:"0.04em" }}>
-              conciply.com/workspace · B2B CRM tool
+          <div style={{ flex:1, background:"#0A0A0B", border:"1px solid #1E1E22",
+                        padding:"4px 12px", display:"flex", alignItems:"center", gap:8 }}>
+            <span style={{ width:5, height:5, borderRadius:"50%", background:"var(--n3)", display:"inline-block", flexShrink:0 }} />
+            <span className="font-mono" style={{ fontSize:10, color:"#4A4A55", letterSpacing:"0.03em" }}>
+              conciply.com/workspace
             </span>
+            <span style={{ width:1, height:10, background:"#1E1E22", flexShrink:0 }} />
+            <span className="font-mono" style={{ fontSize:10, color:"#6A6A75" }}>B2B CRM tool</span>
           </div>
-          <span className="font-mono" style={{ fontSize:9, color:"#2A2A2E", letterSpacing:"0.12em", textTransform:"uppercase" }}>SAMPLE</span>
+          <div style={{ display:"flex", alignItems:"center", gap:6 }}>
+            <span className="font-mono" style={{ fontSize:9, color:"#3C3C42", letterSpacing:"0.06em" }}>
+              {activeIdx + 1}/{PREVIEW_SECTIONS.length} sections
+            </span>
+            <span className="font-mono" style={{ fontSize:8, color:"#2A2A2E", letterSpacing:"0.12em", textTransform:"uppercase", border:"1px solid #1E1E22", padding:"2px 6px" }}>SAMPLE</span>
+          </div>
         </div>
 
         {/* ── Desktop: sidebar + content ── */}
-        <div className="idle-desktop" style={{ minHeight:280 }}>
+        <div className="idle-desktop">
 
-          {/* Sidebar */}
-          <div style={{ width:196, borderRight:"1px solid #1E1E22", flexShrink:0, display:"flex", flexDirection:"column" }}>
-            <div style={{ padding:"10px 14px", borderBottom:"1px solid #1E1E22" }}>
-              <span className="font-mono" style={{ fontSize:9, color:"#5C5C63", letterSpacing:"0.1em", textTransform:"uppercase" }}>
-                17 sections
-              </span>
+          {/* Sidebar with groups */}
+          <div style={{ width:200, borderRight:"1px solid #1E1E22", flexShrink:0, display:"flex", flexDirection:"column" }}>
+            {/* Report meta */}
+            <div style={{ padding:"12px 14px 10px", borderBottom:"1px solid #1E1E22" }}>
+              <div className="font-mono" style={{ fontSize:9, color:"#5C5C63", letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:4 }}>Report</div>
+              <div style={{ fontSize:12, fontWeight:700, color:"#C4C4CC", lineHeight:1.3, fontFamily:"var(--font-grotesk), sans-serif" }}>B2B CRM tool</div>
+              <div className="font-mono" style={{ fontSize:9, color:"var(--n3)", marginTop:6, letterSpacing:"0.06em" }}>Free · 2 of 17 unlocked</div>
             </div>
-            {PREVIEW_SECTIONS.map((s, i) => (
-              <button
-                key={s.key}
-                onClick={() => setActiveIdx(i)}
-                style={{
-                  display:"flex", alignItems:"center", gap:9,
-                  padding:"9px 14px",
-                  borderBottom:"1px solid #0F0F11",
-                  borderTop:"none", borderRight:"none",
-                  background: i === activeIdx ? "#161618" : "transparent",
-                  borderLeft: i === activeIdx ? `2px solid ${s.color}` : "2px solid transparent",
-                  cursor:"pointer", width:"100%", textAlign:"left",
-                }}
-              >
-                <span style={{ fontSize:10, color: s.free ? s.color : "#2A2A2E", flexShrink:0 }}>
-                  {s.free ? s.icon : "▪"}
-                </span>
-                <span className="font-mono" style={{
-                  fontSize:10, letterSpacing:"0.03em", whiteSpace:"nowrap",
-                  color: i === activeIdx ? (s.free ? s.color : "#5C5C63") : (s.free ? "#6A6A75" : "#2A2A2E"),
+
+            {/* Section groups */}
+            {PREVIEW_GROUPS.map(group => (
+              <div key={group.label}>
+                <div style={{
+                  padding:"8px 14px 4px",
+                  fontSize:8, fontFamily:"var(--font-mono)", fontWeight:700,
+                  letterSpacing:"0.16em", textTransform:"uppercase",
+                  color: group.color, display:"flex", alignItems:"center", gap:7,
                 }}>
-                  {s.label}
-                </span>
-                {!s.free && (
-                  <span className="font-mono" style={{ fontSize:8, color:"#2A2A2E", marginLeft:"auto", letterSpacing:"0.08em" }}>
-                    PRO
-                  </span>
-                )}
-              </button>
+                  <span style={{ width:12, height:1, background:group.color, display:"inline-block" }} />
+                  {group.label}
+                </div>
+                {PREVIEW_SECTIONS.filter(s => group.keys.includes(s.key)).map(s => {
+                  const i = PREVIEW_SECTIONS.indexOf(s);
+                  const isActive = i === activeIdx;
+                  return (
+                    <button key={s.key} onClick={() => setActiveIdx(i)} style={{
+                      display:"flex", alignItems:"center", gap:8,
+                      padding:"7px 14px",
+                      borderBottom:"1px solid #0D0D0F",
+                      borderTop:"none", borderRight:"none",
+                      borderLeft: isActive ? `2px solid ${s.color}` : "2px solid transparent",
+                      background: isActive ? "#13131A" : "transparent",
+                      cursor:"pointer", width:"100%", textAlign:"left",
+                    }}>
+                      <span style={{ fontSize:11, color: s.free ? (isActive ? s.color : "#5C5C63") : "#252528", flexShrink:0 }}>
+                        {s.free ? s.icon : "▪"}
+                      </span>
+                      <span className="font-mono" style={{
+                        fontSize:10, letterSpacing:"0.02em",
+                        color: isActive ? (s.free ? s.color : "#5C5C63") : (s.free ? "#6A6A75" : "#2A2A2E"),
+                        whiteSpace:"nowrap",
+                      }}>
+                        {s.label}
+                      </span>
+                      {!s.free && (
+                        <span className="font-mono" style={{ fontSize:7, color:"#252528", marginLeft:"auto", letterSpacing:"0.08em", textTransform:"uppercase" }}>PRO</span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
             ))}
           </div>
 
-          {/* Content panel */}
-          <div style={{ flex:1, padding:"24px 28px", position:"relative" }}>
-            {/* Section header */}
-            <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:16 }}>
-              <span style={{ fontSize:14, color: active.color }}>{active.free ? active.icon : "▪"}</span>
-              <span className="kicker" style={{ color: active.color, fontSize:11 }}>{active.label}</span>
-              {active.free ? (
-                <span className="font-mono" style={{ fontSize:8, color: active.color, letterSpacing:"0.1em",
-                                                      border:`1px solid ${active.color}`, padding:"2px 6px", marginLeft:"auto" }}>
-                  FREE
-                </span>
-              ) : (
-                <span className="font-mono" style={{ fontSize:8, color:"#3C3C42", letterSpacing:"0.1em",
-                                                      border:"1px solid #2A2A2E", padding:"2px 6px", marginLeft:"auto" }}>
-                  PRO
-                </span>
-              )}
-            </div>
-
-            {/* Content or locked overlay */}
-            {active.free ? (
-              <p style={{ margin:0, color:"#D0D0D8", fontSize:15, lineHeight:1.7, maxWidth:520 }}>
-                {active.text}
-              </p>
-            ) : (
-              <div style={{ position:"relative" }}>
-                <p style={{ margin:0, color:"#3C3C42", fontSize:15, lineHeight:1.7, maxWidth:520,
-                             filter:"blur(3px)", userSelect:"none" }}>
-                  {active.text}
-                </p>
-                <div style={{ position:"absolute", inset:0, display:"flex", alignItems:"center", gap:16 }}>
-                  <div style={{ height:1, flex:1, background:"#1E1E22" }} />
-                  <a href="/pricing" className="font-mono" style={{
-                    fontSize:10, letterSpacing:"0.1em", textTransform:"uppercase",
-                    color:"var(--n2)", textDecoration:"none", border:"1px solid var(--n2)",
-                    padding:"6px 14px", whiteSpace:"nowrap",
-                  }}>
-                    Unlock all 17 sections →
-                  </a>
-                  <div style={{ height:1, flex:1, background:"#1E1E22" }} />
-                </div>
-              </div>
-            )}
-          </div>
+          <ContentPanel />
         </div>
 
-        {/* ── Mobile: chip bar + single card ── */}
+        {/* ── Mobile: chip bar + card ── */}
         <div className="idle-mobile">
-          <div style={{ overflowX:"auto", display:"flex", gap:6, padding:"10px 12px",
-                        borderBottom:"1px solid #1E1E22", scrollbarWidth:"none" }}>
+          <div style={{ overflowX:"auto", display:"flex", gap:0, borderBottom:"1px solid #1E1E22", scrollbarWidth:"none" }}>
             {PREVIEW_SECTIONS.map((s, i) => (
               <button key={s.key} onClick={() => setActiveIdx(i)} style={{
-                flexShrink:0,
-                border:`1px solid ${i === activeIdx ? s.color : "#2A2A2E"}`,
-                background: i === activeIdx ? `${s.color}14` : "transparent",
-                padding:"5px 10px", cursor:"pointer",
-                display:"flex", alignItems:"center", gap:5,
+                flexShrink:0, padding:"8px 12px",
+                border:"none", borderBottom: i === activeIdx ? `2px solid ${s.color}` : "2px solid transparent",
+                background: "transparent", cursor:"pointer",
               }}>
                 <span className="font-mono" style={{
-                  fontSize:10, whiteSpace:"nowrap", letterSpacing:"0.03em",
-                  color: i === activeIdx ? s.color : s.free ? "#9A9AA8" : "#3C3C42",
+                  fontSize:9, whiteSpace:"nowrap", letterSpacing:"0.06em", textTransform:"uppercase",
+                  color: i === activeIdx ? s.color : s.free ? "#6A6A75" : "#2A2A2E",
                 }}>
                   {s.label}
                 </span>
               </button>
             ))}
           </div>
-          <div style={{ padding:"20px 16px", minHeight:120 }}>
-            <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:12 }}>
-              <span style={{ fontSize:12, color: active.color }}>{active.free ? active.icon : "▪"}</span>
-              <span className="kicker" style={{ color: active.color, fontSize:10 }}>{active.label}</span>
-            </div>
-            {active.free ? (
-              <p style={{ margin:0, color:"#C4C4CC", fontSize:14, lineHeight:1.65 }}>{active.text}</p>
-            ) : (
-              <div>
-                <p style={{ margin:0, color:"#3C3C42", fontSize:14, lineHeight:1.65, filter:"blur(3px)", userSelect:"none" }}>{active.text}</p>
-                <a href="/pricing" className="font-mono" style={{
-                  display:"inline-block", marginTop:14, fontSize:10, letterSpacing:"0.1em",
-                  textTransform:"uppercase", color:"var(--n2)", textDecoration:"none",
-                }}>Unlock all 17 sections →</a>
-              </div>
-            )}
-          </div>
-          <div style={{ borderTop:"1px solid #1E1E22", padding:"10px 14px",
+          <ContentPanel isMobile={true} />
+          <div style={{ borderTop:"1px solid #1E1E22", padding:"8px 14px",
                         display:"flex", justifyContent:"space-between", alignItems:"center" }}>
             <span className="font-mono" style={{ fontSize:10, color:"#5C5C63" }}>
               {activeIdx + 1} / {PREVIEW_SECTIONS.length}

@@ -118,29 +118,45 @@ export default function ReportView({ report, tier, input, reportId }: Props) {
       }}>
 
         {/* Report title + tier badge */}
-        <div style={{ padding:"20px 16px 16px", borderBottom:"1px solid #1E1E22" }}>
-          <div style={{ fontSize:10, fontFamily:"var(--font-mono)", letterSpacing:"0.12em",
-                        color:"#5C5C63", textTransform:"uppercase", marginBottom:6 }}>
-            Report
+        <div style={{ padding:"16px 16px 14px", borderBottom:"1px solid #1E1E22" }}>
+          <div style={{ fontSize:9, fontFamily:"var(--font-mono)", letterSpacing:"0.14em",
+                        color:"#5C5C63", textTransform:"uppercase", marginBottom:5 }}>
+            Growth Report
           </div>
-          <div style={{ fontSize:13, fontWeight:700, color:"#F4F4F1", lineHeight:1.4,
+          <div style={{ fontSize:13, fontWeight:700, color:"#F4F4F1", lineHeight:1.35,
                         display:"-webkit-box", WebkitLineClamp:2, WebkitBoxOrient:"vertical",
-                        overflow:"hidden", marginBottom:10 }}>
+                        overflow:"hidden", marginBottom:10, fontFamily:"var(--font-grotesk), sans-serif" }}>
             {input}
           </div>
-          <div style={{ display:"flex", alignItems:"center", gap:6 }}>
-            {isPaid ? (
-              <span style={{ fontSize:10, fontFamily:"var(--font-mono)", fontWeight:700,
-                             letterSpacing:"0.1em", textTransform:"uppercase",
-                             color:"#000", background:"var(--n3)", padding:"3px 8px" }}>
-                {tier} · unlocked
-              </span>
-            ) : (
-              <span style={{ fontSize:10, fontFamily:"var(--font-mono)", color:"#5C5C63",
-                             letterSpacing:"0.1em", textTransform:"uppercase" }}>
-                Free · 8 of 17
-              </span>
-            )}
+          {isPaid ? (
+            <span style={{ fontSize:9, fontFamily:"var(--font-mono)", fontWeight:700,
+                           letterSpacing:"0.1em", textTransform:"uppercase",
+                           color:"#000", background:"var(--n3)", padding:"3px 8px", display:"inline-block" }}>
+              {tier} · all sections unlocked
+            </span>
+          ) : (
+            <span style={{ fontSize:9, fontFamily:"var(--font-mono)", color:"var(--n3)",
+                           letterSpacing:"0.1em", textTransform:"uppercase" }}>
+              Free · 2 of 17 sections
+            </span>
+          )}
+        </div>
+
+        {/* Progress bar */}
+        <div style={{ padding:"10px 16px", borderBottom:"1px solid #1E1E22" }}>
+          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:6 }}>
+            <span style={{ fontSize:9, fontFamily:"var(--font-mono)", color:"#5C5C63", letterSpacing:"0.1em", textTransform:"uppercase" }}>Progress</span>
+            <span style={{ fontSize:9, fontFamily:"var(--font-mono)", color:"#5C5C63" }}>
+              {ALL_KEYS.indexOf(active) + 1} / {ALL_KEYS.length}
+            </span>
+          </div>
+          <div style={{ height:2, background:"#1A1A1E", position:"relative" }}>
+            <div style={{
+              position:"absolute", left:0, top:0, bottom:0,
+              width:`${((ALL_KEYS.indexOf(active) + 1) / ALL_KEYS.length) * 100}%`,
+              background: activeGroup.color,
+              transition:"width 0.3s ease",
+            }} />
           </div>
         </div>
 
@@ -150,11 +166,12 @@ export default function ReportView({ report, tier, input, reportId }: Props) {
             <div key={group.label} style={{ marginBottom:4 }}>
               {/* Group label */}
               <div style={{
-                padding:"10px 16px 6px",
-                fontSize:9, fontFamily:"var(--font-mono)", fontWeight:700,
-                letterSpacing:"0.14em", textTransform:"uppercase",
-                color: group.color,
+                padding:"10px 16px 5px",
+                fontSize:8, fontFamily:"var(--font-mono)", fontWeight:700,
+                letterSpacing:"0.18em", textTransform:"uppercase",
+                color: group.color, display:"flex", alignItems:"center", gap:8,
               }}>
+                <span style={{ width:14, height:1, background:group.color, display:"inline-block" }} />
                 {group.label}
               </div>
 
@@ -248,24 +265,37 @@ export default function ReportView({ report, tier, input, reportId }: Props) {
         <div style={{ padding:"32px 40px", flex:1 }}>
 
           {/* Big section title */}
-          <div style={{ marginBottom:32, paddingBottom:24, borderBottom:`2px solid ${activeGroup.color}` }}>
+          <div style={{ marginBottom:32, paddingBottom:24, borderBottom:`2px solid ${activeGroup.color}`, position:"relative", overflow:"hidden" }}>
+            {/* Watermark number */}
             <div style={{
-              fontSize:11, fontFamily:"var(--font-mono)", letterSpacing:"0.14em",
-              textTransform:"uppercase", color: activeGroup.color, marginBottom:10
+              position:"absolute", right:-4, top:-28,
+              fontSize:"clamp(80px,10vw,140px)",
+              fontFamily:"var(--font-archivo), sans-serif", fontWeight:900,
+              color:"#111113", letterSpacing:"-0.04em", lineHeight:1,
+              userSelect:"none", pointerEvents:"none",
             }}>
+              {sectionNum(active)}
+            </div>
+            <div style={{
+              fontSize:10, fontFamily:"var(--font-mono)", letterSpacing:"0.16em",
+              textTransform:"uppercase", color: activeGroup.color, marginBottom:12,
+              display:"flex", alignItems:"center", gap:8,
+            }}>
+              <span style={{ width:16, height:1, background:activeGroup.color, display:"inline-block" }} />
               {sectionNum(active)} — {activeGroup.label}
             </div>
             <h2 className="display" style={{
-              fontSize:"clamp(32px, 3.5vw, 56px)",
-              fontWeight:900, color:"#F4F4F1", lineHeight:1.05,
-              margin:0, letterSpacing:"-0.02em",
+              fontSize:"clamp(28px, 3.2vw, 52px)",
+              fontWeight:900, color:"#F4F4F1", lineHeight:1.0,
+              margin:0, letterSpacing:"-0.02em", position:"relative",
             }}>
               {SECTION_LABELS[active]}
             </h2>
             {SECTION_SUBTITLES[active] && (
               <p style={{
-                margin:"12px 0 0", fontSize:13, color:"#9A9AA8",
-                lineHeight:1.5, fontFamily:"var(--font-grotesk), sans-serif",
+                margin:"14px 0 0", fontSize:14, color:"#7A7A88",
+                lineHeight:1.6, fontFamily:"var(--font-grotesk), sans-serif",
+                maxWidth:560, position:"relative",
               }}>
                 {SECTION_SUBTITLES[active]}
               </p>
