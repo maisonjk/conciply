@@ -135,34 +135,38 @@ export default function HeroInput() {
       if (!reader) throw new Error("No response body");
 
       let buffer = "";
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        buffer += decoder.decode(value, { stream: true });
+
+      const processLines = (chunk: string): boolean => {
+        buffer += chunk;
         const lines = buffer.split("\n");
         buffer = lines.pop() ?? "";
         for (const line of lines) {
           if (!line.startsWith("data: ")) continue;
-          const payload = JSON.parse(line.slice(6));
-          if (payload.type === "error") {
-            setError(payload.error || "Something went wrong.");
-            setStatus("error");
-            return;
-          }
-          if (payload.type === "paywall") {
-            setStatus("paywall");
-            return;
-          }
-          if (payload.type === "done") {
-            const stored = saveReport(q, payload.report as GrowthReport);
-            setStatus("done");
-            setCount(c => c + 1);
-            router.push(`/report?id=${stored.id}`);
-            return;
-          }
+          try {
+            const payload = JSON.parse(line.slice(6));
+            if (payload.type === "error") { setError(payload.error || "Something went wrong."); setStatus("error"); return true; }
+            if (payload.type === "paywall") { setStatus("paywall"); return true; }
+            if (payload.type === "done") {
+              const stored = saveReport(q, payload.report as GrowthReport);
+              setStatus("done"); setCount(c => c + 1);
+              router.push(`/report?id=${stored.id}`);
+              return true;
+            }
+          } catch { /* ignore malformed SSE line */ }
         }
+        return false;
+      };
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        if (processLines(decoder.decode(value, { stream: true }))) return;
       }
-      // Stream closed without a done/error event — server likely crashed mid-stream
+      // Flush TextDecoder and process any remaining buffered data
+      // (handles the case where the done event arrives in the final chunk)
+      if (processLines(decoder.decode())) return;
+
+      // Stream truly closed with no done/error event — server crashed mid-stream
       setError("The server closed the connection before finishing. Please try again.");
       setStatus("error");
     } catch (err) {
