@@ -270,7 +270,7 @@ export default function HeroInput() {
       <div className="kicker" style={{ marginBottom:16 }}>Autonomous SaaS Growth Operating System</div>
 
       <h1 className="display" style={{ fontSize:"clamp(44px,8.5vw,128px)" }}>
-        A 22-specialist<br />growth team.<br /><span style={{ color:"var(--n2)" }}>In 60 seconds.</span>
+        A 22-specialist<br />growth team.<br /><span style={{ color:"var(--n2)" }}>On demand for any business.</span>
       </h1>
 
       <div style={{ display:"flex", flexWrap:"wrap", gap:8, marginTop:24, marginBottom:20 }}>
@@ -287,8 +287,7 @@ export default function HeroInput() {
       </div>
 
       <p style={{ fontSize:"clamp(17px,1.8vw,22px)", lineHeight:1.45, color:"#C4C4CC", maxWidth:640, marginBottom:16 }}>
-        Conciply deploys a full <span style={{ color:"#F4F4F1" }}>CEO, CMO, CRO, VP Growth, SDR and 17 more AI
-        specialists</span> to analyze any business or idea and build a <span style={{ color:"#F4F4F1" }}>17-section growth playbook — fully written, ready to execute.</span>
+        Conciply deploys <span style={{ color:"#F4F4F1" }}>22 AI specialists — including CEO, CMO, CRO, VP Growth, SDR and more —</span> to analyze any business or idea and build a <span style={{ color:"#F4F4F1" }}>17-section growth playbook, fully written and ready to execute.</span>
       </p>
 
       <p className="font-mono" style={{ fontSize:13, color:"#8A8A9A", letterSpacing:"0.04em", marginBottom:0 }}>
