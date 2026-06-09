@@ -436,10 +436,10 @@ export default function HeroInput() {
         ))}
       </div>
 
-      <p className="font-mono" style={{ fontSize:11, lineHeight:1.6, color:"#9A9AA8",
+      <p className="font-mono" style={{ fontSize:10, lineHeight:1.6, color:"#3C3C42",
                                         marginTop:18, maxWidth:720, letterSpacing:"0.02em" }}>
         AI-generated for strategic inspiration. Output may be inaccurate — review before acting.
-        See our <a href="/terms" style={{ color:"#C4C4CC", textDecoration:"underline" }}>Terms</a>.
+        See our <a href="/terms" style={{ color:"#4A4A55", textDecoration:"underline", textUnderlineOffset:2 }}>Terms</a>.
       </p>
 
       {status === "error" && (
