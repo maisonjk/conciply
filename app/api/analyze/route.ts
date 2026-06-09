@@ -138,6 +138,8 @@ export async function POST(req: NextRequest) {
           remaining = await getRemainingAttempts(ip, FREE_LIMIT);
           send({ type: "done", report: freeReport, remaining, tier: null });
         }
+        // Flush: ensure the done event is written through any infrastructure buffering
+        controller.enqueue(encoder.encode(": flush\n\n"));
       } catch (err) {
         send({ type: "error", error: err instanceof Error ? err.message : "Unknown error" });
       }
