@@ -151,6 +151,26 @@ button { font-family: inherit; cursor: pointer; }
 ::-webkit-scrollbar-thumb:hover { background:#5C5C63; }
 .shell { max-width: var(--maxw); margin: 0 auto; padding: 0 clamp(16px,4vw,40px); }
 
+/* ── LandingSections responsive ─────────────────────────────────────────── */
+/* HowItWorks 3-col → 1-col */
+@media (max-width: 720px) {
+  .how-grid { grid-template-columns: 1fr !important; }
+}
+/* WhatYouGet section rows 2-col → 1-col */
+@media (max-width: 580px) {
+  .section-rows { grid-template-columns: 1fr !important; }
+}
+/* Testimonials 3-col → 1-col */
+@media (max-width: 768px) {
+  .testimonial-grid { grid-template-columns: 1fr !important; }
+}
+/* FinalCTA 2-col → 1-col */
+@media (max-width: 640px) {
+  .final-cta-grid { grid-template-columns: 1fr !important; }
+  .final-cta-grid > div:last-child { align-items: flex-start !important; }
+}
+/* ProofBar stat items wrap naturally via flex-wrap */
+
 @media print {
   header, footer, nav,
   [data-print-hide],
