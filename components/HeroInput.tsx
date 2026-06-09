@@ -476,36 +476,140 @@ export default function HeroInput() {
 const PREVIEW_SECTIONS = [
   { key: "executiveSummary", label: "Executive Summary", color: "var(--n1)", icon: "◈", free: true,
     chip: "Score 9.4 / 10",
+    metrics: [
+      { label: "Opportunity Score", value: "9.4/10" },
+      { label: "Market Timing", value: "High" },
+      { label: "Confidence", value: "94%" },
+    ],
+    insight: "Mid-market agencies are actively leaving HubSpot. The switch cycle peaks Q3 — this is the single best window to capture churn.",
     bullets: [
-      "ICP: Agency ops leads frustrated by HubSpot complexity and price",
-      "Core advantage: 3× faster pipeline visibility at 40% lower total cost",
-      "Biggest opportunity: mid-market CRM switch cycle peaks Q3 — act now",
-    ]},
+      { label: "ICP", text: "Agency ops leads, 5–50 seats, frustrated by HubSpot's complexity and $800+/mo cost" },
+      { label: "Moat", text: "3× faster pipeline visibility at 40% lower total cost of ownership vs nearest competitor" },
+      { label: "Channel", text: "LinkedIn outbound + G2 review flywheel is the highest-leverage acquisition path" },
+      { label: "Risk", text: "Commoditisation risk is real — differentiate on analytics depth, not price alone" },
+      { label: "Next move", text: "PLG free tier removes procurement friction for sub-10-seat teams and seeds viral loops" },
+    ],
+    tags: ["B2B SaaS", "PLG", "Mid-market", "Agency CRM", "Q3 window"],
+  },
   { key: "topRoiActions", label: "Top ROI Actions", color: "var(--n1)", icon: "★", free: true,
     chip: "3 priority moves",
+    metrics: [
+      { label: "Highest Impact", value: "PLG Tier" },
+      { label: "Fastest Win", value: "G2 Push" },
+      { label: "Est. CAC", value: "$180" },
+    ],
+    insight: "These three moves compound. Each one feeds the next: PLG users review on G2, G2 reviews convert LinkedIn traffic, LinkedIn traffic seeds PLG.",
     bullets: [
-      "#1 · Launch free PLG tier — removes procurement friction for sub-10 teams",
-      "#2 · G2 review push — 15 reviews converts 22% more mid-market trials",
-      "#3 · LinkedIn outbound to agency ops directors — 34% response rate",
-    ]},
+      { label: "#1 · Impact: Critical", text: "Launch free PLG tier — removes procurement approval for sub-10-seat teams, seeds word-of-mouth" },
+      { label: "#2 · Impact: High", text: "G2 review push — 15 verified reviews drives 22% lift in mid-market trial conversions" },
+      { label: "#3 · Impact: High", text: "LinkedIn outbound to agency ops directors — 34% response rate on 3-line personalised messages" },
+      { label: "#4 · Impact: Medium", text: "CRM comparison landing pages targeting 'HubSpot alternative for agencies' — 8,200 monthly searches" },
+      { label: "#5 · Impact: Medium", text: "Partner with agency Slack communities — 6 communities × 800+ members each, zero ad spend" },
+    ],
+    tags: ["Quick wins", "PLG", "SEO", "Outbound", "Community"],
+  },
   { key: "marketAnalysis", label: "Market Analysis", color: "var(--n2)", icon: "◎", free: false,
     chip: "TAM $4.2B",
-    bullets: ["TAM $4.2B · SAM $820M · SOM $41M", "Mid-market abandoning Salesforce at 2× 2022 rate", "Gap: analytics-first CRM under $50/seat — no strong incumbent"]},
+    metrics: [
+      { label: "TAM", value: "$4.2B" },
+      { label: "SAM", value: "$820M" },
+      { label: "SOM (Yr 1)", value: "$41M" },
+    ],
+    insight: "Mid-market CRM abandonment is accelerating. 62% of agencies with 10–50 seats report actively evaluating alternatives in the past 6 months.",
+    bullets: [
+      { label: "Market size", text: "Global CRM market $4.2B TAM, growing at 14.2% CAGR — agency segment outpacing at 19%" },
+      { label: "Trend", text: "Mid-market churn from Salesforce and HubSpot running at 2× the 2022 rate — window is open now" },
+      { label: "Gap", text: "No analytics-first CRM priced under $50/seat for agency workflows — category is wide open" },
+      { label: "Geography", text: "US + UK + AU are primary SAM; all three show elevated 'HubSpot alternative' search volume" },
+      { label: "Timing", text: "Annual CRM contract renewals cluster in Q1 and Q3 — Q3 decision cycle begins in 8 weeks" },
+    ],
+    tags: ["$4.2B TAM", "14.2% CAGR", "Agency segment", "Mid-market"],
+  },
   { key: "competitorAnalysis", label: "Competitor Analysis", color: "var(--n2)", icon: "⊕", free: false,
-    chip: "Gap identified",
-    bullets: ["HubSpot: 38% share, over-priced for agencies under 25 seats", "Pipedrive: weak on reporting — top churn reason cited by users", "Your gap: analytics + simplicity at agency-friendly price"]},
+    chip: "4 gaps identified",
+    metrics: [
+      { label: "HubSpot share", value: "38%" },
+      { label: "Top churn reason", value: "Reporting" },
+      { label: "Price gap", value: "$420/mo" },
+    ],
+    insight: "Every major incumbent has the same blind spot: they built for enterprise and bolted on agency features. None owns the analytics-first positioning.",
+    bullets: [
+      { label: "HubSpot", text: "38% share, over-priced at $800+/mo for agencies under 25 seats — top complaint: bloated features" },
+      { label: "Pipedrive", text: "Affordable but weak on reporting — #1 cited reason for churn in G2 reviews (2,340 mentions)" },
+      { label: "Salesforce", text: "Requires 1+ FTE admin to maintain — eliminates itself from sub-50-seat agency shortlists" },
+      { label: "Monday CRM", text: "Strong UX but no pipeline forecasting — agencies outgrow it within 12 months" },
+      { label: "Your gap", text: "Analytics-first CRM at $39–79/seat with agency-native reporting — no credible incumbent here" },
+    ],
+    tags: ["HubSpot", "Pipedrive", "Salesforce", "Monday", "Gap analysis"],
+  },
   { key: "acquisitionPlan", label: "Acquisition Plan", color: "var(--n3)", icon: "➤", free: false,
-    chip: "3 channels",
-    bullets: ["LinkedIn outbound → agency Slack communities → G2 review push", "Budget split: 60% content, 40% paid — flip at 500 MRR", "Target CAC $180 within 90 days based on comparable PLG launches"]},
+    chip: "3 primary channels",
+    metrics: [
+      { label: "Target CAC", value: "$180" },
+      { label: "Payback", value: "4.2 mo" },
+      { label: "Blended LTV", value: "$1,840" },
+    ],
+    insight: "Content-led SEO and LinkedIn outbound are your two best channels with a 9:1 LTV:CAC ratio at scale. Run them in parallel from day one.",
+    bullets: [
+      { label: "Channel 1", text: "LinkedIn outbound — agency ops directors, 3-line personalised message, 34% reply rate, $0 ad spend" },
+      { label: "Channel 2", text: "SEO comparison pages — 'HubSpot vs [you]' format, 8,200 monthly searches, 90-day to rank" },
+      { label: "Channel 3", text: "Agency Slack / Discord communities — warm intros via community managers, 6 priority targets" },
+      { label: "Budget split", text: "60% content / 40% paid. Flip ratio at $500 MRR once paid CAC data validates unit economics" },
+      { label: "Milestone", text: "Target 50 trials in 30 days → 12 paid conversions → $940 MRR. Repeatable loop established." },
+    ],
+    tags: ["LinkedIn", "SEO", "Community", "PLG", "$180 CAC"],
+  },
   { key: "socialMediaStrategy", label: "Social Media", color: "var(--n3)", icon: "◈", free: false,
     chip: "4-week calendar",
-    bullets: ["LinkedIn: agency ops thought leadership — 3× / week", "YouTube: CRM comparison walkthroughs — 2× / month", "Reddit: r/sales community engagement — daily for 30 days"]},
+    metrics: [
+      { label: "Primary channel", value: "LinkedIn" },
+      { label: "Post frequency", value: "3×/week" },
+      { label: "Target CPL", value: "$14" },
+    ],
+    insight: "Thought leadership on LinkedIn targeting agency ops pain points will outperform broad product marketing by 4× based on category comps.",
+    bullets: [
+      { label: "LinkedIn", text: "Agency ops thought leadership — 3× per week. Hook: 'We saved this agency 6 hrs/week on reporting'" },
+      { label: "YouTube", text: "CRM comparison walkthroughs — 2× per month. 'HubSpot vs [You] for agencies' drives SEO + trust" },
+      { label: "Reddit", text: "r/sales + r/agency daily engagement for 30 days before any mention of product — build credibility first" },
+      { label: "Twitter/X", text: "Behind-the-scenes build log — founder-mode content, 1× per day, tag early users for social proof" },
+      { label: "Week 1 posts", text: "Mon: agency CRM pain stat · Wed: feature demo GIF · Fri: customer testimonial or case study hook" },
+    ],
+    tags: ["LinkedIn", "YouTube", "Reddit", "Twitter", "Thought leadership"],
+  },
   { key: "plan7Day", label: "7-Day Sprint", color: "#9A9AA8", icon: "①", free: false,
-    chip: "Day-by-day",
-    bullets: ["Day 1–2: cold email sequence live + first 50 prospects loaded", "Day 3–4: G2 profile live + 5 review requests sent", "Day 5–7: first LinkedIn post series published + tracking live"]},
+    chip: "Day-by-day plan",
+    metrics: [
+      { label: "Target", value: "50 outreach" },
+      { label: "Goal", value: "10 trials" },
+      { label: "Budget", value: "$0" },
+    ],
+    insight: "The first 7 days are about systems, not results. Get the pipes in place so everything compounds automatically from week 2.",
+    bullets: [
+      { label: "Day 1–2", text: "Cold email sequence live in Instantly or Apollo — 50 prospects loaded, personalisation fields verified" },
+      { label: "Day 3", text: "G2 profile fully live with 3 founding customer reviews — screenshots shared on LinkedIn" },
+      { label: "Day 4", text: "First LinkedIn post published — agency ops pain angle, 3-paragraph format, no product mention" },
+      { label: "Day 5–6", text: "HubSpot comparison landing page live, submitted to Google Search Console, internal links added" },
+      { label: "Day 7", text: "Review all metrics: open rate, reply rate, profile views, trial signups — adjust sequences based on data" },
+    ],
+    tags: ["Email outreach", "G2", "SEO", "LinkedIn", "Day-by-day"],
+  },
   { key: "immediateActions", label: "Immediate Actions", color: "#9A9AA8", icon: "⚡", free: false,
-    chip: "Next 24–72h",
-    bullets: ["Next 24h: message 10 agency founders on LinkedIn with personalised note", "Next 48h: publish CRM comparison landing page with SEO targeting", "Next 72h: schedule first G2 review request campaign"]},
+    chip: "Next 24–72 hours",
+    metrics: [
+      { label: "Next 24h", value: "10 DMs" },
+      { label: "Next 48h", value: "1 page live" },
+      { label: "Next 72h", value: "G2 live" },
+    ],
+    insight: "These actions take under 2 hours total and generate compounding returns. Start with the LinkedIn DMs — replies will arrive before you finish the other two.",
+    bullets: [
+      { label: "Now (30 min)", text: "Message 10 agency founders on LinkedIn — use the exact script in Section 9, personalise company name only" },
+      { label: "Today (1 hr)", text: "Claim and complete G2 profile — add screenshots, logo, description, request 3 reviews from existing users" },
+      { label: "Next 48h", text: "Publish CRM comparison landing page — 'Best HubSpot alternative for agencies' — use Section 3 data as source" },
+      { label: "Next 48h", text: "Post first LinkedIn thought leadership piece — agency ops pain, no product pitch, end with a question" },
+      { label: "Next 72h", text: "Set up weekly review cadence: Monday 30-min check on pipeline, CAC, trial-to-paid rate" },
+    ],
+    tags: ["LinkedIn DMs", "G2", "Landing page", "Content", "Tracking"],
+  },
 ];
 
 const PREVIEW_GROUPS = [
@@ -519,72 +623,115 @@ function IdlePreview() {
   const [activeIdx, setActiveIdx] = useState(0);
   const active = PREVIEW_SECTIONS[activeIdx];
 
-  const ContentPanel = ({ isMobile }: { isMobile?: boolean }) => (
-    <div style={{ flex:1, padding: isMobile ? "20px 16px" : "22px 28px", position:"relative", minHeight: isMobile ? 160 : 260 }}>
-      {/* Section header row */}
-      <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:14 }}>
-        <span style={{ fontSize:16, color: active.color, lineHeight:1 }}>{active.free ? active.icon : "▪"}</span>
-        <span className="kicker" style={{ color: active.color, fontSize:10 }}>{active.label}</span>
-        <span className="font-mono" style={{
-          fontSize:8, letterSpacing:"0.1em", textTransform:"uppercase",
-          marginLeft:"auto", padding:"2px 7px",
-          color: active.free ? active.color : "#3C3C42",
-          border: `1px solid ${active.free ? active.color : "#2A2A2E"}`,
-        }}>
-          {active.free ? "Free" : "Pro"}
-        </span>
-      </div>
+  const ContentPanel = ({ isMobile }: { isMobile?: boolean }) => {
+    const pad = isMobile ? "16px 16px" : "20px 28px";
+    const inner = (
+      <div style={{ display:"flex", flexDirection:"column", gap:0 }}>
 
-      {active.free ? (
-        <>
-          {/* Metric chip */}
-          <div style={{
-            display:"inline-flex", alignItems:"center", gap:6,
-            background:`${active.color}12`, border:`1px solid ${active.color}30`,
-            padding:"4px 10px", marginBottom:14,
-          }}>
-            <span style={{ width:5, height:5, borderRadius:"50%", background:active.color, display:"inline-block" }} />
-            <span className="font-mono" style={{ fontSize:9, color:active.color, letterSpacing:"0.1em", textTransform:"uppercase" }}>
-              {active.chip}
-            </span>
-          </div>
-          {/* Bullet list */}
-          <ul style={{ margin:0, padding:0, listStyle:"none", display:"flex", flexDirection:"column", gap:9 }}>
-            {active.bullets.map((b, i) => (
-              <li key={i} style={{ display:"flex", gap:10, alignItems:"flex-start" }}>
-                <span style={{ color:active.color, fontSize:10, flexShrink:0, marginTop:3, lineHeight:1 }}>›</span>
-                <span style={{ fontSize: isMobile ? 13 : 14, color:"#C4C4CC", lineHeight:1.55, fontFamily:"var(--font-grotesk), sans-serif" }}>{b}</span>
-              </li>
-            ))}
-          </ul>
-        </>
-      ) : (
-        <div style={{ position:"relative" }}>
-          {/* Skeleton */}
-          <div style={{ display:"flex", flexDirection:"column", gap:10, filter:"blur(5px)", userSelect:"none", pointerEvents:"none" }}>
-            <div style={{ height:20, background:"#161618", width:"32%", borderRadius:2 }} />
-            {[88, 72, 94].map((w, i) => (
-              <div key={i} style={{ display:"flex", gap:8, alignItems:"center" }}>
-                <div style={{ width:8, height:8, background:"#161618", flexShrink:0, borderRadius:1 }} />
-                <div style={{ height:13, background:"#161618", width:`${w}%`, borderRadius:2 }} />
+        {/* ── Header row ── */}
+        <div style={{ display:"flex", alignItems:"center", gap:8, padding:pad,
+                      borderBottom:"1px solid #1A1A1E" }}>
+          <span style={{ fontSize:15, color:active.color, lineHeight:1, flexShrink:0 }}>{active.icon}</span>
+          <span className="kicker" style={{ color:active.color, fontSize:9, flex:1 }}>{active.label}</span>
+          <span className="font-mono" style={{
+            fontSize:8, letterSpacing:"0.1em", textTransform:"uppercase",
+            padding:"2px 8px", border:`1px solid ${active.free ? active.color : "#2A2A2E"}`,
+            color: active.free ? active.color : "#3C3C42",
+          }}>{active.free ? "FREE PREVIEW" : "PRO"}</span>
+        </div>
+
+        {/* ── Metrics row ── */}
+        <div style={{ display:"flex", borderBottom:"1px solid #1A1A1E" }}>
+          {active.metrics.map((m, i) => (
+            <div key={i} style={{
+              flex:1, padding: isMobile ? "10px 12px" : "11px 16px",
+              borderRight: i < active.metrics.length - 1 ? "1px solid #1A1A1E" : "none",
+            }}>
+              <div className="font-mono" style={{ fontSize:8, color:"#4A4A55", letterSpacing:"0.1em",
+                                                  textTransform:"uppercase", marginBottom:4 }}>{m.label}</div>
+              <div className="display" style={{ fontSize: isMobile ? 15 : 17, color:active.color, lineHeight:1 }}>{m.value}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* ── Key insight callout ── */}
+        <div style={{
+          padding: isMobile ? "10px 14px" : "11px 20px",
+          borderBottom:"1px solid #1A1A1E",
+          borderLeft:`3px solid ${active.color}`,
+          background:`${active.color}07`,
+          display:"flex", gap:10, alignItems:"flex-start",
+        }}>
+          <span className="font-mono" style={{ fontSize:8, color:active.color, letterSpacing:"0.1em",
+                                               textTransform:"uppercase", flexShrink:0, marginTop:2 }}>KEY INSIGHT</span>
+          <span style={{ fontSize: isMobile ? 12 : 12, color:"#C4C4CC", lineHeight:1.55,
+                         fontFamily:"var(--font-grotesk), sans-serif" }}>{active.insight}</span>
+        </div>
+
+        {/* ── Bullet list ── */}
+        <div style={{ display:"flex", flexDirection:"column" }}>
+          {active.bullets.map((b, i) => (
+            <div key={i} style={{
+              display:"flex", gap:10, alignItems:"flex-start",
+              padding: isMobile ? "8px 14px" : "8px 20px",
+              borderBottom: i < active.bullets.length - 1 ? "1px solid #111113" : "none",
+            }}>
+              <span style={{ color:active.color, fontSize:9, flexShrink:0, marginTop:3, lineHeight:1 }}>›</span>
+              <div style={{ display:"flex", flexDirection: isMobile ? "column" : "row", gap: isMobile ? 2 : 8, alignItems:"flex-start", flex:1 }}>
+                <span className="font-mono" style={{
+                  fontSize:8, color: active.color, letterSpacing:"0.06em",
+                  flexShrink:0, whiteSpace:"nowrap", marginTop:2, opacity:0.8,
+                }}>{b.label}</span>
+                <span style={{ fontSize: isMobile ? 12 : 12.5, color:"#BEBEC8", lineHeight:1.55,
+                               fontFamily:"var(--font-grotesk), sans-serif" }}>{b.text}</span>
               </div>
-            ))}
+            </div>
+          ))}
+        </div>
+
+        {/* ── Tags row ── */}
+        <div style={{ padding: isMobile ? "9px 12px" : "9px 20px", borderTop:"1px solid #1A1A1E",
+                      display:"flex", flexWrap:"wrap", gap:6 }}>
+          {active.tags.map((tag, i) => (
+            <span key={i} className="font-mono" style={{
+              fontSize:8, letterSpacing:"0.08em", textTransform:"uppercase",
+              color:"#3C3C42", border:"1px solid #1E1E22", padding:"2px 7px",
+            }}>{tag}</span>
+          ))}
+        </div>
+
+      </div>
+    );
+
+    if (!active.free) {
+      return (
+        <div style={{ flex:1, position:"relative", overflow:"hidden" }}>
+          <div style={{ filter:"blur(4px)", userSelect:"none", pointerEvents:"none", opacity:0.6 }}>
+            {inner}
           </div>
-          {/* Unlock CTA */}
-          <div style={{ position:"absolute", inset:0, display:"flex", alignItems:"center", justifyContent:"center" }}>
-            <a href="/pricing" className="font-mono" style={{
-              fontSize:10, letterSpacing:"0.1em", textTransform:"uppercase",
-              color:"var(--n2)", textDecoration:"none",
-              border:"1px solid var(--n2)", padding:"7px 16px",
-              background:"#0A0A0B", whiteSpace:"nowrap",
+          <div style={{ position:"absolute", inset:0, display:"flex", flexDirection:"column",
+                        alignItems:"center", justifyContent:"center", gap:12,
+                        background:"rgba(10,10,11,0.55)", backdropFilter:"blur(1px)" }}>
+            <div className="font-mono" style={{ fontSize:9, color:"#5C5C63", letterSpacing:"0.12em",
+                                                textTransform:"uppercase", textAlign:"center" }}>
+              {active.label} · Pro section
+            </div>
+            <a href="/pricing" style={{
+              fontSize:11, letterSpacing:"0.1em", textTransform:"uppercase",
+              color:"#000", textDecoration:"none",
+              background:"var(--n2)", border:"2px solid var(--n2)",
+              padding:"9px 20px", fontFamily:"var(--font-archivo), sans-serif",
+              fontWeight:800, whiteSpace:"nowrap",
             }}>
               Unlock all 17 sections →
             </a>
           </div>
         </div>
-      )}
-    </div>
-  );
+      );
+    }
+
+    return <div style={{ flex:1 }}>{inner}</div>;
+  };
 
   return (
     <div style={{ marginTop:"clamp(40px,5vw,72px)" }}>
