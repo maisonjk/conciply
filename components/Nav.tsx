@@ -90,7 +90,7 @@ export function VisionStatement() {
         <div>
           <p className="font-mono" style={{ fontSize:13, color:"var(--n1)", letterSpacing:"0.12em",
                                             textTransform:"uppercase", margin:"0 0 20px" }}>Built for</p>
-          <h2 className="display" style={{ fontSize:"clamp(28px,4vw,46px)", marginBottom:24, marginTop:0 }}>
+          <h2 className="display" style={{ fontSize:"clamp(34px,5vw,58px)", marginBottom:24, marginTop:0 }}>
             Founders. Creators.<br />Builders of all kinds.
           </h2>
           <p style={{ fontSize:16, lineHeight:1.7, color:"#E0E0E0", maxWidth:420, margin:"0 0 32px" }}>

@@ -283,7 +283,7 @@ export default function HeroInput() {
       <p className="kicker" style={{ marginBottom:14, color:"#5C5C63" }}>Autonomous Growth OS</p>
 
       {/* ── H1 — Tier 1: The Claim ── */}
-      <h1 className="display" style={{ fontSize:"clamp(36px,5.5vw,86px)", lineHeight:1.0, marginBottom:28 }}>
+      <h1 className="display" style={{ fontSize:"clamp(44px,7vw,108px)", lineHeight:1.0, marginBottom:28 }}>
         A 22-specialist<br />growth team.<br /><span style={{ color:"var(--n1)" }}>On demand for any business.</span>
       </h1>
 
