@@ -32,7 +32,6 @@ export default function Nav() {
         <nav style={{ display:"flex", gap:2, alignItems:"center" }}>
           <span className="nav-links-desktop">
             {navLink("/pricing", "Pricing")}
-            {navLink("/restore", "Restore")}
           </span>
           <Link href="/" className="btn-neon" style={{ padding:"9px 18px", fontSize:13, marginLeft:8 }}>
             Start free
