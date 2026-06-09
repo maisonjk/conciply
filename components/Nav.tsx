@@ -83,34 +83,40 @@ export function Footer() {
 }
 
 export function VisionStatement() {
+  const icps = [
+    { color:"var(--n3)", role:"Solo Founders & Indie Hackers", desc:"Validate ideas, find your market, and build a growth strategy before you write a line of code — or your first dollar in revenue." },
+    { color:"var(--n1)", role:"Content Creators", desc:"Run any business, trend, or niche through Conciply and walk away with fresh angles, frameworks, and content that your audience hasn't seen yet." },
+    { color:"var(--n2)", role:"Agencies & Consultants", desc:"Generate client-ready growth playbooks in minutes. More time delivering value, less time building decks from scratch." },
+  ];
   return (
     <section style={{ borderTop:"2px solid #F4F4F1", marginTop:80 }}>
       <div className="shell vision-grid" style={{ padding:"clamp(48px,7vw,96px) clamp(16px,4vw,40px)" }}>
         <div>
           <p className="font-mono" style={{ fontSize:13, color:"var(--n1)", letterSpacing:"0.12em",
-                                            textTransform:"uppercase", margin:"0 0 20px" }}>Our Vision</p>
+                                            textTransform:"uppercase", margin:"0 0 20px" }}>Built for</p>
           <h2 className="display" style={{ fontSize:"clamp(28px,4vw,46px)", marginBottom:24, marginTop:0 }}>
-            Every business deserves a world-class executive team.
+            Founders. Creators.<br />Builders of all kinds.
           </h2>
-          <p style={{ fontSize:16, lineHeight:1.7, color:"#E0E0E0", maxWidth:420, margin:0 }}>
-            Conciply gives every founder, creator, and entrepreneur — regardless of team size or budget —
-            the same strategic firepower as a fully-staffed growth org.
+          <p style={{ fontSize:16, lineHeight:1.7, color:"#E0E0E0", maxWidth:420, margin:"0 0 32px" }}>
+            Conciply gives every founder, creator, and entrepreneur the same strategic firepower
+            as a fully-staffed growth org — regardless of team size or budget.
           </p>
-          <p className="display" style={{ marginTop:32, fontSize:18, color:"var(--n3)", marginBottom:0 }}>
-            Think Like Owners. Execute Like a Team.
+          <p className="display" style={{ fontSize:18, color:"var(--n3)", margin:0 }}>
+            Acquire. Retain. Expand.
           </p>
         </div>
         <div className="mission-col" style={{ borderLeft:"2px solid #F4F4F1", paddingLeft:"clamp(24px,4vw,56px)" }}>
-          <p className="font-mono" style={{ fontSize:13, color:"var(--n2)", letterSpacing:"0.12em",
-                                            textTransform:"uppercase", margin:"0 0 20px" }}>Our Mission</p>
-          <p style={{ fontSize:16, lineHeight:1.8, color:"#E0E0E0", marginBottom:20, marginTop:0 }}>
-            Conciply exists to level the playing field — whether you're a SaaS founder, a content creator,
-            an e-commerce seller, or anyone with a business idea worth growing.
-          </p>
-          <p style={{ fontSize:16, lineHeight:1.8, color:"#E0E0E0", marginBottom:0 }}>
-            Every recommendation is scored by ROI, speed, and difficulty — so you always know exactly
-            what to do next, and why it matters.
-          </p>
+          <div style={{ display:"flex", flexDirection:"column", gap:28 }}>
+            {icps.map(({ color, role, desc }) => (
+              <div key={role}>
+                <p className="font-mono" style={{ fontSize:11, color, letterSpacing:"0.12em",
+                                                  textTransform:"uppercase", margin:"0 0 8px", fontWeight:700 }}>
+                  {role}
+                </p>
+                <p style={{ fontSize:15, lineHeight:1.7, color:"#C4C4CC", margin:0 }}>{desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

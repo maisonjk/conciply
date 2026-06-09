@@ -23,6 +23,46 @@ const TIER_CONFIG: Record<string, TierConfig> = {
 const DEFAULT_MODEL  = process.env.OPENAI_MODEL  || "gpt-4o";
 const DEFAULT_TOKENS = 14000;
 
+const TOP_KEYS = [
+  "executiveSummary","marketAnalysis","competitorAnalysis","positioning",
+  "growthOpportunities","acquisitionPlan","funnelImprovements","marketingAssets",
+  "salesAssets","retentionStrategy","socialMediaStrategy","kpiDashboard",
+  "topRoiActions","plan7Day","plan30Day","plan90Day","immediateActions",
+];
+
+function findCompletedSections(accumulated: string, sent: Set<string>): { key: string; data: unknown }[] {
+  const completed: { key: string; data: unknown }[] = [];
+  for (const key of TOP_KEYS) {
+    if (sent.has(key)) continue;
+    const idx = accumulated.indexOf(`"${key}"`);
+    if (idx === -1) continue;
+    let pos = accumulated.indexOf(":", idx + key.length + 2);
+    if (pos === -1) continue;
+    pos++;
+    while (pos < accumulated.length && accumulated[pos] === " ") pos++;
+    const open = accumulated[pos];
+    if (open !== "{" && open !== "[") continue;
+    const close = open === "{" ? "}" : "]";
+    let depth = 0, inStr = false, esc = false, end = -1;
+    for (let i = pos; i < accumulated.length; i++) {
+      const ch = accumulated[i];
+      if (esc)        { esc = false; continue; }
+      if (ch === "\\" && inStr) { esc = true; continue; }
+      if (ch === '"') { inStr = !inStr; continue; }
+      if (inStr)      continue;
+      if (ch === open)  depth++;
+      else if (ch === close) { if (--depth === 0) { end = i; break; } }
+    }
+    if (end !== -1) {
+      let data: unknown = null;
+      try { data = JSON.parse(accumulated.slice(pos, end + 1)); } catch { /* leave null */ }
+      completed.push({ key, data });
+      sent.add(key);
+    }
+  }
+  return completed;
+}
+
 function getIP(req: NextRequest): string {
   return (
     req.headers.get("x-forwarded-for")?.split(",")[0].trim() ??
@@ -103,11 +143,17 @@ export async function POST(req: NextRequest) {
 
         let accumulated = "";
         let chunksSinceLastPing = 0;
+        const sentSections = new Set<string>();
 
         for await (const chunk of openaiStream) {
           const delta = chunk.choices[0]?.delta?.content ?? "";
           accumulated += delta;
           chunksSinceLastPing++;
+
+          // Emit each section the moment it completes, with its parsed data
+          const newSections = findCompletedSections(accumulated, sentSections);
+          for (const { key, data } of newSections) send({ type: "section", key, data });
+
           // Send a progress ping every ~300 chars so client can animate
           if (chunksSinceLastPing >= 30) {
             send({ type: "chunk" });

@@ -5,6 +5,7 @@ import type { LicenseTier } from "@/lib/types";
 interface TierDef {
   tier: LicenseTier | null;
   label: string;
+  tagline: string;
   monthlyPrice: string;
   annualPrice: string;      // per-month displayed price when billed annually
   annualBilled: string;     // total billed per year
@@ -20,6 +21,7 @@ const TIERS: TierDef[] = [
   {
     tier: null,
     label: "Free",
+    tagline: "Try it — no login, no card",
     monthlyPrice: "$0",
     annualPrice: "$0",
     annualBilled: "$0 / year",
@@ -41,6 +43,7 @@ const TIERS: TierDef[] = [
   {
     tier: "founder",
     label: "Founder",
+    tagline: "For solo founders & indie hackers",
     monthlyPrice: "$19",
     annualPrice: "$16",
     annualBilled: "$190 / year",
@@ -60,6 +63,7 @@ const TIERS: TierDef[] = [
   {
     tier: "pro",
     label: "Pro",
+    tagline: "For active builders & content creators",
     monthlyPrice: "$49",
     annualPrice: "$39",
     annualBilled: "$468 / year",
@@ -79,6 +83,7 @@ const TIERS: TierDef[] = [
   {
     tier: "agency",
     label: "Agency",
+    tagline: "For consultants & client work",
     monthlyPrice: "$99",
     annualPrice: "$79",
     annualBilled: "$948 / year",
@@ -176,7 +181,7 @@ export default function PricingTable() {
 
       {/* ── Plan cards ── */}
       <div className="pricing-grid">
-        {TIERS.map(({ tier, label, monthlyPrice, annualPrice, annualBilled, badge, features, cta, href, accent, highlight }) => {
+        {TIERS.map(({ tier, label, tagline, monthlyPrice, annualPrice, annualBilled, badge, features, cta, href, accent, highlight }) => {
           const price   = annual ? annualPrice   : monthlyPrice;
           const subLine = annual ? annualBilled  : "Per month";
           const loadKey = tier ? `${tier}${annual ? "_annual" : ""}` : null;
@@ -195,7 +200,7 @@ export default function PricingTable() {
             >
               {/* Tier header */}
               <div style={{ marginBottom: 24 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
                   <span
                     className="kicker"
                     style={{ color: highlight ? accent : "#D0D0D8", fontSize: 11 }}
@@ -215,6 +220,12 @@ export default function PricingTable() {
                     </span>
                   )}
                 </div>
+                <p className="font-mono" style={{
+                  fontSize: 10, color: "#6A6A75", letterSpacing: "0.04em",
+                  margin: "0 0 10px", lineHeight: 1.4,
+                }}>
+                  {tagline}
+                </p>
 
                 {/* Price */}
                 <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>

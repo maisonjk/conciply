@@ -8,10 +8,10 @@ const mono = Space_Mono({ subsets: ["latin"], weight: ["400","700"], variable: "
 
 export const metadata: Metadata = {
   title: "Conciply — Autonomous Growth OS",
-  description: "Every great idea deserves a growth playbook. Conciply deploys 20 AI specialists to analyze any business or idea and generate a complete growth strategy in under 60 seconds.",
+  description: "Solo founders, content creators, and builders: get a 17-section growth playbook from 22 AI specialists in 60 seconds. No login required.",
   openGraph: {
     title: "Conciply — Autonomous Growth OS",
-    description: "Every great idea deserves a growth playbook. Conciply deploys 20 AI specialists to analyze any business or idea and generate a complete growth strategy in under 60 seconds.",
+    description: "Solo founders, content creators, and builders: get a 17-section growth playbook from 22 AI specialists in 60 seconds. No login required.",
     url: "https://www.conciply.com",
     siteName: "Conciply",
     type: "website",
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Conciply — Autonomous Growth OS",
-    description: "Every great idea deserves a growth playbook. Conciply deploys 20 AI specialists to generate a complete growth strategy in under 60 seconds.",
+    description: "Solo founders, content creators, and builders: get a 17-section growth playbook from 22 AI specialists in 60 seconds. No login required.",
   },
   metadataBase: new URL("https://www.conciply.com"),
 };

@@ -17,7 +17,24 @@ const COLORS = [
   "var(--n1)", "var(--n3)", "var(--n2)", "var(--n1)", "var(--n3)",
 ];
 
-export default function OutputSkeleton() {
+export default function OutputSkeleton({ slim }: { slim?: boolean }) {
+  if (slim) {
+    return (
+      <div style={{ marginTop:16, display:"flex", alignItems:"center", gap:8 }}>
+        <div style={{ height:2, flex:1, background:"#1A1A1E", overflow:"hidden", position:"relative" }}>
+          <div style={{
+            position:"absolute", inset:0,
+            background:"linear-gradient(90deg, transparent 0%, var(--n1) 50%, transparent 100%)",
+            animation:"shimmer 1.6s linear infinite", transform:"translateX(-100%)",
+          }} />
+        </div>
+        <span className="font-mono" style={{ fontSize:10, color:"#5C5C63", letterSpacing:"0.08em", whiteSpace:"nowrap" }}>
+          more coming…
+        </span>
+        <style>{`@keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(300%)}}`}</style>
+      </div>
+    );
+  }
   const [progress, setProgress] = useState(0);
   const [lit, setLit] = useState(0); // how many section tiles are "lit"
 

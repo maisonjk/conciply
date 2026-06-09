@@ -4,8 +4,8 @@ import { useRouter } from "next/navigation";
 import { saveReport, getLicenseKey } from "@/lib/workspace";
 import OutputSkeleton from "./OutputSkeleton";
 import Paywall from "./Paywall";
-import type { GrowthReport } from "@/lib/types";
-import { FREE_SECTIONS, SECTION_LABELS } from "@/lib/types";
+import type { GrowthReport, PartialGrowthReport } from "@/lib/types";
+import { FREE_SECTIONS, SECTION_LABELS, SECTION_ORDER } from "@/lib/types";
 
 const LANGUAGES = [
   { code: "auto",  label: "🌐 Auto-detect" },
@@ -27,28 +27,26 @@ const LANGUAGES = [
 ];
 
 const EXAMPLES = [
-  "B2B CRM for marketing agencies",
-  "AI note-taking app for developers",
-  "Restaurant inventory management SaaS",
-  "Subscription analytics for ecommerce",
-  "Dev tool for API load testing",
+  "Indie SaaS for freelance project management",
+  "YouTube channel about personal finance",
+  "Handmade jewelry shop going online",
+  "Mobile app for local restaurant discovery",
+  "Freelance marketing consultancy",
 ];
 
 const LOADING_MESSAGES = [
-  "Briefing your 22-specialist team…",
-  "CEO + CMO mapping your market position…",
-  "Competitor Intelligence scanning rivals…",
-  "VP Growth identifying your top opportunities…",
-  "Performance Marketing building your ad strategy…",
-  "SEO Specialist researching your keywords…",
-  "Content Marketing drafting your playbook…",
-  "SDR writing your outreach scripts…",
-  "Funnel Architect optimizing your conversions…",
-  "Data Scientist scoring your ROI actions…",
-  "Retention Specialist designing your onboarding…",
-  "Social Media team building your content calendar…",
-  "CRO Specialist reviewing your 90-day plan…",
-  "Finalizing your complete growth report…",
+  "Convening your AI board of directors…",
+  "Reading 847 case studies so you don't have to…",
+  "Your competitors are not doing this. You are.",
+  "Stress-testing your idea against the market…",
+  "Reverse-engineering what works in your space…",
+  "Mapping the fastest path to your first 1,000 customers…",
+  "Calculating which moves give you the highest ROI…",
+  "Building a social strategy your audience will actually stop for…",
+  "Drafting copy that converts — not just sounds good…",
+  "Designing retention loops to keep customers coming back…",
+  "Stress-testing 90 days of execution so you hit the ground running…",
+  "Almost done — your AI execs are debating the final details…",
 ];
 
 function getTodayCount() {
@@ -56,6 +54,69 @@ function getTodayCount() {
   const day = Math.floor(Date.now() / 86400000);
   const seed = (day * 2654435761) % 2000;
   return base + seed;
+}
+
+const SECTION_COLORS: Record<string, string> = {
+  executiveSummary:    "var(--n1)", marketAnalysis:      "var(--n3)",
+  competitorAnalysis:  "var(--n2)", positioning:         "var(--n1)",
+  growthOpportunities: "var(--n3)", acquisitionPlan:     "var(--n2)",
+  funnelImprovements:  "var(--n1)", marketingAssets:     "var(--n3)",
+  salesAssets:         "var(--n2)", retentionStrategy:   "var(--n1)",
+  socialMediaStrategy: "var(--n3)", kpiDashboard:        "var(--n2)",
+  topRoiActions:       "var(--n1)", plan7Day:            "var(--n3)",
+  plan30Day:           "var(--n2)", plan90Day:           "var(--n1)",
+  immediateActions:    "var(--n3)",
+};
+
+function getPreviewLines(sectionKey: string, data: unknown): string[] {
+  if (!data || typeof data !== "object") return [];
+  const d = data as Record<string, unknown>;
+  switch (sectionKey) {
+    case "executiveSummary":    return [d.uvp as string, d.topOpportunity as string].filter(Boolean).slice(0,2);
+    case "marketAnalysis":      return [`TAM: ${d.tam}`, `SAM: ${d.sam}`, ...(d.trends as string[]??[]).slice(0,1)].filter(Boolean);
+    case "competitorAnalysis":  return (d.gaps as string[]??[]).slice(0,2);
+    case "positioning":         return [d.uvp as string, d.messaging as string].filter(Boolean).slice(0,2);
+    case "growthOpportunities": return [...(d.organic as string[]??[]).slice(0,1), ...(d.paid as string[]??[]).slice(0,1)];
+    case "acquisitionPlan":     return (d.tactics as string[]??[]).slice(0,2);
+    case "funnelImprovements":  return [...(d.awareness as string[]??[]).slice(0,1), ...(d.activation as string[]??[]).slice(0,1)];
+    case "marketingAssets":     return [d.landingCopy as string].filter(Boolean).slice(0,1);
+    case "salesAssets":         return [d.outreachScript as string].filter(Boolean).slice(0,1);
+    case "retentionStrategy":   return (d.onboarding as string[]??[]).slice(0,2);
+    case "socialMediaStrategy": return [d.hashtagStrategy as string, ...(d.viralFormulas as string[]??[]).slice(0,1)].filter(Boolean);
+    case "kpiDashboard":        return (d.targets as string[]??[]).slice(0,2);
+    case "topRoiActions":       return (d.actions as {title?:string}[]??[]).slice(0,2).map(a=>a.title??"").filter(Boolean);
+    case "plan7Day":            return (d.days as {tasks?:string[]}[]??[]).slice(0,1).flatMap(day=>(day.tasks??[]).slice(0,2));
+    case "plan30Day":           return (d.weeks as {focus?:string}[]??[]).slice(0,2).map(w=>w.focus??"").filter(Boolean);
+    case "plan90Day":           return (d.months as {theme?:string}[]??[]).slice(0,2).map(m=>m.theme??"").filter(Boolean);
+    case "immediateActions":    return (d.next24h as string[]??[]).slice(0,2);
+    default:                    return [];
+  }
+}
+
+function StreamCard({ sectionKey, data }: { sectionKey: string; data: unknown }) {
+  const color = SECTION_COLORS[sectionKey] ?? "var(--n1)";
+  const label = SECTION_LABELS[sectionKey as keyof typeof SECTION_LABELS] ?? sectionKey;
+  const lines = getPreviewLines(sectionKey, data);
+  return (
+    <div style={{ border:`1px solid ${color}`, background:"#0C0C0E",
+                  padding:"14px 18px", animation:"fadeIn 0.4s ease" }}>
+      <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom: lines.length ? 10 : 0 }}>
+        <span style={{ width:6, height:6, borderRadius:"50%", background:color,
+                       boxShadow:`0 0 8px ${color}`, flexShrink:0 }} />
+        <span className="font-mono" style={{ fontSize:10, letterSpacing:"0.12em",
+                          textTransform:"uppercase", color, fontWeight:700 }}>
+          ✓ {label}
+        </span>
+      </div>
+      {lines.length > 0 && (
+        <ul style={{ margin:0, padding:"0 0 0 14px" }}>
+          {lines.map((line, i) => (
+            <li key={i} style={{ fontSize:13, color:"#C4C4CC", lineHeight:1.5, marginBottom:2 }}>{line}</li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
 }
 
 type Status = "idle" | "loading" | "done" | "error" | "paywall";
@@ -69,6 +130,8 @@ export default function HeroInput() {
   const [count, setCount] = useState(0);
   const [progress, setProgress] = useState(0);
   const [loadingMsg, setLoadingMsg] = useState(LOADING_MESSAGES[0]);
+  const [doneSections, setDoneSections] = useState<string[]>([]);
+  const [partialReport, setPartialReport] = useState<PartialGrowthReport>({});
 
   useEffect(() => { setCount(getTodayCount()); }, []);
 
@@ -104,6 +167,8 @@ export default function HeroInput() {
     if (!q || status === "loading") return;
     setStatus("loading");
     setError("");
+    setDoneSections([]);
+    setPartialReport({});
 
     // Hard 150s timeout — if OpenAI stalls mid-stream, surface a recoverable error
     const controller = new AbortController();
@@ -146,6 +211,11 @@ export default function HeroInput() {
             const payload = JSON.parse(line.slice(6));
             if (payload.type === "error") { setError(payload.error || "Something went wrong."); setStatus("error"); return true; }
             if (payload.type === "paywall") { setStatus("paywall"); return true; }
+            if (payload.type === "section") {
+              const key = payload.key as string;
+              setDoneSections(prev => [...prev, key]);
+              if (payload.data) setPartialReport(prev => ({ ...prev, [key]: payload.data }));
+            }
             if (payload.type === "done") {
               const stored = saveReport(q, payload.report as GrowthReport);
               setStatus("done"); setCount(c => c + 1);
@@ -200,13 +270,13 @@ export default function HeroInput() {
       <div className="kicker" style={{ marginBottom:16 }}>Autonomous SaaS Growth Operating System</div>
 
       <h1 className="display" style={{ fontSize:"clamp(44px,8.5vw,128px)" }}>
-        Your entire<br />growth team.<br /><span style={{ color:"var(--n2)" }}>On demand.</span>
+        A 22-specialist<br />growth team.<br /><span style={{ color:"var(--n2)" }}>In 60 seconds.</span>
       </h1>
 
       <div style={{ display:"flex", flexWrap:"wrap", gap:8, marginTop:24, marginBottom:20 }}>
         {[{ label:"No login required", color:"var(--n3)" },
-          { label:"16 AI roles",        color:"var(--n1)" },
-          { label:"Instant Playbook",   color:"var(--n2)" }]
+          { label:"22 AI specialists",  color:"var(--n1)" },
+          { label:"Any business or idea", color:"var(--n2)" }]
           .map(({ label, color }) => (
           <span key={label} className="font-mono"
             style={{ fontSize:11, fontWeight:700, letterSpacing:"0.14em", textTransform:"uppercase",
@@ -217,8 +287,8 @@ export default function HeroInput() {
       </div>
 
       <p style={{ fontSize:"clamp(17px,1.8vw,22px)", lineHeight:1.45, color:"#C4C4CC", maxWidth:640, marginBottom:16 }}>
-        Conciply deploys a full <span style={{ color:"#F4F4F1" }}>CEO, CMO, CRO, VP Growth, SDR and 11 more AI
-        specialists</span> to analyze your SaaS and build a <span style={{ color:"#F4F4F1" }}>17-section growth playbook — fully written, ready to execute.</span>
+        Conciply deploys a full <span style={{ color:"#F4F4F1" }}>CEO, CMO, CRO, VP Growth, SDR and 17 more AI
+        specialists</span> to analyze any business or idea and build a <span style={{ color:"#F4F4F1" }}>17-section growth playbook — fully written, ready to execute.</span>
       </p>
 
       <p className="font-mono" style={{ fontSize:13, color:"#8A8A9A", letterSpacing:"0.04em", marginBottom:0 }}>
@@ -233,8 +303,8 @@ export default function HeroInput() {
         <div style={{ display:"flex", alignItems:"stretch", flexWrap:"wrap" }}>
           <textarea value={input} onChange={e => setInput(e.target.value.slice(0,1000))}
             onKeyDown={onKey} rows={2} maxLength={1000}
-            aria-label="Describe your SaaS or business"
-            placeholder="Describe your SaaS — e.g. B2B analytics tool for restaurant chains"
+            aria-label="Describe your business or idea"
+            placeholder="Describe your business or idea — e.g. YouTube channel about personal finance"
             style={{ flex:"1 1 420px", resize:"none", background:"transparent", border:"none",
                      outline:"none", color:"#F4F4F1", fontWeight:600,
                      fontSize:"clamp(20px,2.4vw,30px)", lineHeight:1.18,
@@ -289,7 +359,7 @@ export default function HeroInput() {
 
         <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center",
                       borderTop:"1px solid #2A2A2E", padding:"10px 16px 10px 28px" }}>
-          <span className="kicker">Free: Executive Summary + Top 10 ROI Actions</span>
+          <span className="kicker">Free — no login, no credit card</span>
           <div style={{ display:"flex", alignItems:"center", gap:12 }}>
             <select
               value={language}
@@ -338,7 +408,24 @@ export default function HeroInput() {
           {error}
         </div>
       )}
-      {status === "loading" && <OutputSkeleton />}
+      {status === "loading" && doneSections.length > 0 && (
+        <div style={{ marginTop:40 }}>
+          <div className="font-mono" style={{ fontSize:10, letterSpacing:"0.12em",
+                                               textTransform:"uppercase", color:"#5C5C63",
+                                               marginBottom:16, display:"flex", alignItems:"center", gap:8 }}>
+            <span style={{ width:6, height:6, background:"var(--n1)", borderRadius:"50%",
+                           display:"inline-block", animation:"pulseBlock 1s infinite", flexShrink:0 }} />
+            Building your playbook — {doneSections.length} of 17 sections ready
+          </div>
+          <div style={{ display:"flex", flexDirection:"column", gap:10 }}>
+            {SECTION_ORDER.filter(k => doneSections.includes(k)).map(key => (
+              <StreamCard key={key} sectionKey={key} data={partialReport[key as keyof typeof partialReport]} />
+            ))}
+          </div>
+          {doneSections.length < 17 && <OutputSkeleton slim />}
+        </div>
+      )}
+      {status === "loading" && doneSections.length === 0 && <OutputSkeleton />}
       {status === "paywall" && <Paywall />}
       {status === "idle" && <IdlePreview />}
     </section>
