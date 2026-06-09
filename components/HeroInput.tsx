@@ -268,7 +268,7 @@ export default function HeroInput() {
   };
 
   return (
-    <section style={{ padding:"clamp(20px,3vw,44px) 0 40px" }}>
+    <section id="analyze" style={{ padding:"clamp(20px,3vw,44px) 0 40px" }}>
       {count > 0 && (
         <div className="font-mono" style={{ display:"flex", alignItems:"center", gap:8, marginBottom:10 }}>
           <span style={{ width:8, height:8, background:"var(--n3)", display:"inline-block",
@@ -344,7 +344,7 @@ export default function HeroInput() {
           <textarea value={input} onChange={e => setInput(e.target.value.slice(0,1000))}
             onKeyDown={onKey} rows={2} maxLength={1000}
             aria-label="Describe your business or idea"
-            placeholder="Describe your business or idea — e.g. YouTube channel about personal finance"
+            placeholder="Type your business, idea, or website here — e.g. YouTube channel about personal finance"
             style={{ flex:"1 1 420px", resize:"none", background:"transparent", border:"none",
                      outline:"none", color:"#F4F4F1", fontWeight:600,
                      fontSize:"clamp(20px,2.4vw,30px)", lineHeight:1.18,
@@ -355,7 +355,8 @@ export default function HeroInput() {
             style={{ flex:"0 0 auto", minWidth:200, fontSize:"clamp(18px,2vw,24px)",
                      padding:"0 36px", borderLeft:"2px solid #F4F4F1",
                      display:"flex", flexDirection:"column", alignItems:"center",
-                     justifyContent:"center", gap:4 }}>
+                     justifyContent:"center", gap:4,
+                     background:"var(--n2)", borderColor:"var(--n2)" }}>
             {status === "loading" ? (
               <>
                 <span style={{ fontSize:"clamp(14px,1.6vw,18px)", lineHeight:1.2, textAlign:"center" }}>
@@ -429,8 +430,8 @@ export default function HeroInput() {
         {EXAMPLES.map((ex, i) => (
           <button key={i} className="font-mono"
             onClick={() => { setInput(ex); run(ex); }}
-            style={{ fontSize:12, border:"1.5px solid #3C3C42", color:"#C4C4CC",
-                     padding:"11px 14px", background:"transparent", minHeight:44 }}>
+            style={{ fontSize:11, border:"1px solid #2A2A2E", color:"#9A9AA8",
+                     padding:"6px 11px", background:"transparent", cursor:"pointer" }}>
             {ex}
           </button>
         ))}

@@ -36,7 +36,7 @@ const TIERS: TierDef[] = [
       { text: "Asset generators",         active: false },
     ],
     cta: "Start free",
-    href: "/",
+    href: "/#analyze",
     accent: "var(--n3)",
     highlight: false,
   },

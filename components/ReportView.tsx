@@ -309,11 +309,12 @@ export default function ReportView({ report, tier, input, reportId }: Props) {
           />
 
           {/* Prev / Next navigation */}
-          <div style={{ display:"flex", justifyContent:"space-between", marginTop:40, gap:12 }}>
+          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginTop:40, gap:12 }}>
             {(() => {
               const idx = ALL_KEYS.indexOf(active);
               const prev = idx > 0 ? ALL_KEYS[idx - 1] : null;
               const next = idx < ALL_KEYS.length - 1 ? ALL_KEYS[idx + 1] : null;
+              const nextLocked = !isPaid && next !== null && !FREE_SECTIONS.includes(next);
               return (
                 <>
                   <button onClick={() => prev && setActive(prev)} disabled={!prev}
@@ -321,13 +322,64 @@ export default function ReportView({ report, tier, input, reportId }: Props) {
                     opacity: prev ? 1 : 0.2, cursor: prev ? "pointer" : "default" }}>
                     ← {prev ? SECTION_LABELS[prev] : ""}
                   </button>
-                  <button onClick={() => next && setActive(next)} disabled={!next}
-                    className="btn-ghost" style={{ padding:"10px 18px", fontSize:12,
-                    opacity: next ? 1 : 0.2, cursor: next ? "pointer" : "default",
-                    borderColor: next ? activeGroup.color : undefined,
-                    color: next ? activeGroup.color : undefined }}>
-                    {next ? SECTION_LABELS[next] : ""} →
-                  </button>
+
+                  {nextLocked ? (
+                    <a href="/pricing"
+                      style={{
+                        display:"inline-flex", alignItems:"center", gap:8,
+                        padding:"14px 28px",
+                        background:"var(--n2)", border:"2px solid var(--n2)",
+                        color:"#000",
+                        fontFamily:"var(--font-archivo), sans-serif",
+                        fontSize:13, fontWeight:800, letterSpacing:"0.04em",
+                        textTransform:"uppercase", textDecoration:"none",
+                        cursor:"pointer",
+                        transition:"filter .12s, transform .12s, box-shadow .12s",
+                      }}
+                      onMouseEnter={e => {
+                        (e.currentTarget as HTMLAnchorElement).style.filter = "brightness(1.1)";
+                        (e.currentTarget as HTMLAnchorElement).style.transform = "translate(-2px,-2px)";
+                        (e.currentTarget as HTMLAnchorElement).style.boxShadow = "6px 6px 0 #F4F4F1";
+                      }}
+                      onMouseLeave={e => {
+                        (e.currentTarget as HTMLAnchorElement).style.filter = "";
+                        (e.currentTarget as HTMLAnchorElement).style.transform = "";
+                        (e.currentTarget as HTMLAnchorElement).style.boxShadow = "";
+                      }}
+                    >
+                      🔒 Unlock {ALL_KEYS.length - FREE_SECTIONS.length} more sections →
+                    </a>
+                  ) : (
+                    <button onClick={() => next && setActive(next)} disabled={!next}
+                      style={{
+                        padding: next ? "14px 28px" : "10px 18px",
+                        fontSize: next ? 13 : 12,
+                        background: next ? activeGroup.color : "transparent",
+                        border: `2px solid ${next ? activeGroup.color : "#3C3C42"}`,
+                        color: next ? "#000" : "#F4F4F1",
+                        fontFamily:"var(--font-archivo), sans-serif",
+                        fontWeight: next ? 800 : 400,
+                        letterSpacing: next ? "0.04em" : "0.12em",
+                        textTransform:"uppercase",
+                        opacity: next ? 1 : 0.2,
+                        cursor: next ? "pointer" : "default",
+                        transition:"filter .12s, transform .12s, box-shadow .12s",
+                      }}
+                      onMouseEnter={e => {
+                        if (!next) return;
+                        (e.currentTarget as HTMLButtonElement).style.filter = "brightness(1.08)";
+                        (e.currentTarget as HTMLButtonElement).style.transform = "translate(-2px,-2px)";
+                        (e.currentTarget as HTMLButtonElement).style.boxShadow = "6px 6px 0 #F4F4F1";
+                      }}
+                      onMouseLeave={e => {
+                        (e.currentTarget as HTMLButtonElement).style.filter = "";
+                        (e.currentTarget as HTMLButtonElement).style.transform = "";
+                        (e.currentTarget as HTMLButtonElement).style.boxShadow = "";
+                      }}
+                    >
+                      {next ? SECTION_LABELS[next] : ""} {next ? "→" : ""}
+                    </button>
+                  )}
                 </>
               );
             })()}
