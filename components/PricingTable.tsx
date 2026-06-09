@@ -21,7 +21,7 @@ const TIERS: TierDef[] = [
   {
     tier: null,
     label: "Free",
-    tagline: "Try it — no login, no card",
+    tagline: "1 report · 8 of 17 sections · no login",
     monthlyPrice: "$0",
     annualPrice: "$0",
     annualBilled: "$0 / year",

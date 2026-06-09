@@ -34,6 +34,18 @@ const EXAMPLES = [
   "Freelance marketing consultancy",
 ];
 
+const SPECIALISTS = [
+  "CEO", "COO", "CMO", "CRO", "VP Growth",
+  "Performance Marketing", "SEO", "Content Marketing",
+  "Product Marketing", "Social Media", "Brand Strategy",
+  "SDR", "Account Executive", "Enterprise Sales",
+  "CRO Specialist", "Funnel Architect", "UX Analyst",
+  "Retention Specialist", "Lifecycle Marketing",
+  "Data Scientist", "Market Researcher", "Competitive Intelligence",
+];
+
+const SPECIALIST_COLORS = ["var(--n1)", "var(--n3)", "var(--n2)"];
+
 const LOADING_MESSAGES = [
   "Convening your AI board of directors…",
   "Reading 847 case studies so you don't have to…",
@@ -290,6 +302,24 @@ export default function HeroInput() {
         Conciply deploys <span style={{ color:"#F4F4F1" }}>22 AI specialists — including CEO, CMO, CRO, VP Growth, SDR and more —</span> to analyze any business or idea and build a <span style={{ color:"#F4F4F1" }}>17-section growth playbook, fully written and ready to execute.</span>
       </p>
 
+      {/* ── Specialist marquee ── */}
+      <div style={{ margin:"28px 0", overflow:"hidden", borderTop:"1px solid #2A2A2E", borderBottom:"1px solid #2A2A2E", position:"relative" }}>
+        {/* fade edges */}
+        <div style={{ position:"absolute", inset:0, left:0, width:60, background:"linear-gradient(90deg,#0A0A0B,transparent)", zIndex:2, pointerEvents:"none" }} />
+        <div style={{ position:"absolute", inset:0, left:"auto", right:0, width:60, background:"linear-gradient(270deg,#0A0A0B,transparent)", zIndex:2, pointerEvents:"none" }} />
+        <div style={{ display:"flex", width:"max-content", animation:"marquee 32s linear infinite", padding:"10px 0" }}>
+          {[...SPECIALISTS, ...SPECIALISTS].map((s, i) => (
+            <span key={i} className="font-mono" style={{ display:"inline-flex", alignItems:"center", gap:16, paddingRight:32, whiteSpace:"nowrap" }}>
+              <span style={{ fontSize:11, letterSpacing:"0.1em", textTransform:"uppercase", color: SPECIALIST_COLORS[i % SPECIALIST_COLORS.length] }}>
+                {s}
+              </span>
+              <span style={{ width:3, height:3, borderRadius:"50%", background:"#3C3C42", flexShrink:0, display:"inline-block" }} />
+            </span>
+          ))}
+        </div>
+        <style>{`@keyframes marquee { 0% { transform: translateX(0) } 100% { transform: translateX(-50%) } }`}</style>
+      </div>
+
       <p className="font-mono" style={{ fontSize:13, color:"#8A8A9A", letterSpacing:"0.04em", marginBottom:0 }}>
         🌐 Available in{" "}
         <span style={{ color:"var(--n1)" }}>
@@ -358,7 +388,7 @@ export default function HeroInput() {
 
         <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center",
                       borderTop:"1px solid #2A2A2E", padding:"10px 16px 10px 28px" }}>
-          <span className="kicker">Free — no login, no credit card</span>
+          <span className="kicker">Free preview · 1 report · 8 of 17 sections · no login</span>
           <div style={{ display:"flex", alignItems:"center", gap:12 }}>
             <select
               value={language}
