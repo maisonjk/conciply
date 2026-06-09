@@ -485,125 +485,200 @@ function IdlePreview() {
   const active = PREVIEW_SECTIONS[activeIdx];
 
   return (
-    <div style={{ marginTop:"clamp(56px,7vw,96px)" }}>
+    <div style={{ marginTop:"clamp(40px,5vw,72px)" }}>
       <style>{`
-        .idle-chipbar { display: none; }
-        .idle-cardgrid { display: block; }
+        .idle-mobile { display: none; }
+        .idle-desktop { display: flex; }
         @media (max-width: 639px) {
-          .idle-chipbar  { display: block; }
-          .idle-cardgrid { display: none; }
+          .idle-mobile  { display: block; }
+          .idle-desktop { display: none; }
         }
       `}</style>
 
-      {/* Header */}
-      <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between",
-                    flexWrap:"wrap", gap:12, border:"2px solid #2A2A2E",
-                    padding:"14px 20px", marginBottom:2 }}>
-        <div>
-          <div className="kicker" style={{ marginBottom:4 }}>Example output · B2B CRM for agencies</div>
-          <div style={{ fontFamily:"var(--font-archivo), sans-serif", fontWeight:800,
-                        fontSize:"clamp(14px,1.6vw,20px)", textTransform:"uppercase", color:"#5C5C63" }}>
-            Enter your SaaS above to generate yours →
-          </div>
-        </div>
-        <span className="font-mono" style={{ fontSize:11, color:"#3C3C42", letterSpacing:"0.1em" }}>SAMPLE</span>
+      {/* Section label */}
+      <div style={{ display:"flex", alignItems:"center", gap:16, marginBottom:20 }}>
+        <div style={{ height:1, flex:1, background:"#1E1E22" }} />
+        <span className="font-mono" style={{ fontSize:10, color:"#3C3C42", letterSpacing:"0.16em", textTransform:"uppercase", whiteSpace:"nowrap" }}>
+          Sample report · any business, any idea
+        </span>
+        <div style={{ height:1, flex:1, background:"#1E1E22" }} />
       </div>
 
-      {/* ── Mobile: chip bar + single card ── */}
-      <div className="idle-chipbar">
-        {/* Scrollable chips */}
-        <div style={{ background:"#0A0A0B", border:"1px solid #1E1E22", borderBottom:"none",
-                      overflowX:"auto", display:"flex", gap:6, padding:"10px 12px",
-                      scrollbarWidth:"none" }}>
-          {PREVIEW_SECTIONS.map((s, i) => (
-            <button key={s.key} onClick={() => setActiveIdx(i)} style={{
-              flexShrink:0,
-              border:`1px solid ${i === activeIdx ? s.color : "#2A2A2E"}`,
-              background: i === activeIdx ? `${s.color}18` : "transparent",
-              padding:"5px 10px", cursor:"pointer",
-              display:"flex", alignItems:"center", gap:5,
-            }}>
-              <span style={{ fontSize:10, color: i === activeIdx ? s.color : s.free ? "#5C5C63" : "#3C3C42" }}>
-                {s.free ? s.icon : "🔒"}
-              </span>
-              <span className="font-mono" style={{
-                fontSize:10, whiteSpace:"nowrap", letterSpacing:"0.03em",
-                color: i === activeIdx ? s.color : s.free ? "#9A9AA8" : "#3C3C42",
-              }}>
-                {s.label}
-              </span>
-            </button>
-          ))}
+      {/* ── OS window chrome ── */}
+      <div style={{ border:"2px solid #F4F4F1", background:"#0A0A0B", overflow:"hidden" }}>
+
+        {/* Title bar */}
+        <div style={{ borderBottom:"2px solid #1E1E22", padding:"10px 16px",
+                      display:"flex", alignItems:"center", gap:12, background:"#111113" }}>
+          <div style={{ display:"flex", gap:5 }}>
+            <span style={{ width:10, height:10, borderRadius:"50%", background:"#FF5F57", display:"inline-block" }} />
+            <span style={{ width:10, height:10, borderRadius:"50%", background:"#FFBD2E", display:"inline-block" }} />
+            <span style={{ width:10, height:10, borderRadius:"50%", background:"#28C840", display:"inline-block" }} />
+          </div>
+          <div style={{ flex:1, background:"#0A0A0B", border:"1px solid #2A2A2E",
+                        padding:"5px 14px", display:"flex", alignItems:"center", gap:8 }}>
+            <span style={{ width:6, height:6, borderRadius:"50%", background:"var(--n3)", display:"inline-block" }} />
+            <span className="font-mono" style={{ fontSize:10, color:"#5C5C63", letterSpacing:"0.04em" }}>
+              conciply.com/workspace · B2B CRM tool
+            </span>
+          </div>
+          <span className="font-mono" style={{ fontSize:9, color:"#2A2A2E", letterSpacing:"0.12em", textTransform:"uppercase" }}>SAMPLE</span>
         </div>
-        {/* Active card */}
-        <div style={{ border:"1px solid #1E1E22", background:"#0A0A0B", padding:"20px 16px",
-                      opacity: active.free ? 1 : 0.6 }}>
-          <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:12 }}>
-            <span style={{ fontSize:13, color: active.color }}>{active.free ? active.icon : "🔒"}</span>
-            <span className="kicker" style={{ color: active.color }}>{active.label}</span>
-            {!active.free && (
-              <span className="font-mono" style={{ fontSize:9, color:"#5C5C63",
-                                                    letterSpacing:"0.1em", marginLeft:"auto" }}>
-                PAID
+
+        {/* ── Desktop: sidebar + content ── */}
+        <div className="idle-desktop" style={{ minHeight:280 }}>
+
+          {/* Sidebar */}
+          <div style={{ width:196, borderRight:"1px solid #1E1E22", flexShrink:0, display:"flex", flexDirection:"column" }}>
+            <div style={{ padding:"10px 14px", borderBottom:"1px solid #1E1E22" }}>
+              <span className="font-mono" style={{ fontSize:9, color:"#5C5C63", letterSpacing:"0.1em", textTransform:"uppercase" }}>
+                17 sections
               </span>
+            </div>
+            {PREVIEW_SECTIONS.map((s, i) => (
+              <button
+                key={s.key}
+                onClick={() => setActiveIdx(i)}
+                style={{
+                  display:"flex", alignItems:"center", gap:9,
+                  padding:"9px 14px",
+                  borderBottom:"1px solid #0F0F11",
+                  borderTop:"none", borderRight:"none",
+                  background: i === activeIdx ? "#161618" : "transparent",
+                  borderLeft: i === activeIdx ? `2px solid ${s.color}` : "2px solid transparent",
+                  cursor:"pointer", width:"100%", textAlign:"left",
+                }}
+              >
+                <span style={{ fontSize:10, color: s.free ? s.color : "#2A2A2E", flexShrink:0 }}>
+                  {s.free ? s.icon : "▪"}
+                </span>
+                <span className="font-mono" style={{
+                  fontSize:10, letterSpacing:"0.03em", whiteSpace:"nowrap",
+                  color: i === activeIdx ? (s.free ? s.color : "#5C5C63") : (s.free ? "#6A6A75" : "#2A2A2E"),
+                }}>
+                  {s.label}
+                </span>
+                {!s.free && (
+                  <span className="font-mono" style={{ fontSize:8, color:"#2A2A2E", marginLeft:"auto", letterSpacing:"0.08em" }}>
+                    PRO
+                  </span>
+                )}
+              </button>
+            ))}
+          </div>
+
+          {/* Content panel */}
+          <div style={{ flex:1, padding:"24px 28px", position:"relative" }}>
+            {/* Section header */}
+            <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:16 }}>
+              <span style={{ fontSize:14, color: active.color }}>{active.free ? active.icon : "▪"}</span>
+              <span className="kicker" style={{ color: active.color, fontSize:11 }}>{active.label}</span>
+              {active.free ? (
+                <span className="font-mono" style={{ fontSize:8, color: active.color, letterSpacing:"0.1em",
+                                                      border:`1px solid ${active.color}`, padding:"2px 6px", marginLeft:"auto" }}>
+                  FREE
+                </span>
+              ) : (
+                <span className="font-mono" style={{ fontSize:8, color:"#3C3C42", letterSpacing:"0.1em",
+                                                      border:"1px solid #2A2A2E", padding:"2px 6px", marginLeft:"auto" }}>
+                  PRO
+                </span>
+              )}
+            </div>
+
+            {/* Content or locked overlay */}
+            {active.free ? (
+              <p style={{ margin:0, color:"#D0D0D8", fontSize:15, lineHeight:1.7, maxWidth:520 }}>
+                {active.text}
+              </p>
+            ) : (
+              <div style={{ position:"relative" }}>
+                <p style={{ margin:0, color:"#3C3C42", fontSize:15, lineHeight:1.7, maxWidth:520,
+                             filter:"blur(3px)", userSelect:"none" }}>
+                  {active.text}
+                </p>
+                <div style={{ position:"absolute", inset:0, display:"flex", alignItems:"center", gap:16 }}>
+                  <div style={{ height:1, flex:1, background:"#1E1E22" }} />
+                  <a href="/pricing" className="font-mono" style={{
+                    fontSize:10, letterSpacing:"0.1em", textTransform:"uppercase",
+                    color:"var(--n2)", textDecoration:"none", border:"1px solid var(--n2)",
+                    padding:"6px 14px", whiteSpace:"nowrap",
+                  }}>
+                    Unlock all 17 sections →
+                  </a>
+                  <div style={{ height:1, flex:1, background:"#1E1E22" }} />
+                </div>
+              </div>
             )}
           </div>
-          <p style={{ margin:0, color: active.free ? "#C4C4CC" : "#5C5C63",
-                      fontSize:14, lineHeight:1.65 }}>
-            {active.text}
-          </p>
-          {!active.free && (
-            <a href="/pricing" className="font-mono" style={{
-              display:"inline-block", marginTop:14, fontSize:10, letterSpacing:"0.1em",
-              textTransform:"uppercase", color:"var(--n2)", textDecoration:"none",
-            }}>
-              Unlock all 17 sections →
-            </a>
-          )}
         </div>
-        <div style={{ border:"1px solid #1E1E22", borderTop:"none", padding:"10px 14px",
-                      background:"#0A0A0B", display:"flex", justifyContent:"space-between",
-                      alignItems:"center" }}>
-          <span className="font-mono" style={{ fontSize:10, color:"#5C5C63" }}>
-            {activeIdx + 1} / {PREVIEW_SECTIONS.length} sections shown
-          </span>
-          <div style={{ display:"flex", gap:6 }}>
-            <button onClick={() => setActiveIdx(i => Math.max(0, i - 1))}
-              disabled={activeIdx === 0}
-              className="btn-ghost" style={{ padding:"4px 10px", fontSize:11,
-                                             opacity: activeIdx === 0 ? 0.2 : 1 }}>←</button>
-            <button onClick={() => setActiveIdx(i => Math.min(PREVIEW_SECTIONS.length - 1, i + 1))}
-              disabled={activeIdx === PREVIEW_SECTIONS.length - 1}
-              className="btn-ghost" style={{ padding:"4px 10px", fontSize:11,
-                                             opacity: activeIdx === PREVIEW_SECTIONS.length - 1 ? 0.2 : 1 }}>→</button>
+
+        {/* ── Mobile: chip bar + single card ── */}
+        <div className="idle-mobile">
+          <div style={{ overflowX:"auto", display:"flex", gap:6, padding:"10px 12px",
+                        borderBottom:"1px solid #1E1E22", scrollbarWidth:"none" }}>
+            {PREVIEW_SECTIONS.map((s, i) => (
+              <button key={s.key} onClick={() => setActiveIdx(i)} style={{
+                flexShrink:0,
+                border:`1px solid ${i === activeIdx ? s.color : "#2A2A2E"}`,
+                background: i === activeIdx ? `${s.color}14` : "transparent",
+                padding:"5px 10px", cursor:"pointer",
+                display:"flex", alignItems:"center", gap:5,
+              }}>
+                <span className="font-mono" style={{
+                  fontSize:10, whiteSpace:"nowrap", letterSpacing:"0.03em",
+                  color: i === activeIdx ? s.color : s.free ? "#9A9AA8" : "#3C3C42",
+                }}>
+                  {s.label}
+                </span>
+              </button>
+            ))}
+          </div>
+          <div style={{ padding:"20px 16px", minHeight:120 }}>
+            <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:12 }}>
+              <span style={{ fontSize:12, color: active.color }}>{active.free ? active.icon : "▪"}</span>
+              <span className="kicker" style={{ color: active.color, fontSize:10 }}>{active.label}</span>
+            </div>
+            {active.free ? (
+              <p style={{ margin:0, color:"#C4C4CC", fontSize:14, lineHeight:1.65 }}>{active.text}</p>
+            ) : (
+              <div>
+                <p style={{ margin:0, color:"#3C3C42", fontSize:14, lineHeight:1.65, filter:"blur(3px)", userSelect:"none" }}>{active.text}</p>
+                <a href="/pricing" className="font-mono" style={{
+                  display:"inline-block", marginTop:14, fontSize:10, letterSpacing:"0.1em",
+                  textTransform:"uppercase", color:"var(--n2)", textDecoration:"none",
+                }}>Unlock all 17 sections →</a>
+              </div>
+            )}
+          </div>
+          <div style={{ borderTop:"1px solid #1E1E22", padding:"10px 14px",
+                        display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+            <span className="font-mono" style={{ fontSize:10, color:"#5C5C63" }}>
+              {activeIdx + 1} / {PREVIEW_SECTIONS.length}
+            </span>
+            <div style={{ display:"flex", gap:6 }}>
+              <button onClick={() => setActiveIdx(i => Math.max(0, i - 1))}
+                disabled={activeIdx === 0}
+                className="btn-ghost" style={{ padding:"4px 10px", fontSize:11, opacity: activeIdx === 0 ? 0.2 : 1 }}>←</button>
+              <button onClick={() => setActiveIdx(i => Math.min(PREVIEW_SECTIONS.length - 1, i + 1))}
+                disabled={activeIdx === PREVIEW_SECTIONS.length - 1}
+                className="btn-ghost" style={{ padding:"4px 10px", fontSize:11, opacity: activeIdx === PREVIEW_SECTIONS.length - 1 ? 0.2 : 1 }}>→</button>
+            </div>
           </div>
         </div>
+
       </div>
 
-      {/* ── Desktop: original cardgrid ── */}
-      <div className="idle-cardgrid" style={{ opacity:0.5, pointerEvents:"none" }}>
-        <div className="cardgrid">
-          {FREE_SECTIONS.map(key => (
-            <div key={key} style={{ gridColumn:"span 6", background:"#0A0A0B", padding:28 }}>
-              <div className="kicker" style={{ marginBottom:12, color:"var(--n1)" }}>
-                {SECTION_LABELS[key]}
-              </div>
-              <div style={{ color:"#C4C4CC", fontSize:15, lineHeight:1.6 }}>
-                {key === "executiveSummary"
-                  ? "ICP: Agency ops leads frustrated by HubSpot complexity and price. Core advantage: 3x faster pipeline visibility at 40% lower cost."
-                  : "#1 Score 9.2 · Launch free PLG tier — removes procurement friction for sub-10 person teams."}
-              </div>
-            </div>
-          ))}
-          <div style={{ gridColumn:"span 3", background:"#0A0A0B", padding:28, borderTop:"2px solid var(--n2)" }}>
-            <div className="kicker" style={{ color:"var(--n2)", marginBottom:8 }}>🔒 Market Analysis</div>
-            <div style={{ color:"#3C3C42", fontSize:13 }}>Unlock to see TAM / SAM / SOM…</div>
-          </div>
-          <div style={{ gridColumn:"span 3", background:"#0A0A0B", padding:28, borderTop:"2px solid var(--n2)" }}>
-            <div className="kicker" style={{ color:"var(--n2)", marginBottom:8 }}>🔒 Acquisition Plan</div>
-            <div style={{ color:"#3C3C42", fontSize:13 }}>Cold outreach, SEO, paid channels…</div>
-          </div>
-        </div>
+      {/* CTA below window */}
+      <div style={{ borderLeft:"2px solid #F4F4F1", borderRight:"2px solid #F4F4F1",
+                    borderBottom:"2px solid #F4F4F1", padding:"14px 20px",
+                    display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:8 }}>
+        <span className="font-mono" style={{ fontSize:11, color:"#5C5C63", letterSpacing:"0.04em" }}>
+          Enter your business or idea above — your playbook generates in 60 seconds.
+        </span>
+        <span className="font-mono" style={{ fontSize:10, color:"#2A2A2E", letterSpacing:"0.1em", textTransform:"uppercase" }}>
+          No login required
+        </span>
       </div>
     </div>
   );
