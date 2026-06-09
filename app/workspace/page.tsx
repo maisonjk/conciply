@@ -176,8 +176,8 @@ function WorkspaceContent() {
             <div style={{ display:"flex", gap:8, alignItems:"flex-start" }}>
               <span style={{ fontSize:12, color:"#3C3C42", flexShrink:0, marginTop:1 }}>🔒</span>
               <p style={{ margin:0, fontSize:10, fontFamily:"var(--font-mono)",
-                          color:"#4A4A55", letterSpacing:"0.03em", lineHeight:1.6 }}>
-                Your reports are stored <span style={{ color:"#7A7A88" }}>only in this browser</span> — we collect no data.
+                          color:"#7A7A88", letterSpacing:"0.03em", lineHeight:1.6 }}>
+                Your reports are stored <span style={{ color:"#B0B0BC" }}>only in this browser</span> — we collect no data.
                 History is lost if you clear your browser, switch browsers, or use a different device.
                 Up to 20 reports saved locally.
               </p>
