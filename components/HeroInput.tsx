@@ -747,7 +747,7 @@ function IdlePreview() {
       {/* Divider label */}
       <div style={{ display:"flex", alignItems:"center", gap:16, marginBottom:20 }}>
         <div style={{ height:1, flex:1, background:"#1E1E22" }} />
-        <span className="font-mono" style={{ fontSize:10, color:"#3C3C42", letterSpacing:"0.16em", textTransform:"uppercase", whiteSpace:"nowrap" }}>
+        <span className="font-mono" style={{ fontSize:10, color:"#7A7A8A", letterSpacing:"0.16em", textTransform:"uppercase", whiteSpace:"nowrap" }}>
           Sample report · any business, any idea
         </span>
         <div style={{ height:1, flex:1, background:"#1E1E22" }} />
