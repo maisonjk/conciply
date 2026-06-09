@@ -180,7 +180,7 @@ export default function PricingTable() {
 
       {/* ── Plan cards ── */}
       <div className="pricing-grid">
-        {TIERS.map(({ tier, label, tagline, monthlyPrice, annualPrice, annualBilled, badge, features, cta, href, accent, highlight }) => {
+        {TIERS.map(({ tier, label, tagline, monthlyPrice, annualPrice, annualBilled, badge, features, cta, href, accent, highlight }, idx) => {
           const price   = annual ? annualPrice   : monthlyPrice;
           const subLine = annual ? annualBilled  : "per month";
           const loadKey = tier ? `${tier}${annual ? "_annual" : ""}` : null;
@@ -198,7 +198,7 @@ export default function PricingTable() {
               style={{
                 background: "#0A0A0B",
                 padding: "28px 24px 24px",
-                borderRight: "2px solid #F4F4F1",
+                borderRight: idx < TIERS.length - 1 ? "2px solid #F4F4F1" : "none",
                 borderTop: `3px solid ${highlight ? accent : "transparent"}`,
                 display: "flex",
                 flexDirection: "column",
