@@ -87,7 +87,7 @@ button { font-family: inherit; cursor: pointer; }
   gap: 2px; background: #F4F4F1; border: 2px solid #F4F4F1;
 }
 @media (max-width: 720px) { .cardgrid > * { grid-column: 1 / -1 !important; } }
-@media (max-width: 480px) { .nav-links-desktop { display: none; } }
+@media (max-width: 480px) { .nav-links-desktop a { padding-left: 7px !important; padding-right: 7px !important; } }
 
 /* Pricing grid — responsive */
 .pricing-grid {
