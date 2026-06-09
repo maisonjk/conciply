@@ -106,7 +106,7 @@ export default function ReportView({ report, tier, input, reportId }: Props) {
       </button>
 
       {/* ── Left sidebar ──────────────────────────────────────────────────── */}
-      <aside style={{
+      <aside data-sidebar={sidebarOpen ? "open" : "closed"} style={{
         width:260, flexShrink:0,
         borderRight:"2px solid #1E1E22",
         position:"sticky", top:64,
@@ -308,6 +308,19 @@ export default function ReportView({ report, tier, input, reportId }: Props) {
       <style>{`
         @media (max-width: 768px) {
           [data-mobile-toggle] { display: block !important; }
+          [data-sidebar] {
+            position: fixed !important;
+            top: 64px !important;
+            left: 0 !important;
+            height: calc(100vh - 64px) !important;
+            z-index: 40;
+            transform: translateX(-100%);
+            transition: transform 0.2s ease;
+            box-shadow: 4px 0 24px rgba(0,0,0,0.6);
+          }
+          [data-sidebar="open"] {
+            transform: translateX(0) !important;
+          }
         }
         @media print {
           body > * { display: none !important; }

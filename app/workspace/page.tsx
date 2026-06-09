@@ -146,7 +146,7 @@ function WorkspaceContent() {
         </button>
 
         {/* ── Left sidebar ──────────────────────────────────────────────── */}
-        <aside style={{
+        <aside data-ws-sidebar={sidebarOpen ? "open" : "closed"} style={{
           width:260, flexShrink:0, borderRight:"2px solid #1E1E22",
           position:"sticky", top:64, height:"calc(100vh - 64px)",
           overflow:"hidden", display:"flex", flexDirection:"column",
@@ -401,6 +401,19 @@ function WorkspaceContent() {
         <style>{`
           @media (max-width: 768px) {
             [data-ws-toggle] { display: block !important; }
+            [data-ws-sidebar] {
+              position: fixed !important;
+              top: 64px !important;
+              left: 0 !important;
+              height: calc(100vh - 64px) !important;
+              z-index: 40;
+              transform: translateX(-100%);
+              transition: transform 0.2s ease;
+              box-shadow: 4px 0 24px rgba(0,0,0,0.6);
+            }
+            [data-ws-sidebar="open"] {
+              transform: translateX(0) !important;
+            }
           }
           @media print {
             /* Hide everything except the print container */

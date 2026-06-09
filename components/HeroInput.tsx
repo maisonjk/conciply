@@ -82,7 +82,7 @@ export default function HeroInput() {
     setProgress(0);
     setLoadingMsg(LOADING_MESSAGES[0]);
     const startTime = Date.now();
-    const DURATION = 82000; // ~82s to reach 90% — matches 14k token generation time
+    const DURATION = 110000; // ~110s to reach 90% — matches observed 14k token p90 generation time
     const id = setInterval(() => {
       const elapsed = Date.now() - startTime;
       // Ease-out curve: fast early, slows near 90%
@@ -238,7 +238,7 @@ export default function HeroInput() {
                 <span className="font-mono" style={{ fontSize:10, fontWeight:400,
                                                       letterSpacing:"0.04em", lineHeight:1,
                                                       color:"rgba(244,244,241,0.55)", textAlign:"center" }}>
-                  ~90 sec
+                  ~2 min
                 </span>
               </>
             ) : "Analyze ↵"}
