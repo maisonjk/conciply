@@ -284,7 +284,7 @@ export default function HeroInput() {
 
       {/* ── H1 — Tier 1: The Claim ── */}
       <h1 className="display" style={{ fontSize:"clamp(36px,5.5vw,86px)", lineHeight:1.0, marginBottom:28 }}>
-        A 22-specialist<br />growth team.<br /><span style={{ color:"var(--n3)" }}>On demand for any business.</span>
+        A 22-specialist<br />growth team.<br /><span style={{ color:"var(--n1)" }}>On demand for any business.</span>
       </h1>
 
       {/* ── Body — Tier 2: The Proof ── */}
