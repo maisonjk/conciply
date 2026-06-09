@@ -638,8 +638,17 @@ function IdlePreview() {
 
           {/* Sidebar with groups */}
           <div style={{ width:200, borderRight:"1px solid #1E1E22", flexShrink:0, display:"flex", flexDirection:"column" }}>
+            {/* Logo */}
+            <div style={{ padding:"10px 14px", borderBottom:"1px solid #1E1E22", display:"flex", alignItems:"center", gap:8 }}>
+              <span style={{ display:"flex", gap:2, flexShrink:0 }}>
+                <span style={{ width:7, height:14, background:"var(--n1)", display:"inline-block" }} />
+                <span style={{ width:7, height:14, background:"var(--n2)", display:"inline-block" }} />
+                <span style={{ width:7, height:14, background:"var(--n3)", display:"inline-block" }} />
+              </span>
+              <span className="display" style={{ fontSize:14, letterSpacing:"-0.01em" }}>Conciply</span>
+            </div>
             {/* Report meta */}
-            <div style={{ padding:"12px 14px 10px", borderBottom:"1px solid #1E1E22" }}>
+            <div style={{ padding:"10px 14px 10px", borderBottom:"1px solid #1E1E22" }}>
               <div className="font-mono" style={{ fontSize:9, color:"#5C5C63", letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:4 }}>Report</div>
               <div style={{ fontSize:12, fontWeight:700, color:"#C4C4CC", lineHeight:1.3, fontFamily:"var(--font-grotesk), sans-serif" }}>B2B CRM tool</div>
               <div className="font-mono" style={{ fontSize:9, color:"var(--n3)", marginTop:6, letterSpacing:"0.06em" }}>Free · 8 of 17 sections</div>

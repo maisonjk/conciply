@@ -137,7 +137,7 @@ export default function ReportView({ report, tier, input, reportId }: Props) {
           ) : (
             <span style={{ fontSize:9, fontFamily:"var(--font-mono)", color:"var(--n3)",
                            letterSpacing:"0.1em", textTransform:"uppercase" }}>
-              Free · 2 of 17 sections
+              Free · 8 of 17 sections
             </span>
           )}
         </div>
