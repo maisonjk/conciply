@@ -28,8 +28,7 @@ const TIERS: TierDef[] = [
     badge: null,
     features: [
       { text: "1 report per IP",          active: true  },
-      { text: "8 of 17 sections free",    active: true  },
-      { text: "Analysis + insights",      active: true  },
+      { text: "8 of 17 sections",         active: true  },
       { text: "Growth opportunities",     active: true  },
       { text: "All 17 sections",          active: false },
       { text: "Workspace",                active: false },
@@ -183,128 +182,173 @@ export default function PricingTable() {
       <div className="pricing-grid">
         {TIERS.map(({ tier, label, tagline, monthlyPrice, annualPrice, annualBilled, badge, features, cta, href, accent, highlight }) => {
           const price   = annual ? annualPrice   : monthlyPrice;
-          const subLine = annual ? annualBilled  : "Per month";
+          const subLine = annual ? annualBilled  : "per month";
           const loadKey = tier ? `${tier}${annual ? "_annual" : ""}` : null;
+
+          // ── Shared typographic constants (locked scale) ──────────────────
+          // All zones are fixed height so every horizontal band aligns
+          // perfectly across the 4 columns regardless of content variance.
+          //
+          // Scale: 8 · 10 · 11 · 13 · 48 (display)
+          // Families: mono = labels | display = prices | grotesk = body | archivo = CTAs
 
           return (
             <div
               key={label}
               style={{
                 background: "#0A0A0B",
-                padding: "32px 28px",
+                padding: "28px 24px 24px",
                 borderRight: "2px solid #F4F4F1",
-                borderTop: `4px solid ${highlight ? accent : "transparent"}`,
+                borderTop: `3px solid ${highlight ? accent : "transparent"}`,
                 display: "flex",
                 flexDirection: "column",
               }}
             >
-              {/* Tier header */}
-              <div style={{ marginBottom: 24 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
-                  <span
-                    className="kicker"
-                    style={{ color: highlight ? accent : "#D0D0D8", fontSize: 11 }}
-                  >
-                    {label.toUpperCase()}
-                  </span>
-                  {badge && (
-                    <span
-                      className="font-mono"
-                      style={{
-                        fontSize: 9, fontWeight: 700, letterSpacing: "0.12em",
-                        textTransform: "uppercase", color: "#000",
-                        background: accent, padding: "3px 7px", lineHeight: 1,
-                      }}
-                    >
-                      {badge}
-                    </span>
-                  )}
-                </div>
-                <p className="font-mono" style={{
-                  fontSize: 10, color: "#6A6A75", letterSpacing: "0.04em",
-                  margin: "0 0 10px", lineHeight: 1.4,
+              {/* ── Zone 1: Tier name — fixed 20px ──────────────────────── */}
+              {/* Badge sits on this row. Non-badged cards get an invisible
+                  spacer so the zone height is identical across all cards.   */}
+              <div style={{
+                height: 20, display: "flex", alignItems: "center",
+                gap: 8, marginBottom: 10,
+              }}>
+                <span style={{
+                  fontFamily: "var(--font-mono), monospace",
+                  fontSize: 9, fontWeight: 700,
+                  letterSpacing: "0.18em", textTransform: "uppercase",
+                  color: highlight ? accent : "#9A9AA8",
+                  lineHeight: 1,
+                }}>
+                  {label}
+                </span>
+                {/* Badge always rendered — invisible when absent */}
+                <span style={{
+                  fontFamily: "var(--font-mono), monospace",
+                  fontSize: 8, fontWeight: 700,
+                  letterSpacing: "0.12em", textTransform: "uppercase",
+                  color: "#000", background: badge ? accent : "transparent",
+                  padding: badge ? "2px 6px" : "2px 0",
+                  lineHeight: 1, visibility: badge ? "visible" : "hidden",
+                }}>
+                  {badge ?? "placeholder"}
+                </span>
+              </div>
+
+              {/* ── Zone 2: Tagline — fixed 32px ─────────────────────────── */}
+              {/* Clamped to one line via overflow hidden so all cards stay
+                  at the same height regardless of tagline length.           */}
+              <div style={{
+                height: 32, display: "flex", alignItems: "center",
+                overflow: "hidden", marginBottom: 20,
+              }}>
+                <p style={{
+                  fontFamily: "var(--font-mono), monospace",
+                  fontSize: 10, color: "#4A4A55",
+                  letterSpacing: "0.08em", margin: 0, lineHeight: 1,
+                  whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
                 }}>
                   {tagline}
                 </p>
-
-                {/* Price */}
-                <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
-                  <div
-                    className="display"
-                    style={{ fontSize: 56, color: accent, lineHeight: 1, marginBottom: 4 }}
-                  >
-                    {price}
-                  </div>
-                  {tier && (
-                    <span
-                      className="font-mono"
-                      style={{ fontSize: 11, color: "#5C5C63", letterSpacing: "0.06em" }}
-                    >
-                      /mo
-                    </span>
-                  )}
-                </div>
-
-                {/* Sub-label */}
-                <div
-                  className="font-mono"
-                  style={{
-                    fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase",
-                    color: annual && tier ? "var(--n3)" : "#8A8A9A",
-                  }}
-                >
-                  {subLine}
-                </div>
-
               </div>
 
-              {/* Divider */}
-              <div style={{ height: 1, background: "#1E1E22", marginBottom: 24 }} />
+              {/* ── Zone 3: Price number — fixed 52px ────────────────────── */}
+              {/* display class has line-height 0.92 — we override to 1 here
+                  and use alignItems flex-end so /mo sits on the cap-height.  */}
+              <div style={{
+                height: 52, display: "flex",
+                alignItems: "flex-end", gap: 4, marginBottom: 8,
+              }}>
+                <span style={{
+                  fontFamily: "var(--font-archivo), sans-serif",
+                  fontSize: 48, fontWeight: 900,
+                  letterSpacing: "-0.03em", lineHeight: 1,
+                  color: accent,
+                }}>
+                  {price}
+                </span>
+                {tier && (
+                  <span style={{
+                    fontFamily: "var(--font-mono), monospace",
+                    fontSize: 10, color: "#3C3C42",
+                    letterSpacing: "0.06em", lineHeight: 1,
+                    paddingBottom: 4,          // sits at cap-height of the price
+                  }}>
+                    /mo
+                  </span>
+                )}
+              </div>
 
-              {/* Feature list */}
-              <ul style={{ listStyle: "none", margin: 0, padding: 0, flex: 1, marginBottom: 32 }}>
+              {/* ── Zone 4: Billing sub-label — fixed 24px ───────────────── */}
+              <div style={{
+                height: 24, display: "flex", alignItems: "center",
+                marginBottom: 20,
+              }}>
+                <span style={{
+                  fontFamily: "var(--font-mono), monospace",
+                  fontSize: 9, letterSpacing: "0.14em", textTransform: "uppercase",
+                  color: annual && tier ? "var(--n3)" : "#3C3C42",
+                  lineHeight: 1,
+                }}>
+                  {subLine}
+                </span>
+              </div>
+
+              {/* ── Divider — always at same Y position ──────────────────── */}
+              <div style={{ height: 1, background: "#1E1E22", marginBottom: 20 }} />
+
+              {/* ── Zone 5: Feature list — flex 1, rows fixed at 40px ────── */}
+              {/* Fixed row height ensures features align across columns even
+                  if one card has an extra feature row.                       */}
+              <ul style={{
+                listStyle: "none", margin: 0, padding: 0,
+                flex: 1, marginBottom: 24,
+                display: "flex", flexDirection: "column",
+              }}>
                 {features.map((f, i) => (
                   <li
                     key={i}
                     style={{
-                      display: "flex", alignItems: "baseline", gap: 10,
-                      padding: "6px 0",
-                      borderBottom: i < features.length - 1 ? "1px solid #111" : "none",
+                      height: 40, display: "flex",
+                      alignItems: "center", gap: 10,
+                      borderBottom: i < features.length - 1 ? "1px solid #0E0E10" : "none",
+                      flexShrink: 0,
                     }}
                   >
-                    <span
-                      style={{
-                        flexShrink: 0, width: 14, fontSize: 11, fontWeight: 700,
-                        color: f.active ? accent : "#555560",
-                        fontFamily: "var(--font-mono), monospace", letterSpacing: 0,
-                      }}
-                    >
+                    {/* Checkmark — mono, fixed 14px wide, vertically centered */}
+                    <span style={{
+                      flexShrink: 0, width: 14, textAlign: "center",
+                      fontFamily: "var(--font-mono), monospace",
+                      fontSize: 11, lineHeight: 1,
+                      color: f.active ? accent : "#2A2A2E",
+                    }}>
                       {f.active ? "✓" : "—"}
                     </span>
-                    <span
-                      style={{
-                        fontSize: 13, lineHeight: 1.5,
-                        color: f.active ? "#EBEBEB" : "#7A7A88",
-                        fontFamily: "var(--font-grotesk), sans-serif",
-                      }}
-                    >
+                    {/* Feature text — grotesk, consistent size/weight */}
+                    <span style={{
+                      fontFamily: "var(--font-grotesk), sans-serif",
+                      fontSize: 12, lineHeight: 1, fontWeight: f.active ? 500 : 400,
+                      color: f.active ? "#D4D4DC" : "#3C3C42",
+                      whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
+                    }}>
                       {f.text}
                     </span>
                   </li>
                 ))}
               </ul>
 
-              {/* CTA */}
+              {/* ── Zone 6: CTA — fixed 44px, identical font across all ─── */}
+              {/* Both free (anchor) and paid (button) use the same font,
+                  size, weight and height. Only color + border differ.        */}
               {href ? (
                 <a
                   href={href}
                   style={{
                     display: "flex", alignItems: "center", justifyContent: "center",
-                    height: 48, border: "2px solid #3C3C42",
-                    color: "#D0D0D8",
-                    fontFamily: "var(--font-mono), monospace",
-                    fontSize: 11, fontWeight: 700, letterSpacing: "0.1em",
-                    textTransform: "uppercase", textDecoration: "none",
+                    height: 44, border: "2px solid #2A2A2E",
+                    color: "#5C5C63",
+                    fontFamily: "var(--font-archivo), sans-serif",
+                    fontSize: 11, fontWeight: 800,
+                    letterSpacing: "0.08em", textTransform: "uppercase",
+                    textDecoration: "none",
                     transition: "border-color .12s, color .12s",
                   }}
                   onMouseEnter={e => {
@@ -312,8 +356,8 @@ export default function PricingTable() {
                     (e.currentTarget as HTMLAnchorElement).style.color = "#F4F4F1";
                   }}
                   onMouseLeave={e => {
-                    (e.currentTarget as HTMLAnchorElement).style.borderColor = "#3C3C42";
-                    (e.currentTarget as HTMLAnchorElement).style.color = "#C4C4CC";
+                    (e.currentTarget as HTMLAnchorElement).style.borderColor = "#2A2A2E";
+                    (e.currentTarget as HTMLAnchorElement).style.color = "#5C5C63";
                   }}
                 >
                   {cta}
@@ -324,13 +368,13 @@ export default function PricingTable() {
                   disabled={loading !== null}
                   style={{
                     display: "flex", alignItems: "center", justifyContent: "center",
-                    height: 48, width: "100%",
+                    height: 44, width: "100%",
                     border: `2px solid ${accent}`,
                     background: highlight ? accent : "transparent",
                     color: highlight ? "#000" : accent,
                     fontFamily: "var(--font-archivo), sans-serif",
-                    fontSize: 13, fontWeight: 800, letterSpacing: "0.04em",
-                    textTransform: "uppercase",
+                    fontSize: 11, fontWeight: 800,
+                    letterSpacing: "0.08em", textTransform: "uppercase",
                     cursor: loading !== null ? "not-allowed" : "pointer",
                     opacity: loading !== null ? 0.5 : 1,
                     transition: "background .12s, color .12s, box-shadow .12s, transform .12s",
