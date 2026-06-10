@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import type { GrowthReport, SectionKey } from "@/lib/types";
 import { SECTION_LABELS, FREE_SECTIONS } from "@/lib/types";
+import { verifyLicense } from "@/lib/license";
 
 // ── Section groups for the email layout ─────────────────────────────────────
 const GROUPS: { label: string; keys: SectionKey[] }[] = [
@@ -245,12 +246,18 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  // SECURITY: derive tier from HMAC-verified license header — never trust
+  // the client-supplied tier. A malicious client could send tier:"agency"
+  // to get all 17 sections for free.
+  const licenseHeader = req.headers.get("x-conciply-license") ?? "";
+  const license = licenseHeader ? verifyLicense(licenseHeader) : null;
+  const serverTier = license ? license.tier : null;
+
   const body = await req.json().catch(() => ({}));
-  const { email, report, input, tier } = body as {
+  const { email, report, input } = body as {
     email: string;
     report: Partial<GrowthReport>;
     input: string;
-    tier: string | null;
     optIn: boolean;
   };
 
@@ -266,7 +273,7 @@ export async function POST(req: NextRequest) {
   }
 
   // Build email HTML in memory — never written to disk or database
-  const html = buildEmailHTML(input, report, tier);
+  const html = buildEmailHTML(input, report, serverTier);
   const subject = `Your Conciply Growth Report: ${input.slice(0, 80)}`;
 
   // Send via Resend REST API

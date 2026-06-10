@@ -3,7 +3,7 @@ import { getOpenAI } from "@/lib/openai";
 import { checkRateLimit, getRemainingAttempts } from "@/lib/ratelimit";
 import { verifyLicense, REPORT_LIMITS, getUsageKey } from "@/lib/license";
 import { buildSystemPrompt, buildUserMessage, parseReport } from "@/lib/prompt";
-import { kvGet, kvSet } from "@/lib/kv";
+import { kvGet, kvSet, kvIncr } from "@/lib/kv";
 import { FREE_SECTIONS } from "@/lib/types";
 import type { GrowthReport, SectionKey } from "@/lib/types";
 
@@ -184,14 +184,15 @@ export async function POST(req: NextRequest) {
         // Parse the completed JSON
         const fullReport = parseReport(accumulated);
 
-        // Increment quota and compute remaining
+        // Increment quota and compute remaining.
+        // kvIncr is atomic — avoids race conditions where two simultaneous
+        // completions both read the same count and each write count+1.
         let remaining: number = Infinity;
         if (license) {
           const usageKey = getUsageKey(licenseHeader, license.tier);
-          const usedCount = (await kvGet<number>(usageKey)) ?? 0;
-          await kvSet(usageKey, usedCount + 1);
+          const newCount = await kvIncr(usageKey);
           const limit = REPORT_LIMITS[license.tier];
-          remaining = limit === Infinity ? Infinity : Math.max(0, limit - usedCount - 1);
+          remaining = limit === Infinity ? Infinity : Math.max(0, limit - newCount);
 
           send({ type: "done", report: fullReport, remaining, tier: license.tier });
         } else {

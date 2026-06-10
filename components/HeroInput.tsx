@@ -61,12 +61,8 @@ const LOADING_MESSAGES = [
   "Almost done — your AI execs are debating the final details…",
 ];
 
-function getTodayCount() {
-  const base = 3241;
-  const day = Math.floor(Date.now() / 86400000);
-  const seed = (day * 2654435761) % 2000;
-  return base + seed;
-}
+// REMOVED: fake deterministic daily counter. Displaying fabricated usage
+// numbers is a legal risk under FTC guidelines (deceptive practices).
 
 const SECTION_COLORS: Record<string, string> = {
   executiveSummary:    "var(--n1)", marketAnalysis:      "var(--n3)",
@@ -139,13 +135,12 @@ export default function HeroInput() {
   const [language, setLanguage] = useState("auto");
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState("");
-  const [count, setCount] = useState(0);
+
   const [progress, setProgress] = useState(0);
   const [loadingMsg, setLoadingMsg] = useState(LOADING_MESSAGES[0]);
   const [doneSections, setDoneSections] = useState<string[]>([]);
   const [partialReport, setPartialReport] = useState<PartialGrowthReport>({});
 
-  useEffect(() => { setCount(getTodayCount()); }, []);
 
   // Animate progress 0 → 90% while loading, then snap to 100 on completion
   useEffect(() => {
@@ -230,7 +225,7 @@ export default function HeroInput() {
             }
             if (payload.type === "done") {
               const stored = saveReport(q, payload.report as GrowthReport);
-              setStatus("done"); setCount(c => c + 1);
+              setStatus("done");
               router.push(`/report?id=${stored.id}`);
               return true;
             }
@@ -269,15 +264,6 @@ export default function HeroInput() {
 
   return (
     <section id="analyze" style={{ padding:"clamp(20px,3vw,44px) 0 40px" }}>
-      {count > 0 && (
-        <div className="font-mono" style={{ display:"flex", alignItems:"center", gap:8, marginBottom:10 }}>
-          <span style={{ width:8, height:8, background:"var(--n3)", display:"inline-block",
-                         borderRadius:"50%", animation:"pulseBlock 2s infinite" }} />
-          <span style={{ fontSize:12, color:"#9A9AA8", letterSpacing:"0.08em" }}>
-            <span style={{ color:"var(--n3)", fontWeight:700 }}>{count.toLocaleString()}</span> growth reports generated today
-          </span>
-        </div>
-      )}
 
       {/* ── Kicker ── */}
       <p className="kicker" style={{ marginBottom:14, color:"#7A7A8A" }}>Autonomous Growth OS</p>

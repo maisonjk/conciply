@@ -92,12 +92,12 @@ function UnlockContent() {
         <div style={{ border:"2px solid var(--n3)", padding:24 }}>
           <span className="font-mono" style={{ color:"var(--n3)", fontWeight:700 }}>✓ {message}</span>
         </div>
-      ) : status === "loading" && params.get("session_id") ? (
-        // Stripe redirect — show activation progress, not a confusing key form
+      ) : status === "loading" ? (
+        // Loading state — either Stripe redirect or manual key verification
         <div style={{ border:"2px solid #1E1E22", padding:24 }}>
           <div className="font-mono" style={{ fontSize:11, letterSpacing:"0.14em", textTransform:"uppercase",
                                               color:"var(--n2)", marginBottom:16 }}>
-            Activating your plan…
+            {params.get("session_id") ? "Activating your plan…" : "Verifying license…"}
           </div>
           <div style={{ width:"100%", height:2, background:"#1E1E22", overflow:"hidden" }}>
             <div style={{ height:"100%", width:"60%", background:"var(--n2)",
@@ -105,7 +105,7 @@ function UnlockContent() {
           </div>
           <style>{`@keyframes slide{from{transform:translateX(0)}to{transform:translateX(70%)}}`}</style>
           <p style={{ color:"#9A9AA8", fontSize:12, marginTop:16, fontFamily:"var(--font-mono)" }}>
-            Confirming payment with Stripe…
+            {params.get("session_id") ? "Confirming payment with Stripe…" : "Checking your key…"}
           </p>
         </div>
       ) : (
@@ -117,10 +117,10 @@ function UnlockContent() {
               placeholder="Paste your license key…" className="font-mono"
               style={{ flex:"1 1 280px", background:"transparent", border:"none", outline:"none",
                        color:"#F4F4F1", fontSize:14, padding:"18px 20px" }} />
-            <button onClick={verify} disabled={status === "loading" || !key.trim()}
+            <button onClick={verify} disabled={!key.trim()}
               className="btn-neon"
               style={{ padding:"0 24px", fontSize:14, borderLeft:"2px solid #F4F4F1" }}>
-              {status === "loading" ? "Verifying…" : "Unlock →"}
+              Unlock →
             </button>
           </div>
           {status === "error" && message && (

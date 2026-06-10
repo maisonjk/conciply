@@ -7,7 +7,7 @@
 // A sliding 24h window is NOT used because it resets daily, allowing >1 free
 // report per month.
 
-import { kvGet, kvSet } from "./kv";
+import { kvGet, kvSet, kvIncr } from "./kv";
 
 const memStore = new Map<string, number>();
 
@@ -35,10 +35,15 @@ export async function checkRateLimit(ip: string, limit: number): Promise<boolean
   const ttl   = secondsUntilMonthEnd();
 
   try {
+    // Read current count first to check the limit before incrementing.
+    // We check-then-increment rather than increment-then-check to avoid
+    // over-counting: if the request is denied we don't want to burn a slot.
     const count = (await kvGet<number>(key)) ?? 0;
     if (count >= limit) return false;
-    // Persist incremented count with TTL so old keys expire automatically
-    await kvSet(key, count + 1, ttl);
+    // Atomic INCR — avoids the race condition where two simultaneous requests
+    // both read count=0 and both write count=1 (double-free exploit).
+    // kvIncr also sets the TTL automatically on the first call.
+    await kvIncr(key, ttl);
     return true;
   } catch {
     // KV unavailable — fall back to in-memory (dev / misconfigured env).

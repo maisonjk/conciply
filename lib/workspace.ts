@@ -13,7 +13,19 @@ export function loadReports(): StoredReport[] {
 }
 
 function saveReports(reports: StoredReport[]): void {
-  localStorage.setItem(KEY, JSON.stringify(reports.slice(-MAX)));
+  try {
+    localStorage.setItem(KEY, JSON.stringify(reports.slice(-MAX)));
+  } catch (err) {
+    // QuotaExceededError: storage is full. Drop the oldest half and retry.
+    if (err instanceof DOMException && err.name === "QuotaExceededError") {
+      try {
+        const trimmed = reports.slice(-Math.floor(MAX / 2));
+        localStorage.setItem(KEY, JSON.stringify(trimmed));
+      } catch {
+        // Silently give up — don't crash the app over storage limits
+      }
+    }
+  }
 }
 
 export function saveReport(input: string, report: GrowthReport): StoredReport {
@@ -71,7 +83,10 @@ export function exportReport(report: StoredReport): void {
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 365; // 1 year in seconds
 
 function setCookie(name: string, value: string): void {
-  document.cookie = `${name}=${encodeURIComponent(value)}; max-age=${COOKIE_MAX_AGE}; path=/; SameSite=Lax`;
+  // SameSite=Lax protects against CSRF. Secure ensures cookie is only sent
+  // over HTTPS — safe to include; localhost ignores the Secure flag.
+  const secure = location.protocol === "https:" ? "; Secure" : "";
+  document.cookie = `${name}=${encodeURIComponent(value)}; max-age=${COOKIE_MAX_AGE}; path=/; SameSite=Lax${secure}`;
 }
 
 function getCookie(name: string): string | null {

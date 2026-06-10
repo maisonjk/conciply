@@ -168,7 +168,7 @@ export function parseReport(raw: string): GrowthReport {
   return data as GrowthReport;
 }
 
-function repairJson(raw: string): unknown {
+export function repairJson(raw: string): unknown {
   let fixed = raw.trimEnd();
 
   // Walk the string tracking structural depth + whether we ended mid-string.
