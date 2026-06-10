@@ -52,7 +52,7 @@ button { font-family: inherit; cursor: pointer; }
 
 .kicker {
   font-family: var(--font-mono), "SF Mono", "Courier New", monospace;
-  font-size: 11px; letter-spacing: 0.22em;
+  font-size: 12px; letter-spacing: 0.14em;
   text-transform: uppercase; color: #C4C4CC;
 }
 .display {

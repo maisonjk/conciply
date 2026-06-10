@@ -85,12 +85,12 @@ export function VisionStatement() {
     <section style={{ borderTop:"2px solid #F4F4F1", marginTop:80 }}>
       <div className="shell vision-grid" style={{ padding:"clamp(48px,7vw,96px) clamp(16px,4vw,40px)" }}>
         <div>
-          <p className="font-mono" style={{ fontSize:13, color:"var(--n1)", letterSpacing:"0.12em",
+          <p className="font-mono" style={{ fontSize:12, color:"var(--n1)", letterSpacing:"0.14em",
                                             textTransform:"uppercase", margin:"0 0 20px" }}>Built for</p>
           <h2 className="display" style={{ fontSize:"clamp(34px,5vw,58px)", marginBottom:24, marginTop:0 }}>
             Founders. Creators.<br />Builders of all kinds.
           </h2>
-          <p style={{ fontSize:16, lineHeight:1.7, color:"#E0E0E0", maxWidth:420, margin:"0 0 32px" }}>
+          <p style={{ fontSize:15, lineHeight:1.7, color:"#C4C4CC", maxWidth:420, margin:"0 0 32px" }}>
             Conciply gives every founder, creator, and entrepreneur the same strategic firepower
             as a fully-staffed growth org — regardless of team size or budget.
           </p>
@@ -102,11 +102,11 @@ export function VisionStatement() {
           <div style={{ display:"flex", flexDirection:"column", gap:28 }}>
             {icps.map(({ color, role, desc }) => (
               <div key={role}>
-                <p className="font-mono" style={{ fontSize:11, color, letterSpacing:"0.12em",
+                <p className="font-mono" style={{ fontSize:12, color, letterSpacing:"0.14em",
                                                   textTransform:"uppercase", margin:"0 0 8px", fontWeight:700 }}>
                   {role}
                 </p>
-                <p style={{ fontSize:15, lineHeight:1.7, color:"#C4C4CC", margin:0 }}>{desc}</p>
+                <p style={{ fontSize:15, lineHeight:1.7, color:"#9A9AA8", margin:0 }}>{desc}</p>
               </div>
             ))}
           </div>

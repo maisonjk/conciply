@@ -32,7 +32,7 @@ export function ProofBar() {
               <span className="display" style={{ fontSize: "clamp(26px,3vw,40px)", color: "var(--n1)", lineHeight: 1 }}>
                 {s.value}
               </span>
-              <span className="font-mono" style={{ fontSize: 10, color: "#5C5C63", letterSpacing: "0.1em", textTransform: "uppercase", lineHeight: 1.4 }}>
+              <span className="font-mono" style={{ fontSize: 12, color: "#7A7A8A", letterSpacing: "0.14em", textTransform: "uppercase", lineHeight: 1.4 }}>
                 {s.label}
               </span>
             </div>
@@ -77,11 +77,11 @@ export function HowItWorks() {
 
         {/* Section header */}
         <div style={{ display: "flex", alignItems: "baseline", gap: 20, marginBottom: "clamp(40px,5vw,64px)", flexWrap: "wrap" }}>
-          <p className="font-mono" style={{ fontSize: 11, color: "var(--n2)", letterSpacing: "0.14em", textTransform: "uppercase", margin: 0, flexShrink: 0 }}>
+          <p className="font-mono" style={{ fontSize: 12, color: "var(--n2)", letterSpacing: "0.14em", textTransform: "uppercase", margin: 0, flexShrink: 0 }}>
             How it works
           </p>
           <div style={{ height: 1, flex: 1, minWidth: 40, background: "#1E1E22" }} />
-          <p className="font-mono" style={{ fontSize: 11, color: "#3C3C42", letterSpacing: "0.08em", margin: 0 }}>
+          <p className="font-mono" style={{ fontSize: 11, color: "#7A7A8A", letterSpacing: "0.08em", margin: 0 }}>
             From idea to playbook in three steps
           </p>
         </div>
@@ -111,7 +111,7 @@ export function HowItWorks() {
               <h3 className="display" style={{ fontSize: "clamp(18px,2vw,26px)", color: "#F4F4F1", marginBottom: 16, position: "relative", lineHeight: 1.05 }}>
                 {step.title}
               </h3>
-              <p style={{ fontSize: 14, color: "#9A9AA8", lineHeight: 1.65, fontFamily: "var(--font-grotesk), sans-serif", margin: "0 0 16px", position: "relative" }}>
+              <p style={{ fontSize: 15, color: "#9A9AA8", lineHeight: 1.65, fontFamily: "var(--font-grotesk), sans-serif", margin: "0 0 16px", position: "relative" }}>
                 {step.body}
               </p>
               <p className="font-mono" style={{ fontSize: 10, color: step.color, letterSpacing: "0.06em", lineHeight: 1.5, margin: 0, opacity: 0.7, position: "relative" }}>
@@ -194,7 +194,7 @@ export function WhatYouGet() {
         {/* Section header */}
         <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 24, marginBottom: "clamp(40px,5vw,64px)", flexWrap: "wrap" }}>
           <div>
-            <p className="font-mono" style={{ fontSize: 11, color: "var(--n3)", letterSpacing: "0.14em", textTransform: "uppercase", margin: "0 0 12px" }}>
+            <p className="font-mono" style={{ fontSize: 12, color: "var(--n3)", letterSpacing: "0.14em", textTransform: "uppercase", margin: "0 0 12px" }}>
               What you get
             </p>
             <h2 className="display" style={{ fontSize: "clamp(28px,4vw,52px)", margin: 0, lineHeight: 1.0 }}>
@@ -202,10 +202,10 @@ export function WhatYouGet() {
             </h2>
           </div>
           <div style={{ maxWidth: 320 }}>
-            <p style={{ fontSize: 14, color: "#7A7A88", lineHeight: 1.65, margin: "0 0 12px", fontFamily: "var(--font-grotesk), sans-serif" }}>
+            <p style={{ fontSize: 15, color: "#9A9AA8", lineHeight: 1.65, margin: "0 0 12px", fontFamily: "var(--font-grotesk), sans-serif" }}>
               Most growth consultants charge $3,000–8,000 for a fraction of this. Conciply generates the full playbook on demand.
             </p>
-            <p className="font-mono" style={{ fontSize: 10, color: "#3C3C42", letterSpacing: "0.08em" }}>
+            <p className="font-mono" style={{ fontSize: 10, color: "#7A7A8A", letterSpacing: "0.08em" }}>
               Free sections marked below · Upgrade for all 17
             </p>
           </div>
@@ -226,7 +226,7 @@ export function WhatYouGet() {
                 <span style={{ width: 20, height: 20, background: group.color, display: "inline-block", flexShrink: 0 }} />
                 <span className="display" style={{ fontSize: 14, color: group.color }}>{group.label}</span>
                 <span style={{ height: 1, flex: 1, background: "#1E1E22" }} />
-                <span className="font-mono" style={{ fontSize: 9, color: "#3C3C42", letterSpacing: "0.1em" }}>{group.description}</span>
+                <span className="font-mono" style={{ fontSize: 10, color: "#6A6A7A", letterSpacing: "0.08em" }}>{group.description}</span>
               </div>
 
               {/* Section rows — 2-col grid */}
@@ -259,13 +259,13 @@ export function WhatYouGet() {
                           </span>
                           {isFree && (
                             <span className="font-mono" style={{
-                              fontSize: 7, letterSpacing: "0.12em", textTransform: "uppercase",
+                              fontSize: 9, letterSpacing: "0.10em", textTransform: "uppercase",
                               color: group.color, border: `1px solid ${group.color}`,
                               padding: "1px 5px", flexShrink: 0,
                             }}>Free</span>
                           )}
                         </div>
-                        <p className="font-mono" style={{ fontSize: 10, color: "#5C5C63", lineHeight: 1.5, margin: 0, letterSpacing: "0.02em" }}>
+                        <p style={{ fontSize: 11, color: "#7A7A8A", lineHeight: 1.5, margin: 0, fontFamily: "var(--font-grotesk), sans-serif" }}>
                           {SECTION_ONE_LINERS[key] ?? ""}
                         </p>
                       </div>
@@ -289,7 +289,7 @@ export function WhatYouGet() {
           }}>
             Generate your free report →
           </a>
-          <span className="font-mono" style={{ fontSize: 10, color: "#3C3C42", letterSpacing: "0.08em" }}>
+          <span className="font-mono" style={{ fontSize: 11, color: "#7A7A8A", letterSpacing: "0.08em" }}>
             8 of 17 sections free · no login required
           </span>
         </div>
@@ -406,13 +406,13 @@ export function FinalCTA() {
         <div className="final-cta-grid" style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: "clamp(32px,4vw,64px)", alignItems: "center" }}>
 
           <div>
-            <p className="font-mono" style={{ fontSize: 11, color: "#3C3C42", letterSpacing: "0.14em", textTransform: "uppercase", margin: "0 0 16px" }}>
+            <p className="font-mono" style={{ fontSize: 12, color: "#7A7A8A", letterSpacing: "0.14em", textTransform: "uppercase", margin: "0 0 16px" }}>
               Ready when you are
             </p>
             <h2 className="display" style={{ fontSize: "clamp(28px,4vw,56px)", margin: "0 0 16px", lineHeight: 1.0, color: "#F4F4F1" }}>
               Your growth playbook,<br />on demand.
             </h2>
-            <p style={{ fontSize: 14, color: "#5C5C63", fontFamily: "var(--font-grotesk), sans-serif", margin: 0, lineHeight: 1.6 }}>
+            <p style={{ fontSize: 15, color: "#9A9AA8", fontFamily: "var(--font-grotesk), sans-serif", margin: 0, lineHeight: 1.6 }}>
               No sign-up. No credit card. Drop in your business and see exactly what a full strategy looks like.
             </p>
           </div>
@@ -432,7 +432,7 @@ export function FinalCTA() {
               display: "inline-flex", alignItems: "center",
               color: "#5C5C63", padding: "4px 0",
               fontFamily: "var(--font-mono), monospace",
-              fontSize: 10, letterSpacing: "0.1em",
+              fontSize: 11, letterSpacing: "0.1em",
               textTransform: "uppercase", textDecoration: "none",
               borderBottom: "1px solid #2A2A2E",
             }}>
@@ -462,7 +462,7 @@ export function LandingPricing() {
         {/* Section header */}
         <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 16, marginBottom: "clamp(24px,3vw,36px)", flexWrap: "wrap" }}>
           <div>
-            <p className="font-mono" style={{ fontSize: 10, color: "var(--n2)", letterSpacing: "0.14em", textTransform: "uppercase", margin: "0 0 8px" }}>
+            <p className="font-mono" style={{ fontSize: 12, color: "var(--n2)", letterSpacing: "0.14em", textTransform: "uppercase", margin: "0 0 8px" }}>
               Pricing
             </p>
             <h2 className="display" style={{ fontSize: "clamp(22px,3vw,38px)", margin: 0, lineHeight: 1.0 }}>
