@@ -357,24 +357,34 @@ export default function HeroInput() {
         </div>
 
         {/* Analyze button — full width, below input */}
-        <button
-          className="mobile-analyze-btn"
-          onClick={() => run(input)}
-          disabled={status === "loading" || !input.trim()}
-          style={{
-            background: status === "loading" ? "#1A1A1E" : "var(--n2)",
-            color: status === "loading" ? "#7A7A8A" : "#000",
-            borderTop: "2px solid var(--n2)",
-          }}
-        >
-          {status === "loading" ? (
-            <span style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:12 }}>
-              <span style={{ width:8, height:8, borderRadius:"50%", background:"var(--n1)",
-                             display:"inline-block", animation:"mobilePulse 1s infinite" }} />
-              <span style={{ fontSize:16 }}>{progress}% — Building your playbook</span>
-            </span>
-          ) : "Analyze →"}
-        </button>
+        {status === "done" ? (
+          <button
+            className="mobile-analyze-btn"
+            onClick={() => { setStatus("idle"); setInput(""); setDoneSections([]); setPartialReport({}); setDoneReportId(null); }}
+            style={{ background:"#1A1A1E", color:"#9A9AA8", borderTop:"1px solid #2A2A2E" }}
+          >
+            ← Analyze a new business
+          </button>
+        ) : (
+          <button
+            className="mobile-analyze-btn"
+            onClick={() => run(input)}
+            disabled={status === "loading" || !input.trim()}
+            style={{
+              background: status === "loading" ? "#1A1A1E" : "var(--n2)",
+              color: status === "loading" ? "#7A7A8A" : "#000",
+              borderTop: "2px solid var(--n2)",
+            }}
+          >
+            {status === "loading" ? (
+              <span style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:12 }}>
+                <span style={{ width:8, height:8, borderRadius:"50%", background:"var(--n1)",
+                               display:"inline-block", animation:"mobilePulse 1s infinite" }} />
+                <span style={{ fontSize:16 }}>{progress}% — Building your playbook</span>
+              </span>
+            ) : "Analyze →"}
+          </button>
+        )}
 
         {/* Loading message */}
         {status === "loading" && (
@@ -384,7 +394,8 @@ export default function HeroInput() {
           </p>
         )}
 
-        {/* Example chips — horizontal scroll */}
+        {/* Example chips — hidden when done so they can't ghost-trigger a new run */}
+        {status !== "done" && (
         <div style={{ display:"flex", gap:8, marginTop:18, overflowX:"auto",
                       paddingBottom:4, WebkitOverflowScrolling:"touch" as React.CSSProperties["WebkitOverflowScrolling"] }}>
           <span className="kicker" style={{ fontSize:10, flexShrink:0, paddingTop:6 }}>Try</span>
@@ -398,6 +409,7 @@ export default function HeroInput() {
             </button>
           ))}
         </div>
+        )}
 
         {/* Disclaimer */}
         <p className="font-mono" style={{ fontSize:10, lineHeight:1.6, color:"#6A6A7A",
@@ -549,26 +561,39 @@ export default function HeroInput() {
                      fontSize:"clamp(20px,2.4vw,30px)", lineHeight:1.18,
                      padding:"26px 28px", minHeight:96,
                      fontFamily:"var(--font-archivo), sans-serif" }} />
-          <button className="btn-neon" onClick={() => run(input)}
-            disabled={status === "loading" || !input.trim()}
-            style={{ flex:"0 0 auto", minWidth:200, fontSize:"clamp(18px,2vw,24px)",
-                     padding:"0 36px", borderLeft:"2px solid #F4F4F1",
-                     display:"flex", flexDirection:"column", alignItems:"center",
-                     justifyContent:"center", gap:4,
-                     background:"var(--n2)", borderColor:"var(--n2)" }}>
-            {status === "loading" ? (
-              <>
-                <span style={{ fontSize:"clamp(14px,1.6vw,18px)", lineHeight:1.2, textAlign:"center" }}>
-                  {progress}%
-                </span>
-                <span className="font-mono" style={{ fontSize:10, fontWeight:400,
-                                                      letterSpacing:"0.04em", lineHeight:1,
-                                                      color:"rgba(244,244,241,0.55)", textAlign:"center" }}>
-                  ~2 min
-                </span>
-              </>
-            ) : "Analyze ↵"}
-          </button>
+          {status === "done" ? (
+            <button onClick={() => { setStatus("idle"); setInput(""); setDoneSections([]); setPartialReport({}); setDoneReportId(null); }}
+              style={{ flex:"0 0 auto", minWidth:200, fontSize:13,
+                       padding:"0 28px", borderLeft:"2px solid #2A2A2E",
+                       display:"flex", alignItems:"center", justifyContent:"center",
+                       background:"transparent", border:"2px solid #2A2A2E",
+                       color:"#7A7A8A", cursor:"pointer",
+                       fontFamily:"var(--font-mono), monospace",
+                       letterSpacing:"0.06em" }}>
+              ← New analysis
+            </button>
+          ) : (
+            <button className="btn-neon" onClick={() => run(input)}
+              disabled={status === "loading" || !input.trim()}
+              style={{ flex:"0 0 auto", minWidth:200, fontSize:"clamp(18px,2vw,24px)",
+                       padding:"0 36px", borderLeft:"2px solid #F4F4F1",
+                       display:"flex", flexDirection:"column", alignItems:"center",
+                       justifyContent:"center", gap:4,
+                       background:"var(--n2)", borderColor:"var(--n2)" }}>
+              {status === "loading" ? (
+                <>
+                  <span style={{ fontSize:"clamp(14px,1.6vw,18px)", lineHeight:1.2, textAlign:"center" }}>
+                    {progress}%
+                  </span>
+                  <span className="font-mono" style={{ fontSize:10, fontWeight:400,
+                                                        letterSpacing:"0.04em", lineHeight:1,
+                                                        color:"rgba(244,244,241,0.55)", textAlign:"center" }}>
+                    ~2 min
+                  </span>
+                </>
+              ) : "Analyze ↵"}
+            </button>
+          )}
         </div>
 
         {/* Progress bar — runs along the bottom edge of the input box */}
@@ -624,6 +649,7 @@ export default function HeroInput() {
         </div>
       </div>
 
+      {status !== "done" && (
       <div style={{ display:"flex", flexWrap:"wrap", gap:8, marginTop:20, alignItems:"center" }}>
         <span className="kicker" style={{ marginRight:4 }}>Try</span>
         {EXAMPLES.map((ex, i) => (
@@ -635,6 +661,7 @@ export default function HeroInput() {
           </button>
         ))}
       </div>
+      )}
 
       <p className="font-mono" style={{ fontSize:10, lineHeight:1.6, color:"#6A6A7A",
                                         marginTop:18, maxWidth:720, letterSpacing:"0.02em" }}>
