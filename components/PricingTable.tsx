@@ -197,7 +197,7 @@ export default function PricingTable() {
               key={label}
               style={{
                 background: "#0A0A0B",
-                padding: "28px 24px 24px",
+                padding: "22px 18px 20px",
                 borderRight: idx < TIERS.length - 1 ? "2px solid #F4F4F1" : "none",
                 borderTop: `3px solid ${highlight ? accent : "transparent"}`,
                 display: "flex",
@@ -209,7 +209,7 @@ export default function PricingTable() {
                   spacer so the zone height is identical across all cards.   */}
               <div style={{
                 height: 20, display: "flex", alignItems: "center",
-                gap: 8, marginBottom: 10,
+                gap: 8, marginBottom: 8,
               }}>
                 <span style={{
                   fontFamily: "var(--font-mono), monospace",
@@ -233,18 +233,19 @@ export default function PricingTable() {
                 </span>
               </div>
 
-              {/* ── Zone 2: Tagline — fixed 32px ─────────────────────────── */}
-              {/* Clamped to one line via overflow hidden so all cards stay
-                  at the same height regardless of tagline length.           */}
+              {/* ── Zone 2: Tagline — fixed 28px (max 2 lines) ──────────── */}
               <div style={{
-                height: 32, display: "flex", alignItems: "center",
-                overflow: "hidden", marginBottom: 20,
+                height: 28, display: "flex", alignItems: "flex-start",
+                overflow: "hidden", marginBottom: 16,
               }}>
                 <p style={{
                   fontFamily: "var(--font-mono), monospace",
                   fontSize: 10, color: "#7A7A8A",
-                  letterSpacing: "0.08em", margin: 0, lineHeight: 1,
-                  whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
+                  letterSpacing: "0.06em", margin: 0, lineHeight: 1.4,
+                  overflow: "hidden",
+                  display: "-webkit-box",
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: "vertical",
                 }}>
                   {tagline}
                 </p>
@@ -254,12 +255,12 @@ export default function PricingTable() {
               {/* display class has line-height 0.92 — we override to 1 here
                   and use alignItems flex-end so /mo sits on the cap-height.  */}
               <div style={{
-                height: 52, display: "flex",
+                height: 44, display: "flex",
                 alignItems: "flex-end", gap: 4, marginBottom: 8,
               }}>
                 <span style={{
                   fontFamily: "var(--font-archivo), sans-serif",
-                  fontSize: 48, fontWeight: 900,
+                  fontSize: 40, fontWeight: 900,
                   letterSpacing: "-0.03em", lineHeight: 1,
                   color: accent,
                 }}>
@@ -279,8 +280,8 @@ export default function PricingTable() {
 
               {/* ── Zone 4: Billing sub-label — fixed 24px ───────────────── */}
               <div style={{
-                height: 24, display: "flex", alignItems: "center",
-                marginBottom: 20,
+                height: 20, display: "flex", alignItems: "center",
+                marginBottom: 16,
               }}>
                 <span style={{
                   fontFamily: "var(--font-mono), monospace",
@@ -293,21 +294,21 @@ export default function PricingTable() {
               </div>
 
               {/* ── Divider — always at same Y position ──────────────────── */}
-              <div style={{ height: 1, background: "#1E1E22", marginBottom: 20 }} />
+              <div style={{ height: 1, background: "#1E1E22", marginBottom: 16 }} />
 
               {/* ── Zone 5: Feature list — flex 1, rows fixed at 40px ────── */}
               {/* Fixed row height ensures features align across columns even
                   if one card has an extra feature row.                       */}
               <ul style={{
                 listStyle: "none", margin: 0, padding: 0,
-                flex: 1, marginBottom: 24,
+                flex: 1, marginBottom: 20,
                 display: "flex", flexDirection: "column",
               }}>
                 {features.map((f, i) => (
                   <li
                     key={i}
                     style={{
-                      height: 40, display: "flex",
+                      height: 36, display: "flex",
                       alignItems: "center", gap: 10,
                       borderBottom: i < features.length - 1 ? "1px solid #1A1A1E" : "none",
                       flexShrink: 0,
