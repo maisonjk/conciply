@@ -142,6 +142,7 @@ export default function HeroInput() {
   const [loadingMsg, setLoadingMsg] = useState(LOADING_MESSAGES[0]);
   const [doneSections, setDoneSections] = useState<string[]>([]);
   const [partialReport, setPartialReport] = useState<PartialGrowthReport>({});
+  const [doneReportId, setDoneReportId] = useState<string | null>(null);
 
 
   // Animate progress 0 → 90% while loading, then snap to 100 on completion
@@ -227,8 +228,8 @@ export default function HeroInput() {
             }
             if (payload.type === "done") {
               const stored = saveReport(q, payload.report as GrowthReport);
+              setDoneReportId(stored.id);
               setStatus("done");
-              router.push(`/report?id=${stored.id}`);
               return true;
             }
           } catch { /* ignore malformed SSE line */ }
@@ -414,21 +415,56 @@ export default function HeroInput() {
         )}
 
         {/* Streaming sections */}
-        {status === "loading" && doneSections.length > 0 && (
+        {(status === "loading" || status === "done") && doneSections.length > 0 && (
           <div style={{ marginTop:32 }}>
+            {/* ── Done banner (mobile) ── */}
+            {status === "done" && doneReportId && (
+              <div style={{
+                marginBottom:20, padding:"18px 20px",
+                background:"#0D1A0D", border:"2px solid var(--n3)",
+                display:"flex", flexDirection:"column", gap:14,
+              }}>
+                <div style={{ display:"flex", alignItems:"center", gap:10 }}>
+                  <span style={{ width:8, height:8, background:"var(--n3)", borderRadius:"50%",
+                                 boxShadow:"0 0 10px var(--n3)", flexShrink:0 }} />
+                  <span className="font-mono" style={{ fontSize:11, letterSpacing:"0.12em",
+                                                       textTransform:"uppercase", color:"var(--n3)", fontWeight:700 }}>
+                    Your playbook is ready
+                  </span>
+                </div>
+                <p style={{ margin:0, fontSize:13, color:"#C4C4CC", lineHeight:1.5,
+                            fontFamily:"var(--font-grotesk), sans-serif" }}>
+                  {doneSections.length} sections generated. Open your report to read, copy, and print the full playbook.
+                </p>
+                <a href={`/report?id=${doneReportId}`}
+                  style={{
+                    display:"flex", alignItems:"center", justifyContent:"center",
+                    background:"var(--n3)", color:"#000", border:"none",
+                    padding:"16px 20px", textDecoration:"none",
+                    fontFamily:"var(--font-archivo), sans-serif",
+                    fontSize:15, fontWeight:900, letterSpacing:"0.04em",
+                    textTransform:"uppercase",
+                  }}>
+                  Open your free report →
+                </a>
+              </div>
+            )}
+
             <div className="font-mono" style={{ fontSize:11, letterSpacing:"0.12em", textTransform:"uppercase",
-                                                 color:"#7A7A8A", marginBottom:12,
+                                                 color: status === "done" ? "var(--n3)" : "#7A7A8A", marginBottom:12,
                                                  display:"flex", alignItems:"center", gap:8 }}>
-              <span style={{ width:6, height:6, background:"var(--n1)", borderRadius:"50%",
-                             display:"inline-block", animation:"mobilePulse 1s infinite", flexShrink:0 }} />
-              {doneSections.length} of 17 sections ready
+              <span style={{ width:6, height:6, background: status === "done" ? "var(--n3)" : "var(--n1)", borderRadius:"50%",
+                             display:"inline-block",
+                             ...(status === "loading" ? { animation:"mobilePulse 1s infinite" } : {}),
+                             flexShrink:0 }} />
+              {doneSections.length} of {status === "done" ? doneSections.length : "17"} sections ready
             </div>
             <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
               {SECTION_ORDER.filter(k => doneSections.includes(k)).map(key => (
                 <StreamCard key={key} sectionKey={key} data={partialReport[key as keyof typeof partialReport]} />
               ))}
             </div>
-            {doneSections.length < 17 && <OutputSkeleton slim />}
+            {status === "loading" && doneSections.length < 17 && <OutputSkeleton slim />}
           </div>
         )}
         {status === "loading" && doneSections.length === 0 && <OutputSkeleton />}
@@ -612,21 +648,64 @@ export default function HeroInput() {
           {error}
         </div>
       )}
-      {status === "loading" && doneSections.length > 0 && (
+      {(status === "loading" || status === "done") && doneSections.length > 0 && (
         <div style={{ marginTop:40 }}>
+          {/* ── Done banner (desktop) ── */}
+          {status === "done" && doneReportId && (
+            <div style={{
+              marginBottom:28, padding:"24px 28px",
+              background:"#0D1A0D", border:"2px solid var(--n3)",
+              display:"flex", alignItems:"center", justifyContent:"space-between",
+              gap:24, flexWrap:"wrap",
+            }}>
+              <div style={{ display:"flex", alignItems:"center", gap:16 }}>
+                <span style={{ width:10, height:10, background:"var(--n3)", borderRadius:"50%",
+                               boxShadow:"0 0 12px var(--n3)", flexShrink:0 }} />
+                <div>
+                  <div className="font-mono" style={{ fontSize:11, letterSpacing:"0.14em",
+                                                      textTransform:"uppercase", color:"var(--n3)",
+                                                      fontWeight:700, marginBottom:4 }}>
+                    Your playbook is ready — {doneSections.length} sections generated
+                  </div>
+                  <div style={{ fontSize:13, color:"#9A9AA8", fontFamily:"var(--font-grotesk), sans-serif", lineHeight:1.4 }}>
+                    Open your full report to read every section, copy the content, and print or save as PDF.
+                  </div>
+                </div>
+              </div>
+              <a href={`/report?id=${doneReportId}`}
+                style={{
+                  display:"inline-flex", alignItems:"center", gap:8,
+                  background:"var(--n3)", color:"#000", border:"none",
+                  padding:"14px 28px", textDecoration:"none", flexShrink:0,
+                  fontFamily:"var(--font-archivo), sans-serif",
+                  fontSize:13, fontWeight:900, letterSpacing:"0.04em",
+                  textTransform:"uppercase",
+                  boxShadow:"4px 4px 0 #F4F4F1",
+                }}>
+                Open your free report →
+              </a>
+            </div>
+          )}
+
           <div className="font-mono" style={{ fontSize:11, letterSpacing:"0.12em",
-                                               textTransform:"uppercase", color:"#7A7A8A",
+                                               textTransform:"uppercase",
+                                               color: status === "done" ? "var(--n3)" : "#7A7A8A",
                                                marginBottom:16, display:"flex", alignItems:"center", gap:8 }}>
-            <span style={{ width:6, height:6, background:"var(--n1)", borderRadius:"50%",
-                           display:"inline-block", animation:"pulseBlock 1s infinite", flexShrink:0 }} />
-            Building your playbook — {doneSections.length} of 17 sections ready
+            <span style={{ width:6, height:6,
+                           background: status === "done" ? "var(--n3)" : "var(--n1)",
+                           borderRadius:"50%", display:"inline-block",
+                           ...(status === "loading" ? { animation:"pulseBlock 1s infinite" } : {}),
+                           flexShrink:0 }} />
+            {status === "done"
+              ? `✓ ${doneSections.length} sections complete — preview below`
+              : `Building your playbook — ${doneSections.length} of 17 sections ready`}
           </div>
           <div style={{ display:"flex", flexDirection:"column", gap:10 }}>
             {SECTION_ORDER.filter(k => doneSections.includes(k)).map(key => (
               <StreamCard key={key} sectionKey={key} data={partialReport[key as keyof typeof partialReport]} />
             ))}
           </div>
-          {doneSections.length < 17 && <OutputSkeleton slim />}
+          {status === "loading" && doneSections.length < 17 && <OutputSkeleton slim />}
         </div>
       )}
       {status === "loading" && doneSections.length === 0 && <OutputSkeleton />}
