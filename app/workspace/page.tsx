@@ -90,6 +90,10 @@ function WorkspaceContent() {
   const [copied, setCopied]           = useState(false);
   const [billingLoading, setBillingLoading] = useState(false);
   const [billingError, setBillingError] = useState("");
+  const [emailInput, setEmailInput]   = useState("");
+  const [emailLoading, setEmailLoading] = useState(false);
+  const [emailSent, setEmailSent]     = useState(false);
+  const [emailError, setEmailError]   = useState("");
 
   useEffect(() => {
     const plan = getLicensePlan();
@@ -125,6 +129,45 @@ function WorkspaceContent() {
       else { setBillingError(data.error || "Could not open billing portal."); setTimeout(() => setBillingError(""), 4000); }
     } finally {
       setBillingLoading(false);
+    }
+  };
+
+  const handleEmailCapture = async () => {
+    if (!stored || !emailInput.includes("@")) {
+      setEmailError("Please enter a valid email address.");
+      return;
+    }
+    setEmailLoading(true);
+    setEmailError("");
+    try {
+      const key = getLicenseKey();
+      const headers: Record<string, string> = { "Content-Type": "application/json" };
+      if (key) headers["x-conciply-license"] = key;
+
+      // Fire both requests in parallel: send report + store lead
+      const [emailRes] = await Promise.all([
+        fetch("/api/email-report", {
+          method: "POST",
+          headers,
+          body: JSON.stringify({ email: emailInput, report: stored.report, input: stored.input, optIn: true }),
+        }),
+        fetch("/api/subscribe", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: emailInput, source: "workspace-banner" }),
+        }),
+      ]);
+
+      if (!emailRes.ok) {
+        const data = await emailRes.json().catch(() => ({})) as { error?: string };
+        setEmailError(data.error ?? "Could not send email. Try downloading instead.");
+      } else {
+        setEmailSent(true);
+      }
+    } catch {
+      setEmailError("Network error — please try again.");
+    } finally {
+      setEmailLoading(false);
     }
   };
 
@@ -374,8 +417,77 @@ function WorkspaceContent() {
               locked={false}
             />
 
+            {/* ── Email capture banner ─────────────────────────────── */}
+            <div style={{
+              marginTop:40, padding:"24px 28px",
+              border:`1px solid #1E1E22`,
+              borderLeft:`3px solid var(--n1)`,
+              background:"#0D0D10",
+              display:"flex", flexWrap:"wrap", gap:16, alignItems:"center",
+            }}>
+              <div style={{ flex:"1 1 220px" }}>
+                <p className="font-mono" style={{
+                  fontSize:9, letterSpacing:"0.14em", textTransform:"uppercase",
+                  color:"var(--n1)", margin:"0 0 6px",
+                }}>
+                  📬 Save your playbook
+                </p>
+                <p style={{ margin:0, fontSize:13, color:"#C4C4CC", lineHeight:1.5 }}>
+                  {emailSent
+                    ? "Report sent! Check your inbox."
+                    : "Get a copy of this report emailed to you."}
+                </p>
+                {emailError && (
+                  <p style={{ margin:"6px 0 0", fontSize:12, color:"var(--n2)" }}>{emailError}</p>
+                )}
+              </div>
+
+              {!emailSent && (
+                <div style={{ display:"flex", gap:8, flex:"1 1 280px", minWidth:0 }}>
+                  <input
+                    type="email"
+                    placeholder="you@example.com"
+                    value={emailInput}
+                    onChange={e => { setEmailInput(e.target.value); setEmailError(""); }}
+                    onKeyDown={e => e.key === "Enter" && handleEmailCapture()}
+                    style={{
+                      flex:1, minWidth:0,
+                      background:"#0A0A0B", border:"1px solid #2A2A2E",
+                      color:"#F4F4F1", padding:"10px 14px",
+                      fontFamily:"var(--font-mono), monospace", fontSize:12,
+                      letterSpacing:"0.04em", outline:"none",
+                    }}
+                  />
+                  <button
+                    onClick={handleEmailCapture}
+                    disabled={emailLoading}
+                    style={{
+                      background:"var(--n1)", color:"#000", border:"none",
+                      padding:"10px 18px", cursor: emailLoading ? "wait" : "pointer",
+                      fontFamily:"var(--font-archivo), sans-serif",
+                      fontSize:11, fontWeight:800, letterSpacing:"0.08em",
+                      textTransform:"uppercase", flexShrink:0,
+                      opacity: emailLoading ? 0.7 : 1,
+                    }}
+                  >
+                    {emailLoading ? "Sending…" : "Send →"}
+                  </button>
+                </div>
+              )}
+
+              {emailSent && (
+                <div style={{
+                  display:"inline-flex", alignItems:"center", gap:8,
+                  fontFamily:"var(--font-mono)", fontSize:11, color:"var(--n3)",
+                  letterSpacing:"0.08em", textTransform:"uppercase",
+                }}>
+                  <span>✓</span> Sent
+                </div>
+              )}
+            </div>
+
             {/* Prev / Next navigation */}
-            <div style={{ display:"flex", justifyContent:"space-between", marginTop:40, gap:12 }}>
+            <div style={{ display:"flex", justifyContent:"space-between", marginTop:24, gap:12 }}>
               {(() => {
                 const idx  = ALL_KEYS.indexOf(active);
                 const prev = idx > 0 ? ALL_KEYS[idx - 1] : null;

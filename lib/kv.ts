@@ -52,6 +52,23 @@ export async function kvGet<T>(key: string): Promise<T | null> {
  * @param ttlSeconds  Optional TTL in seconds. Keys auto-expire after this
  *                    duration so Redis doesn't accumulate stale quota entries.
  */
+/**
+ * Prepend a value to a Redis list (LPUSH).
+ * Used to collect email leads in order (newest first).
+ */
+export async function kvLpush(key: string, value: string): Promise<void> {
+  if (!isConfigured()) return;
+  const encoded = encodeURIComponent(key);
+  await fetch(`${url()}/lpush/${encoded}`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token()}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify([value]),
+  });
+}
+
 export async function kvSet(key: string, value: unknown, ttlSeconds?: number): Promise<void> {
   if (!isConfigured()) return;
   const encoded = encodeURIComponent(key);
