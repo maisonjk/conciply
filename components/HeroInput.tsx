@@ -6,6 +6,7 @@ import OutputSkeleton from "./OutputSkeleton";
 import Paywall from "./Paywall";
 import type { GrowthReport, PartialGrowthReport } from "@/lib/types";
 import { FREE_SECTIONS, SECTION_LABELS, SECTION_ORDER } from "@/lib/types";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 const LANGUAGES = [
   { code: "auto",  label: "🌐 Auto-detect" },
@@ -130,6 +131,7 @@ function StreamCard({ sectionKey, data }: { sectionKey: string; data: unknown })
 type Status = "idle" | "loading" | "done" | "error" | "paywall";
 
 export default function HeroInput() {
+  const isMobile = useIsMobile();
   const router = useRouter();
   const [input, setInput] = useState("");
   const [language, setLanguage] = useState("auto");
@@ -262,6 +264,181 @@ export default function HeroInput() {
     if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); run(input); }
   };
 
+  // ── Mobile layout ─────────────────────────────────────────────────────────
+  if (isMobile) {
+    return (
+      <section id="analyze" style={{ padding:"20px 0 140px" }}>
+        <style>{`
+          @keyframes mobileSlideUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+          @keyframes mobilePulse { 0%,100% { opacity:1; } 50% { opacity:0.5; } }
+          .mobile-input-row { display:flex; flex-direction:column; gap:0; }
+          .mobile-analyze-btn {
+            width:100%; border:none; padding:20px;
+            font-family:var(--font-archivo),sans-serif; font-weight:900;
+            font-size:18px; letter-spacing:0.02em; text-transform:uppercase;
+            cursor:pointer; transition:filter 0.15s;
+          }
+          .mobile-analyze-btn:active { filter:brightness(0.9); transform:scale(0.99); }
+        `}</style>
+
+        {/* Kicker */}
+        <p className="kicker" style={{ marginBottom:10, color:"#7A7A8A", fontSize:11 }}>Autonomous Growth OS</p>
+
+        {/* H1 */}
+        <h1 className="display" style={{ fontSize:"clamp(32px,9vw,48px)", lineHeight:0.95, marginBottom:16 }}>
+          A 22-specialist<br />growth team.<br />
+          <span style={{ color:"var(--n1)" }}>On demand.</span>
+        </h1>
+
+        {/* Badges */}
+        <div style={{ display:"flex", flexWrap:"wrap", gap:5, marginBottom:20 }}>
+          {[{ label:"No login", color:"var(--n3)" }, { label:"22 AI specialists", color:"var(--n1)" }, { label:"Any business", color:"var(--n2)" }]
+            .map(({ label, color }) => (
+            <span key={label} className="font-mono"
+              style={{ fontSize:9, fontWeight:700, letterSpacing:"0.12em", textTransform:"uppercase",
+                       color:"#000", background:color, padding:"4px 9px" }}>
+              {label}
+            </span>
+          ))}
+        </div>
+
+        {/* Input box */}
+        <div style={{ border:"2px solid #F4F4F1", background:"#121214", position:"relative" }}>
+          <textarea
+            value={input}
+            onChange={e => setInput(e.target.value.slice(0, 1000))}
+            rows={3}
+            maxLength={1000}
+            autoFocus={false}
+            aria-label="Describe your business or idea"
+            placeholder="Your business, idea, or website — e.g. YouTube channel about personal finance"
+            style={{
+              width:"100%", resize:"none", background:"transparent", border:"none",
+              outline:"none", color:"#F4F4F1", fontWeight:600,
+              fontSize:18, lineHeight:1.3, padding:"20px 18px 14px",
+              fontFamily:"var(--font-archivo), sans-serif",
+              WebkitAppearance:"none",
+            }}
+          />
+
+          {/* Char count + language row */}
+          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center",
+                        borderTop:"1px solid #2A2A2E", padding:"8px 14px" }}>
+            <span className="kicker" style={{ fontSize:10 }}>Free · 8 of 17 sections</span>
+            <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+              <select
+                value={language}
+                onChange={e => setLanguage(e.target.value)}
+                style={{
+                  background:"transparent", border:"1px solid #3C3C42",
+                  color:"#D0D0D8", fontFamily:"var(--font-mono), monospace",
+                  fontSize:11, letterSpacing:"0.06em", padding:"4px 6px",
+                  cursor:"pointer", outline:"none", WebkitAppearance:"none",
+                }}
+              >
+                {LANGUAGES.map(l => (
+                  <option key={l.code} value={l.code} style={{ background:"#0A0A0B" }}>{l.label}</option>
+                ))}
+              </select>
+              <span className="font-mono" style={{ fontSize:11, color: input.length > 900 ? "var(--n2)" : "#5C5C63" }}>
+                {input.length}/1000
+              </span>
+            </div>
+          </div>
+
+          {/* Progress bar along bottom of input */}
+          {status === "loading" && (
+            <div style={{ position:"absolute", bottom:0, left:0, right:0, height:3, background:"#1E1E22", overflow:"hidden" }}>
+              <div style={{ height:"100%", width:`${progress}%`, background:"var(--n3)",
+                            transition:"width 0.3s ease-out", boxShadow:"0 0 8px var(--n3)" }} />
+            </div>
+          )}
+        </div>
+
+        {/* Analyze button — full width, below input */}
+        <button
+          className="mobile-analyze-btn"
+          onClick={() => run(input)}
+          disabled={status === "loading" || !input.trim()}
+          style={{
+            background: status === "loading" ? "#1A1A1E" : "var(--n2)",
+            color: status === "loading" ? "#7A7A8A" : "#000",
+            borderTop: "2px solid var(--n2)",
+          }}
+        >
+          {status === "loading" ? (
+            <span style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:12 }}>
+              <span style={{ width:8, height:8, borderRadius:"50%", background:"var(--n1)",
+                             display:"inline-block", animation:"mobilePulse 1s infinite" }} />
+              <span style={{ fontSize:16 }}>{progress}% — Building your playbook</span>
+            </span>
+          ) : "Analyze →"}
+        </button>
+
+        {/* Loading message */}
+        {status === "loading" && (
+          <p className="font-mono" style={{ fontSize:11, color:"#6A6A75", letterSpacing:"0.06em",
+                                            marginTop:12, paddingLeft:4, lineHeight:1.5 }}>
+            ▶ {loadingMsg}
+          </p>
+        )}
+
+        {/* Example chips — horizontal scroll */}
+        <div style={{ display:"flex", gap:8, marginTop:18, overflowX:"auto",
+                      paddingBottom:4, WebkitOverflowScrolling:"touch" as React.CSSProperties["WebkitOverflowScrolling"] }}>
+          <span className="kicker" style={{ fontSize:10, flexShrink:0, paddingTop:6 }}>Try</span>
+          {EXAMPLES.map((ex, i) => (
+            <button key={i} className="font-mono"
+              onClick={() => { setInput(ex); run(ex); }}
+              style={{ fontSize:11, border:"1px solid #2A2A2E", color:"#9A9AA8",
+                       padding:"6px 12px", background:"transparent", cursor:"pointer",
+                       whiteSpace:"nowrap", flexShrink:0 }}>
+              {ex}
+            </button>
+          ))}
+        </div>
+
+        {/* Disclaimer */}
+        <p className="font-mono" style={{ fontSize:10, lineHeight:1.6, color:"#6A6A7A",
+                                          marginTop:16, letterSpacing:"0.02em" }}>
+          AI-generated for strategic inspiration. Review before acting.{" "}
+          <a href="/terms" style={{ color:"#7A7A8A", textDecoration:"underline" }}>Terms</a>
+        </p>
+
+        {/* Error */}
+        {status === "error" && (
+          <div className="font-mono" style={{ marginTop:20, fontSize:13, color:"var(--n2)",
+                                              borderLeft:"3px solid var(--n2)", paddingLeft:12 }}>
+            {error}
+          </div>
+        )}
+
+        {/* Streaming sections */}
+        {status === "loading" && doneSections.length > 0 && (
+          <div style={{ marginTop:32 }}>
+            <div className="font-mono" style={{ fontSize:11, letterSpacing:"0.12em", textTransform:"uppercase",
+                                                 color:"#7A7A8A", marginBottom:12,
+                                                 display:"flex", alignItems:"center", gap:8 }}>
+              <span style={{ width:6, height:6, background:"var(--n1)", borderRadius:"50%",
+                             display:"inline-block", animation:"mobilePulse 1s infinite", flexShrink:0 }} />
+              {doneSections.length} of 17 sections ready
+            </div>
+            <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
+              {SECTION_ORDER.filter(k => doneSections.includes(k)).map(key => (
+                <StreamCard key={key} sectionKey={key} data={partialReport[key as keyof typeof partialReport]} />
+              ))}
+            </div>
+            {doneSections.length < 17 && <OutputSkeleton slim />}
+          </div>
+        )}
+        {status === "loading" && doneSections.length === 0 && <OutputSkeleton />}
+        {status === "paywall" && <Paywall />}
+        {status === "idle" && <IdlePreview />}
+      </section>
+    );
+  }
+
+  // ── Desktop layout ────────────────────────────────────────────────────────
   return (
     <section id="analyze" style={{ padding:"clamp(20px,3vw,44px) 0 40px" }}>
 

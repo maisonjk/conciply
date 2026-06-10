@@ -4,6 +4,8 @@ import type { GrowthReport, SectionKey } from "@/lib/types";
 import { SECTION_LABELS, FREE_SECTIONS } from "@/lib/types";
 import SectionCard from "./SectionCard";
 import ReportActions from "./ReportActions";
+import MobileReportView from "./MobileReportView";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 interface Props {
   report: Partial<GrowthReport>;
@@ -83,10 +85,16 @@ const ICONS: Record<SectionKey, string> = {
 };
 
 export default function ReportView({ report, tier, input, reportId }: Props) {
+  const isMobile = useIsMobile();
   const [active, setActive] = useState<SectionKey>("executiveSummary");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const isPaid = tier !== null;
   const activeGroup = GROUPS.find(g => g.keys.includes(active))!;
+
+  // On mobile: render the native-feeling swipe layout instead of the desktop sidebar layout
+  if (isMobile) {
+    return <MobileReportView report={report} tier={tier} input={input} reportId={reportId} />;
+  }
 
   return (
     <>
