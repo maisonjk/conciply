@@ -63,11 +63,20 @@ function findCompletedSections(accumulated: string, sent: Set<string>): { key: s
 }
 
 function getIP(req: NextRequest): string {
-  return (
-    req.headers.get("x-forwarded-for")?.split(",")[0].trim() ??
-    req.headers.get("x-real-ip") ??
-    "unknown"
-  );
+  // SECURITY: x-forwarded-for is a comma-separated list where the CLIENT
+  // controls the leftmost values. Infrastructure (Vercel/CDN) appends the
+  // real client IP at the RIGHT. Always take the last value.
+  // Taking [0] (the old behaviour) is trivially spoofable with:
+  //   curl -H "x-forwarded-for: 1.2.3.4" ...
+  //
+  // On Vercel, x-vercel-forwarded-for contains only the verified client IP.
+  const vercel = req.headers.get("x-vercel-forwarded-for");
+  if (vercel) return vercel.split(",").at(-1)!.trim();
+
+  const forwarded = req.headers.get("x-forwarded-for");
+  if (forwarded) return forwarded.split(",").at(-1)!.trim();
+
+  return req.headers.get("x-real-ip") ?? "unknown";
 }
 
 function sse(data: unknown): string {
@@ -91,7 +100,13 @@ export async function POST(req: NextRequest) {
   if (!license) {
     const allowed = await checkRateLimit(ip, FREE_LIMIT);
     if (!allowed) {
-      return NextResponse.json({ paywall: true, error: "Free limit reached." }, { status: 429 });
+      // Tell the client when the monthly quota resets (1st of next month, UTC midnight)
+      const now = new Date();
+      const resetAt = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1)).toISOString();
+      return NextResponse.json(
+        { paywall: true, error: "Free limit reached.", resetAt },
+        { status: 429 },
+      );
     }
   } else {
     try {

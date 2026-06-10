@@ -1,7 +1,22 @@
-import { createHmac } from "crypto";
+import { createHmac, timingSafeEqual } from "crypto";
 import type { LicenseTier } from "./types";
 
-const SECRET = process.env.LICENSE_SECRET ?? "dev-secret-change-me";
+// SECURITY: LICENSE_SECRET must be set to a cryptographically random value
+// in production. If it is missing or left at the default placeholder, anyone
+// who reads this source code can forge valid agency-tier license keys.
+const _raw = process.env.LICENSE_SECRET;
+if (!_raw || _raw === "dev-secret-change-me") {
+  if (process.env.NODE_ENV === "production") {
+    throw new Error(
+      "[license] LICENSE_SECRET is not set or is the default placeholder. " +
+      "Set a random 32-byte hex string in your environment variables before deploying."
+    );
+  } else {
+    // Dev-only warning — does not block local development
+    console.warn("[license] WARNING: LICENSE_SECRET is not set. Using insecure default. DO NOT deploy this.");
+  }
+}
+const SECRET = _raw ?? "dev-secret-change-me";
 
 // v2 format: tier:reportCount:customerId:sig  (customerId may be empty string for legacy)
 // v1 format: tier:reportCount:sig  (legacy — no customerId)
@@ -38,7 +53,9 @@ export function verifyLicense(token: string): {
       ? `${tier}:${countStr}:${customerId}`
       : `${tier}:${countStr}`;
     const expected = createHmac("sha256", SECRET).update(payload).digest("hex").slice(0, 32);
-    if (sig !== expected) return null;
+    // Use constant-time comparison to prevent timing-based HMAC oracle attacks
+    if (sig.length !== expected.length) return null;
+    if (!timingSafeEqual(Buffer.from(sig), Buffer.from(expected))) return null;
     if (!["founder", "pro", "agency"].includes(tier)) return null;
 
     return { tier: tier as LicenseTier, reportCount: parseInt(countStr, 10), customerId };

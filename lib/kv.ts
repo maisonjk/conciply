@@ -19,11 +19,17 @@ export async function kvGet<T>(key: string): Promise<T | null> {
   return json.result ?? null;
 }
 
-export async function kvSet(key: string, value: unknown): Promise<void> {
+/**
+ * @param ttlSeconds  Optional TTL in seconds. Keys auto-expire after this
+ *                    duration so Redis doesn't accumulate stale quota entries.
+ */
+export async function kvSet(key: string, value: unknown, ttlSeconds?: number): Promise<void> {
   if (!isConfigured()) return;
   const encoded = encodeURIComponent(key);
   const body = typeof value === "string" ? value : JSON.stringify(value);
-  await fetch(`${url()}/set/${encoded}`, {
+  // Upstash REST: append ?ex=<seconds> for TTL
+  const qs = ttlSeconds ? `?ex=${ttlSeconds}` : "";
+  await fetch(`${url()}/set/${encoded}${qs}`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token()}`,
