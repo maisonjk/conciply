@@ -202,6 +202,7 @@ export default function PricingTable() {
                 borderTop: `3px solid ${highlight ? accent : "transparent"}`,
                 display: "flex",
                 flexDirection: "column",
+                minWidth: 0,          // prevent grid item from overflowing its 1fr column
               }}
             >
               {/* ── Zone 1: Tier name — fixed 20px ──────────────────────── */}
