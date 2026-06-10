@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Conciply — Autonomous Growth OS",
+    name: "Conciply — Growth Playbook",
     short_name: "Conciply",
     description: "A 17-section growth playbook from 22 AI specialists in 60 seconds.",
     start_url: "/",

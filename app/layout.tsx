@@ -7,10 +7,10 @@ const grotesk = Space_Grotesk({ subsets: ["latin"], variable: "--font-grotesk", 
 const mono = Space_Mono({ subsets: ["latin"], weight: ["400","700"], variable: "--font-mono", display: "swap" });
 
 export const metadata: Metadata = {
-  title: "Conciply — Autonomous Growth OS",
+  title: "Conciply — Growth Playbook",
   description: "Solo founders, content creators, and builders: get a 17-section growth playbook from 22 AI specialists in 60 seconds. No login required.",
   openGraph: {
-    title: "Conciply — Autonomous Growth OS",
+    title: "Conciply — Growth Playbook",
     description: "Solo founders, content creators, and builders: get a 17-section growth playbook from 22 AI specialists in 60 seconds. No login required.",
     url: "https://www.conciply.com",
     siteName: "Conciply",
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Conciply — Autonomous Growth OS",
+    title: "Conciply — Growth Playbook",
     description: "Solo founders, content creators, and builders: get a 17-section growth playbook from 22 AI specialists in 60 seconds. No login required.",
   },
   metadataBase: new URL("https://www.conciply.com"),
