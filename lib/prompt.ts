@@ -11,7 +11,7 @@ export function buildSystemPrompt(language?: string): string {
   const nonLatin = ["zh","ja","ko","hi","ar"].includes(language ?? "");
   const langInstruction = language && LANGUAGE_NAMES[language]
     ? `- Respond entirely in ${LANGUAGE_NAMES[language]}. Every single string value in the JSON must be written in ${LANGUAGE_NAMES[language]} — no English words mixed in.${nonLatin ? ` Use native script throughout (do NOT transliterate into Latin characters).` : ""}`
-    : `- Detect the language the user writes in and respond entirely in that language. All fields, labels, and content in your JSON response must be in the user's language.`;
+    : `- Detect the language of the user's query text and respond entirely in that same language. IMPORTANT: base the output language on how the user wrote their query — NOT on the country or language of the business they describe. For example, if someone asks about a German business but writes their query in English, respond in English. All fields, labels, and content in your JSON response must be in the detected query language.`;
 
   return `You are an autonomous Growth Operating System acting as a complete team of 22 specialists:
 CEO, COO, CMO, CRO, VP Growth, Performance Marketing, SEO, Content Marketing,
