@@ -280,7 +280,7 @@ export default function HeroInput() {
       )}
 
       {/* ── Kicker ── */}
-      <p className="kicker" style={{ marginBottom:14, color:"#5C5C63" }}>Autonomous Growth OS</p>
+      <p className="kicker" style={{ marginBottom:14, color:"#7A7A8A" }}>Autonomous Growth OS</p>
 
       {/* ── H1 — Tier 1: The Claim ── */}
       <h1 className="display" style={{ fontSize:"clamp(28px,3.8vw,58px)", lineHeight:1.0, marginBottom:20 }}>
@@ -331,9 +331,9 @@ export default function HeroInput() {
       </div>
 
       {/* ── Language line — Tier 4: Utility ── */}
-      <p className="font-mono" style={{ fontSize:10, color:"#4A4A55", letterSpacing:"0.04em", marginBottom:0, lineHeight:1.5 }}>
+      <p className="font-mono" style={{ fontSize:11, color:"#7A7A8A", letterSpacing:"0.04em", marginBottom:0, lineHeight:1.5 }}>
         Available in{" "}
-        <span style={{ color:"#5C5C63" }}>
+        <span style={{ color:"#9A9AA8" }}>
           English, Español, Français, Deutsch, Português, Italiano, Nederlands, العربية, 中文, 日本語, 한국어, हिन्दी, Русский, Türkçe, Polski
         </span>
         {" "}— type in your language or pick one below.
@@ -437,10 +437,10 @@ export default function HeroInput() {
         ))}
       </div>
 
-      <p className="font-mono" style={{ fontSize:10, lineHeight:1.6, color:"#3C3C42",
+      <p className="font-mono" style={{ fontSize:10, lineHeight:1.6, color:"#6A6A7A",
                                         marginTop:18, maxWidth:720, letterSpacing:"0.02em" }}>
         AI-generated for strategic inspiration. Output may be inaccurate — review before acting.
-        See our <a href="/terms" style={{ color:"#4A4A55", textDecoration:"underline", textUnderlineOffset:2 }}>Terms</a>.
+        See our <a href="/terms" style={{ color:"#7A7A8A", textDecoration:"underline", textUnderlineOffset:2 }}>Terms</a>.
       </p>
 
       {status === "error" && (
@@ -451,8 +451,8 @@ export default function HeroInput() {
       )}
       {status === "loading" && doneSections.length > 0 && (
         <div style={{ marginTop:40 }}>
-          <div className="font-mono" style={{ fontSize:10, letterSpacing:"0.12em",
-                                               textTransform:"uppercase", color:"#5C5C63",
+          <div className="font-mono" style={{ fontSize:11, letterSpacing:"0.12em",
+                                               textTransform:"uppercase", color:"#7A7A8A",
                                                marginBottom:16, display:"flex", alignItems:"center", gap:8 }}>
             <span style={{ width:6, height:6, background:"var(--n1)", borderRadius:"50%",
                            display:"inline-block", animation:"pulseBlock 1s infinite", flexShrink:0 }} />
