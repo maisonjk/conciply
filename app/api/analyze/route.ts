@@ -92,6 +92,33 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Input must be 10–1000 characters." }, { status: 400 });
   }
 
+  // ── Basic content moderation ─────────────────────────────────────────────
+  // Block prompts that are clearly not business descriptions. This is a
+  // lightweight heuristic — not a full content filter — to catch obvious
+  // misuse before burning OpenAI tokens.
+  const BLOCKED_PATTERNS = [
+    // Prompt injection attempts
+    /ignore\s+(previous|all|above|prior)\s+(instructions?|prompts?|rules?)/i,
+    /you\s+are\s+now\s+(a|an)\s+/i,
+    /act\s+as\s+(a|an)\s+/i,
+    /jailbreak/i,
+    /DAN\s+mode/i,
+    // Explicit harmful content requests
+    /\b(porn|pornography|adult\s+content|explicit\s+content|nude|nudity|sex\s+site)\b/i,
+    /\b(weapons?|firearms?|guns?|bombs?|explosives?)\s+(shop|store|sell|buy|manufactur)/i,
+    /\b(drugs?|narcotics?|cocaine|heroin|meth)\s+(sell|buy|deal|shop|store)/i,
+    /\b(hack|phish|scam|fraud|steal)\s+(people|users|accounts|money|credit)/i,
+  ];
+
+  for (const pattern of BLOCKED_PATTERNS) {
+    if (pattern.test(input)) {
+      return NextResponse.json(
+        { error: "This input cannot be processed. Please describe a legitimate business or idea." },
+        { status: 400 }
+      );
+    }
+  }
+
   const licenseHeader = req.headers.get("x-conciply-license") ?? "";
   const license = licenseHeader ? verifyLicense(licenseHeader) : null;
   const ip = getIP(req);

@@ -107,6 +107,8 @@ function WorkspaceContent() {
     navigator.clipboard.writeText(formatReportAsText(stored)).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
+    }).catch(() => {
+      // Clipboard API unavailable (non-HTTPS or permission denied) — silent fail
     });
   };
 

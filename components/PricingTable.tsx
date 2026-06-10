@@ -230,7 +230,7 @@ export default function PricingTable() {
                   padding: badge ? "2px 6px" : "2px 0",
                   lineHeight: 1, visibility: badge ? "visible" : "hidden",
                 }}>
-                  {badge ?? "placeholder"}
+                  {badge ?? ""}
                 </span>
               </div>
 

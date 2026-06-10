@@ -42,6 +42,7 @@ export function Footer() {
     ["/restore", "Restore"],
     ["/terms", "Terms"],
     ["/privacy", "Privacy"],
+    ["/delete-account", "Delete Data"],
   ];
   return (
     <footer style={{ borderTop:"2px solid #F4F4F1", marginTop:0 }}>
