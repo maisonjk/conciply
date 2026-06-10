@@ -2,27 +2,29 @@ import { createHmac, timingSafeEqual } from "crypto";
 import type { LicenseTier } from "./types";
 
 // SECURITY: LICENSE_SECRET must be set to a cryptographically random value
-// in production. If it is missing or left at the default placeholder, anyone
-// who reads this source code can forge valid agency-tier license keys.
-const _raw = process.env.LICENSE_SECRET;
-if (!_raw || _raw === "dev-secret-change-me") {
-  if (process.env.NODE_ENV === "production") {
-    throw new Error(
-      "[license] LICENSE_SECRET is not set or is the default placeholder. " +
-      "Set a random 32-byte hex string in your environment variables before deploying."
-    );
-  } else {
-    // Dev-only warning — does not block local development
+// in production. Validated at request time (not module load time) so that
+// Next.js build/page-data collection doesn't throw before env vars are read.
+function getSecret(): string {
+  const raw = process.env.LICENSE_SECRET;
+  if (!raw || raw === "dev-secret-change-me") {
+    if (process.env.NODE_ENV === "production") {
+      throw new Error(
+        "[license] LICENSE_SECRET is not set or is the default placeholder. " +
+        "Set a random 32-byte hex string in your environment variables before deploying."
+      );
+    }
+    // Dev-only warning — does not block local development or builds
     console.warn("[license] WARNING: LICENSE_SECRET is not set. Using insecure default. DO NOT deploy this.");
+    return "dev-secret-change-me";
   }
+  return raw;
 }
-const SECRET = _raw ?? "dev-secret-change-me";
 
 // v2 format: tier:reportCount:customerId:sig  (customerId may be empty string for legacy)
 // v1 format: tier:reportCount:sig  (legacy — no customerId)
 export function signLicense(tier: LicenseTier, reportCount: number, customerId = ""): string {
   const payload = `${tier}:${reportCount}:${customerId}`;
-  const sig = createHmac("sha256", SECRET).update(payload).digest("hex").slice(0, 32);
+  const sig = createHmac("sha256", getSecret()).update(payload).digest("hex").slice(0, 32);
   return Buffer.from(`${payload}:${sig}`).toString("base64url");
 }
 
@@ -52,7 +54,7 @@ export function verifyLicense(token: string): {
     const payload = parts.length === 4
       ? `${tier}:${countStr}:${customerId}`
       : `${tier}:${countStr}`;
-    const expected = createHmac("sha256", SECRET).update(payload).digest("hex").slice(0, 32);
+    const expected = createHmac("sha256", getSecret()).update(payload).digest("hex").slice(0, 32);
     // Use constant-time comparison to prevent timing-based HMAC oracle attacks
     if (sig.length !== expected.length) return null;
     if (!timingSafeEqual(Buffer.from(sig), Buffer.from(expected))) return null;
