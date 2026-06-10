@@ -17,7 +17,7 @@ export function ProofBar() {
   return (
     <section style={{ borderTop: "2px solid #F4F4F1", borderBottom: "2px solid #F4F4F1", background: "#0D0D0F" }}>
       <div className="shell">
-        <div style={{
+        <div className="proof-bar-inner" style={{
           display: "flex", flexWrap: "wrap",
           alignItems: "stretch",
         }}>

@@ -170,7 +170,56 @@ button { font-family: inherit; cursor: pointer; }
   .final-cta-grid { grid-template-columns: 1fr !important; }
   .final-cta-grid > div:last-child { align-items: flex-start !important; }
 }
-/* ProofBar stat items wrap naturally via flex-wrap */
+/* ProofBar — 2-col grid on small screens so items pair cleanly */
+@media (max-width: 640px) {
+  .proof-bar-inner {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+  }
+  .proof-bar-inner > * {
+    border-right: none !important;
+    border-bottom: 1px solid #1E1E22;
+  }
+  /* Last item spans full width so it doesn't sit alone */
+  .proof-bar-inner > *:last-child {
+    grid-column: 1 / -1;
+    border-bottom: none;
+  }
+}
+
+/* ── Workspace — mobile sidebar drawer ───────────────────────────────────── */
+@media (max-width: 768px) {
+  /* Show the toggle FAB */
+  [data-ws-toggle] {
+    display: flex !important;
+    align-items: center;
+    gap: 6px;
+  }
+  /* Sidebar: full-width overlay drawer when closed/open */
+  [data-ws-sidebar] {
+    position: fixed !important;
+    top: 64px !important;
+    left: 0 !important;
+    width: 85vw !important;
+    max-width: 320px !important;
+    height: calc(100vh - 64px) !important;
+    z-index: 40 !important;
+    transform: translateX(-100%);
+    transition: transform 0.22s cubic-bezier(.4,0,.2,1);
+    box-shadow: 4px 0 24px rgba(0,0,0,0.6);
+  }
+  [data-ws-sidebar="open"] {
+    transform: translateX(0) !important;
+  }
+  /* Main content fills full width */
+  [data-ws-sidebar] ~ main {
+    margin-left: 0 !important;
+  }
+  /* Backdrop shows on mobile */
+  [data-ws-backdrop] {
+    display: block !important;
+  }
+}
 
 @media print {
   header, footer, nav,

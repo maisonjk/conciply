@@ -191,6 +191,14 @@ function WorkspaceContent() {
           {sidebarOpen ? "✕ Close" : "☰ Sections"}
         </button>
 
+        {/* Mobile backdrop — tap to close sidebar */}
+        {sidebarOpen && (
+          <div onClick={() => setSidebarOpen(false)}
+            style={{ display:"none", position:"fixed", inset:0, zIndex:39,
+                     background:"rgba(0,0,0,0.55)" }}
+            data-ws-backdrop />
+        )}
+
         {/* ── Left sidebar ──────────────────────────────────────────────── */}
         <aside data-ws-sidebar={sidebarOpen ? "open" : "closed"} style={{
           width:260, flexShrink:0, borderRight:"2px solid #1E1E22",
