@@ -45,10 +45,42 @@ function ReportContent() {
   );
 }
 
+function PrintBar() {
+  return (
+    <div style={{
+      background:"#111113", borderBottom:"1px solid #1E1E22",
+      padding:"10px 24px", display:"flex", alignItems:"center",
+      justifyContent:"flex-end", gap:12,
+    }}>
+      <span style={{ fontFamily:"var(--font-mono)", fontSize:10,
+                     letterSpacing:"0.08em", color:"#5C5C63",
+                     textTransform:"uppercase", marginRight:"auto" }}>
+        Print or save as PDF
+      </span>
+      <span style={{ fontFamily:"var(--font-mono)", fontSize:11, color:"#7A7A88" }}>
+        Use your browser&apos;s print dialog: <strong style={{ color:"#C4C4CC" }}>Cmd+P</strong> / <strong style={{ color:"#C4C4CC" }}>Ctrl+P</strong> → Save as PDF
+      </span>
+      <button
+        onClick={() => window.print()}
+        style={{
+          background:"var(--n3)", color:"#000", border:"none",
+          padding:"8px 18px", cursor:"pointer",
+          fontFamily:"var(--font-archivo), sans-serif",
+          fontSize:11, fontWeight:800, letterSpacing:"0.06em",
+          textTransform:"uppercase",
+        }}
+      >
+        ⎙ Print / Save PDF
+      </button>
+    </div>
+  );
+}
+
 export default function ReportPage() {
   return (
     <>
       <Nav />
+      <PrintBar />
       <Suspense fallback={<div style={{ padding:"80px 0", textAlign:"center", color:"#9A9AA8" }}>Loading…</div>}>
         <ReportContent />
       </Suspense>

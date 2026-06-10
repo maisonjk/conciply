@@ -272,7 +272,7 @@ function WorkspaceContent() {
             </div>
           )}
 
-          {/* Section nav — only this scrolls, footer stays pinned */}
+          {/* Section nav — scrollable middle */}
           <nav style={{ flex:1, overflowY:"auto", padding:"8px 0" }}>
             {GROUPS.map(group => (
               <div key={group.label} style={{ marginBottom:4 }}>
@@ -308,6 +308,58 @@ function WorkspaceContent() {
             ))}
           </nav>
 
+          {/* ── Export panel — pinned to sidebar bottom ── */}
+          <div style={{ borderTop:"1px solid #1E1E22", padding:"12px 16px", background:"#0A0A0B" }}>
+            <div style={{ fontSize:9, fontFamily:"var(--font-mono)", fontWeight:700,
+                          letterSpacing:"0.14em", textTransform:"uppercase",
+                          color:"#3C3C42", marginBottom:10 }}>
+              Export
+            </div>
+            <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
+              <button onClick={handleCopy}
+                style={{ width:"100%", textAlign:"left", background:"transparent",
+                         border:"1px solid #2A2A2E", color: copied ? "var(--n3)" : "#9A9AA8",
+                         borderColor: copied ? "var(--n3)" : "#2A2A2E",
+                         padding:"8px 12px", cursor:"pointer",
+                         fontFamily:"var(--font-mono)", fontSize:11,
+                         letterSpacing:"0.06em", display:"flex", alignItems:"center", gap:8 }}>
+                <span style={{ flexShrink:0 }}>⎘</span>
+                {copied ? "Copied to clipboard!" : "Copy plain text"}
+              </button>
+              <a href={`/report?id=${stored.id}`} target="_blank" rel="noopener noreferrer"
+                style={{ width:"100%", textAlign:"left", background:"transparent",
+                         border:"1px solid #2A2A2E", color:"#9A9AA8",
+                         padding:"8px 12px", cursor:"pointer",
+                         fontFamily:"var(--font-mono)", fontSize:11,
+                         letterSpacing:"0.06em", display:"flex", alignItems:"center", gap:8,
+                         textDecoration:"none" }}>
+                <span style={{ flexShrink:0 }}>⎙</span>
+                Print / Save PDF
+              </a>
+              <a href="/" style={{ width:"100%", textAlign:"left", background:"transparent",
+                         border:"1px solid #2A2A2E", color:"#9A9AA8",
+                         padding:"8px 12px", cursor:"pointer",
+                         fontFamily:"var(--font-mono)", fontSize:11,
+                         letterSpacing:"0.06em", display:"flex", alignItems:"center", gap:8,
+                         textDecoration:"none" }}>
+                <span style={{ flexShrink:0 }}>⊕</span>
+                New report
+              </a>
+              <button onClick={handleBilling} disabled={billingLoading}
+                title={billingError || undefined}
+                style={{ width:"100%", textAlign:"left", background:"transparent",
+                         border:"1px solid #2A2A2E",
+                         color: billingError ? "var(--n2)" : "#5C5C63",
+                         borderColor: billingError ? "var(--n2)" : "#1E1E22",
+                         padding:"8px 12px", cursor: billingLoading ? "wait" : "pointer",
+                         fontFamily:"var(--font-mono)", fontSize:11,
+                         letterSpacing:"0.06em", display:"flex", alignItems:"center", gap:8 }}>
+                <span style={{ flexShrink:0 }}>⚙</span>
+                {billingLoading ? "Opening…" : billingError ? "⚠ Billing error" : "Billing"}
+              </button>
+            </div>
+          </div>
+
         </aside>
 
         {/* ── Right content panel ──────────────────────────────────────── */}
@@ -335,37 +387,8 @@ function WorkspaceContent() {
               </span>
             </div>
 
-            {/* Global + section actions — centre/right */}
+            {/* Section actions — right */}
             <div style={{ display:"flex", alignItems:"center", gap:4, flexShrink:0 }}>
-              {/* Global actions */}
-              <a href={`/report?id=${stored.id}`} className="btn-ghost"
-                style={{ padding:"5px 10px", fontSize:10, letterSpacing:"0.08em", whiteSpace:"nowrap" }}>
-                ← View Report
-              </a>
-              <button onClick={handleCopy} className="btn-ghost"
-                style={{ padding:"5px 10px", fontSize:10, letterSpacing:"0.08em", whiteSpace:"nowrap",
-                         color: copied ? "var(--n3)" : undefined,
-                         borderColor: copied ? "var(--n3)" : undefined }}>
-                {copied ? "✓ Copied!" : "⎘ Copy Report"}
-              </button>
-              <button onClick={() => window.print()} className="btn-ghost"
-                style={{ padding:"5px 10px", fontSize:10, letterSpacing:"0.08em", whiteSpace:"nowrap" }}>
-                ⎙ Print / PDF
-              </button>
-              <a href="/" className="btn-ghost"
-                style={{ padding:"5px 10px", fontSize:10, letterSpacing:"0.08em", whiteSpace:"nowrap" }}>
-                ⊕ New Report
-              </a>
-              <button onClick={handleBilling} disabled={billingLoading} className="btn-ghost"
-                title={billingError || undefined}
-                style={{ padding:"5px 10px", fontSize:10, letterSpacing:"0.08em", whiteSpace:"nowrap",
-                         color: billingError ? "var(--n2)" : undefined,
-                         borderColor: billingError ? "var(--n2)" : undefined }}>
-                {billingLoading ? "Opening…" : billingError ? "⚠ Billing error" : "⚙ Billing"}
-              </button>
-
-              {/* Divider */}
-              <div style={{ width:1, height:20, background:"#2A2A2E", margin:"0 4px", flexShrink:0 }} />
               {canDeepDive ? (
                 <button onClick={() => setDeepDiveKey(active)} className="btn-ghost"
                   style={{ padding:"5px 10px", fontSize:10, letterSpacing:"0.08em", whiteSpace:"nowrap",
@@ -380,7 +403,6 @@ function WorkspaceContent() {
                   ⚡ Deep Dive ↑
                 </a>
               )}
-
               {/* Counter */}
               <span style={{ fontSize:10, fontFamily:"var(--font-mono)", color:"#5C5C63",
                              letterSpacing:"0.1em", marginLeft:8, flexShrink:0 }}>
