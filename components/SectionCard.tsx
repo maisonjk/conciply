@@ -10,6 +10,27 @@ interface Props {
   onRegenerate?: (key: SectionKey) => void;
 }
 
+// ── Safe string coercion ─────────────────────────────────────────────────────
+// The AI sometimes returns objects ({step, action, tool, expectedOutcome}) where
+// the schema expects strings. This helper makes every render site crash-proof.
+function toStr(val: unknown): string {
+  if (val === null || val === undefined) return "";
+  if (typeof val === "string") return val;
+  if (typeof val === "number" || typeof val === "boolean") return String(val);
+  if (typeof val === "object") {
+    // Prefer common text-like keys before falling back to JSON
+    const o = val as Record<string, unknown>;
+    if (typeof o.action === "string")        return o.action;
+    if (typeof o.step === "string")          return o.step;
+    if (typeof o.task === "string")          return o.task;
+    if (typeof o.description === "string")   return o.description;
+    if (typeof o.text === "string")          return o.text;
+    // Last resort: readable JSON
+    try { return JSON.stringify(val); } catch { return String(val); }
+  }
+  return String(val);
+}
+
 // ── Shared style helpers ─────────────────────────────────────────────────────
 const card = { border:"1px solid #1E1E22", padding:"14px 16px", marginBottom:4 } as const;
 const label = (color = "#9A9AA8") => ({ marginBottom:6, color, fontSize:11, fontFamily:"var(--font-mono)", letterSpacing:"0.1em", textTransform:"uppercase" as const });
@@ -25,7 +46,7 @@ const pill = (color: string) => ({
 function StringList({ items }: { items: string[] }) {
   return (
     <ul style={{ margin:0, padding:"0 0 0 20px" }}>
-      {items.map((t, i) => <li key={i} style={body} dir="auto">{t}</li>)}
+      {items.map((t, i) => <li key={i} style={body} dir="auto">{toStr(t)}</li>)}
     </ul>
   );
 }
@@ -213,7 +234,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
                   borderBottom: i < targets.length - 1 ? "1px solid #1E1E22" : "none"
                 }}>
                   <span style={{ color:"var(--n3)", marginTop:2, flexShrink:0, fontSize:12 }}>◉</span>
-                  <span style={{ color:"#C4C4CC", fontSize:14, lineHeight:1.5 }}>{t}</span>
+                  <span style={{ color:"#C4C4CC", fontSize:14, lineHeight:1.5 }}>{toStr(t)}</span>
                 </div>
               ))}
             </div>
@@ -317,7 +338,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
                 {d.tasks.map((t, i) => (
                   <div key={i} style={{ display:"flex", gap:8, alignItems:"flex-start" }}>
                     <span style={{ color:dayColor(d.day), fontSize:10, marginTop:4, flexShrink:0 }}>▸</span>
-                    <span style={{ color:"#C4C4CC", fontSize:13, lineHeight:1.5 }}>{t}</span>
+                    <span style={{ color:"#C4C4CC", fontSize:13, lineHeight:1.5 }}>{toStr(t)}</span>
                   </div>
                 ))}
               </div>
@@ -355,7 +376,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
                   background:"#111114", border:"1px solid #1E1E22", padding:"10px 14px"
                 }}>
                   <span style={{ color: weekAccent[idx % 4], fontSize:11, marginTop:3, flexShrink:0 }}>◆</span>
-                  <span style={{ color:"#C4C4CC", fontSize:13, lineHeight:1.5 }}>{t}</span>
+                  <span style={{ color:"#C4C4CC", fontSize:13, lineHeight:1.5 }}>{toStr(t)}</span>
                 </div>
               ))}
             </div>
@@ -407,7 +428,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
               {m.milestones.map((ms, i) => (
                 <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start" }}>
                   <span style={{ color: monthAccent[idx % 3], flexShrink:0, marginTop:3, fontSize:12 }}>◉</span>
-                  <span style={{ color:"#C4C4CC", fontSize:14, lineHeight:1.5 }}>{ms}</span>
+                  <span style={{ color:"#C4C4CC", fontSize:14, lineHeight:1.5 }}>{toStr(ms)}</span>
                 </div>
               ))}
             </div>
