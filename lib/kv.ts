@@ -2,8 +2,8 @@
 // Set KV_REST_API_URL and KV_REST_API_TOKEN from your Upstash dashboard.
 // Falls back to a no-op if env vars are missing (dev without Redis).
 
-const url = () => process.env.KV_REST_API_URL?.replace(/\/$/, "");
-const token = () => process.env.KV_REST_API_TOKEN;
+const url = () => (process.env.KV_REST_API_URL ?? process.env.UPSTASH_REDIS_REST_URL)?.replace(/\/$/, "");
+const token = () => process.env.KV_REST_API_TOKEN ?? process.env.UPSTASH_REDIS_REST_TOKEN;
 
 function isConfigured(): boolean {
   return !!(url() && token());

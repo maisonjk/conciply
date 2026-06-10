@@ -270,9 +270,6 @@ export default function ReportView({ report, tier, input, reportId }: Props) {
           </div>
         </div>
 
-        {/* ── Top action bar ── */}
-        <ReportActions report={report} input={input} tier={tier} />
-
         {/* Section content */}
         <div style={{ padding:"32px 40px", flex:1 }}>
 
@@ -399,7 +396,7 @@ export default function ReportView({ report, tier, input, reportId }: Props) {
         </div>
 
         {/* ── Bottom compact action bar ── */}
-        <ReportActions report={report} input={input} tier={tier} compact />
+        <ReportActions input={input} tier={tier} compact />
 
       </main>
 

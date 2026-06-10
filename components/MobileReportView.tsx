@@ -3,7 +3,6 @@ import { useState, useRef, useCallback } from "react";
 import type { GrowthReport, SectionKey } from "@/lib/types";
 import { SECTION_LABELS, FREE_SECTIONS } from "@/lib/types";
 import SectionCard from "./SectionCard";
-import ReportActions from "./ReportActions";
 
 interface Props {
   report: Partial<GrowthReport>;
@@ -250,11 +249,6 @@ export default function MobileReportView({ report, tier, input, reportId }: Prop
         )}
       </div>
 
-      {/* ── Actions bar (email / print / copy) ───────────────────────────────── */}
-      <div style={{ position:"fixed", top:"calc(56px + 44px)", right:0, zIndex:35 }}>
-        <ReportActions report={report} input={input} tier={tier} compact />
-      </div>
-
       {/* ── Bottom sheet — section list ──────────────────────────────────────── */}
       {sheetOpen && (
         <>
@@ -276,11 +270,6 @@ export default function MobileReportView({ report, tier, input, reportId }: Prop
                             display:"-webkit-box", WebkitLineClamp:2, WebkitBoxOrient:"vertical", overflow:"hidden" }}>
                 {input}
               </div>
-              {isPaid && (
-                <div style={{ marginTop:8 }}>
-                  <ReportActions report={report} input={input} tier={tier} compact />
-                </div>
-              )}
             </div>
 
             {/* Groups + sections */}

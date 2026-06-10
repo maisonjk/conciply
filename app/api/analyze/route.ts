@@ -125,10 +125,23 @@ export async function POST(req: NextRequest) {
 
   // ── Quota checks (before streaming starts) ────────────────────────────
   if (!license) {
+    // Cookie-based cap: check for "free_used_YYYY-MM" cookie first.
+    // Falls back to KV if configured, so the two layers stack.
+    const now = new Date();
+    const monthStr = `${now.getUTCFullYear()}-${String(now.getUTCMonth() + 1).padStart(2, "0")}`;
+    const cookieName = `free_used_${monthStr}`;
+    const cookieVal = req.cookies.get(cookieName)?.value;
+    if (cookieVal && parseInt(cookieVal, 10) >= FREE_LIMIT) {
+      const resetAt = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1)).toISOString();
+      return NextResponse.json(
+        { paywall: true, error: "Free limit reached.", resetAt },
+        { status: 429 },
+      );
+    }
+
+    // Also check KV if available (server-side enforcement)
     const allowed = await checkRateLimit(ip, FREE_LIMIT);
     if (!allowed) {
-      // Tell the client when the monthly quota resets (1st of next month, UTC midnight)
-      const now = new Date();
       const resetAt = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1)).toISOString();
       return NextResponse.json(
         { paywall: true, error: "Free limit reached.", resetAt },
@@ -242,11 +255,22 @@ export async function POST(req: NextRequest) {
     },
   });
 
-  return new Response(stream, {
-    headers: {
-      "Content-Type": "text/event-stream",
-      "Cache-Control": "no-cache",
-      "Connection": "keep-alive",
-    },
-  });
+  // Set a monthly cookie for free-tier users so the cap works without KV
+  const now2 = new Date();
+  const monthStr2 = `${now2.getUTCFullYear()}-${String(now2.getUTCMonth() + 1).padStart(2, "0")}`;
+  const cookieName2 = `free_used_${monthStr2}`;
+  const existingCount = parseInt(req.cookies.get(cookieName2)?.value ?? "0", 10);
+  const nextMonthStart = new Date(Date.UTC(now2.getUTCFullYear(), now2.getUTCMonth() + 1, 1));
+  const cookieHeader = license
+    ? undefined
+    : `${cookieName2}=${existingCount + 1}; Path=/; HttpOnly; SameSite=Lax; Expires=${nextMonthStart.toUTCString()}`;
+
+  const responseHeaders: Record<string, string> = {
+    "Content-Type": "text/event-stream",
+    "Cache-Control": "no-cache",
+    "Connection": "keep-alive",
+  };
+  if (cookieHeader) responseHeaders["Set-Cookie"] = cookieHeader;
+
+  return new Response(stream, { headers: responseHeaders });
 }
