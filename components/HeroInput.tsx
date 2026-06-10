@@ -286,8 +286,8 @@ export default function HeroInput() {
 
         {/* H1 */}
         <h1 className="display" style={{ fontSize:"clamp(32px,9vw,48px)", lineHeight:0.95, marginBottom:16 }}>
-          A 22-specialist<br />growth team.<br />
-          <span style={{ color:"var(--n1)" }}>On demand.</span>
+          Your complete<br />growth playbook.<br />
+          <span style={{ color:"var(--n1)" }}>Built by 22 AI specialists.</span>
         </h1>
 
         {/* Badges */}
@@ -447,7 +447,7 @@ export default function HeroInput() {
 
       {/* ── H1 — Tier 1: The Claim ── */}
       <h1 className="display" style={{ fontSize:"clamp(28px,3.8vw,58px)", lineHeight:1.0, marginBottom:20 }}>
-        A 22-specialist<br />growth team.<br /><span style={{ color:"var(--n1)" }}>On demand for any business.</span>
+        Your complete<br />growth playbook.<br /><span style={{ color:"var(--n1)" }}>Built by 22 AI specialists.</span>
       </h1>
 
       {/* ── Body — Tier 2: The Proof ── */}
