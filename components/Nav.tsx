@@ -55,7 +55,7 @@ export function Footer() {
             <span style={{ width:9, height:18, background:"var(--n3)", display:"inline-block" }} />
           </span>
           <span className="font-mono" style={{ fontSize:12, color:"#C4C4CC" }}>
-            Conciply — Growth Playbook
+            Conciply — Autonomous Growth OS
           </span>
         </div>
         <div style={{ display:"flex", flexWrap:"wrap", gap:4 }}>

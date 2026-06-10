@@ -441,7 +441,7 @@ export default function ReportView({ report, tier, input, reportId }: Props) {
               <span style={{ width:10, height:20, background:"#D4FF2E", display:"inline-block" }} />
             </div>
             <span style={{ fontFamily:"Arial Black, Arial, sans-serif", fontSize:16, fontWeight:900, letterSpacing:"-0.01em", textTransform:"uppercase" }}>Conciply</span>
-            <span style={{ fontFamily:"monospace", fontSize:9, color:"#999", letterSpacing:"0.14em", textTransform:"uppercase" }}>Growth Playbook</span>
+            <span style={{ fontFamily:"monospace", fontSize:9, color:"#999", letterSpacing:"0.14em", textTransform:"uppercase" }}>Autonomous Growth OS</span>
           </div>
           <div style={{ fontFamily:"monospace", fontSize:10, color:"#999", letterSpacing:"0.14em", textTransform:"uppercase", marginBottom:10 }}>
             Growth Playbook

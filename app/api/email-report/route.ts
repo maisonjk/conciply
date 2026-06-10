@@ -219,7 +219,7 @@ function buildEmailHTML(input: string, report: Partial<GrowthReport>, tier: stri
         <tr>
           <td style="padding:20px 32px;background:#0A0A0B;border-top:2px solid #F4F4F1;">
             <p style="font-family:monospace;font-size:9px;color:#2A2A2E;letter-spacing:0.08em;margin:0;line-height:1.8;">
-              Conciply — Growth Playbook · conciply.com<br>
+              Conciply — Autonomous Growth OS · conciply.com<br>
               AI-generated for strategic inspiration. Review before acting.<br>
               Built for founders, agencies, consultants, and businesses that value privacy.
             </p>

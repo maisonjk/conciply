@@ -282,7 +282,7 @@ export default function HeroInput() {
         `}</style>
 
         {/* Kicker */}
-        <p className="kicker" style={{ marginBottom:10, color:"#7A7A8A", fontSize:11 }}>Growth Playbook</p>
+        <p className="kicker" style={{ marginBottom:10, color:"#7A7A8A", fontSize:11 }}>Autonomous Growth OS</p>
 
         {/* H1 */}
         <h1 className="display" style={{ fontSize:"clamp(32px,9vw,48px)", lineHeight:0.95, marginBottom:16 }}>
@@ -443,7 +443,7 @@ export default function HeroInput() {
     <section id="analyze" style={{ padding:"clamp(20px,3vw,44px) 0 40px" }}>
 
       {/* ── Kicker ── */}
-      <p className="kicker" style={{ marginBottom:14, color:"#7A7A8A" }}>Growth Playbook</p>
+      <p className="kicker" style={{ marginBottom:14, color:"#7A7A8A" }}>Autonomous Growth OS</p>
 
       {/* ── H1 — Tier 1: The Claim ── */}
       <h1 className="display" style={{ fontSize:"clamp(28px,3.8vw,58px)", lineHeight:1.0, marginBottom:20 }}>
