@@ -230,6 +230,11 @@ export default function HeroInput() {
               const stored = saveReport(q, payload.report as GrowthReport);
               setDoneReportId(stored.id);
               setStatus("done");
+              // Record free usage via a normal POST so the cookie is set properly
+              // (SSE responses can't reliably set cookies in browsers)
+              if (!payload.tier) {
+                fetch("/api/free-used", { method: "POST" }).catch(() => {});
+              }
               return true;
             }
           } catch { /* ignore malformed SSE line */ }

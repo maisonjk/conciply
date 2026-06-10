@@ -255,22 +255,11 @@ export async function POST(req: NextRequest) {
     },
   });
 
-  // Set a monthly cookie for free-tier users so the cap works without KV
-  const now2 = new Date();
-  const monthStr2 = `${now2.getUTCFullYear()}-${String(now2.getUTCMonth() + 1).padStart(2, "0")}`;
-  const cookieName2 = `free_used_${monthStr2}`;
-  const existingCount = parseInt(req.cookies.get(cookieName2)?.value ?? "0", 10);
-  const nextMonthStart = new Date(Date.UTC(now2.getUTCFullYear(), now2.getUTCMonth() + 1, 1));
-  const cookieHeader = license
-    ? undefined
-    : `${cookieName2}=${existingCount + 1}; Path=/; HttpOnly; SameSite=Lax; Expires=${nextMonthStart.toUTCString()}`;
-
-  const responseHeaders: Record<string, string> = {
-    "Content-Type": "text/event-stream",
-    "Cache-Control": "no-cache",
-    "Connection": "keep-alive",
-  };
-  if (cookieHeader) responseHeaders["Set-Cookie"] = cookieHeader;
-
-  return new Response(stream, { headers: responseHeaders });
+  return new Response(stream, {
+    headers: {
+      "Content-Type": "text/event-stream",
+      "Cache-Control": "no-cache",
+      "Connection": "keep-alive",
+    },
+  });
 }
