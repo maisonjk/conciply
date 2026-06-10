@@ -457,19 +457,19 @@ export function FinalCTA() {
 export function LandingPricing() {
   return (
     <section id="pricing" style={{ borderBottom: "2px solid #F4F4F1" }}>
-      <div className="shell" style={{ padding: "clamp(56px,7vw,96px) clamp(16px,4vw,40px)" }}>
+      <div className="shell" style={{ padding: "clamp(32px,4vw,52px) clamp(16px,4vw,40px)" }}>
 
         {/* Section header */}
-        <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 24, marginBottom: "clamp(40px,5vw,64px)", flexWrap: "wrap" }}>
+        <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 16, marginBottom: "clamp(24px,3vw,36px)", flexWrap: "wrap" }}>
           <div>
-            <p className="font-mono" style={{ fontSize: 11, color: "var(--n2)", letterSpacing: "0.14em", textTransform: "uppercase", margin: "0 0 12px" }}>
+            <p className="font-mono" style={{ fontSize: 10, color: "var(--n2)", letterSpacing: "0.14em", textTransform: "uppercase", margin: "0 0 8px" }}>
               Pricing
             </p>
-            <h2 className="display" style={{ fontSize: "clamp(28px,4vw,52px)", margin: 0, lineHeight: 1.0 }}>
+            <h2 className="display" style={{ fontSize: "clamp(22px,3vw,38px)", margin: 0, lineHeight: 1.0 }}>
               Simple.<br /><span style={{ color: "var(--n2)" }}>Flexible.</span>
             </h2>
           </div>
-          <p style={{ fontSize: 14, color: "#7A7A88", lineHeight: 1.65, margin: 0, maxWidth: 360, fontFamily: "var(--font-grotesk), sans-serif" }}>
+          <p style={{ fontSize: 12, color: "#7A7A88", lineHeight: 1.6, margin: 0, maxWidth: 320, fontFamily: "var(--font-grotesk), sans-serif" }}>
             Monthly or annual billing. Cancel before your next renewal — no questions asked.
             Already purchased?{" "}
             <a href="/unlock" style={{ color: "var(--n1)", textDecoration: "underline", textUnderlineOffset: 3 }}>
