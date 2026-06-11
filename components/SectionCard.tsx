@@ -6,6 +6,7 @@ interface Props {
   sectionKey: SectionKey;
   report: Partial<GrowthReport>;
   locked: boolean;
+  mobile?: boolean;
   onDeepDive?: (key: SectionKey) => void;
   onRegenerate?: (key: SectionKey) => void;
 }
@@ -32,15 +33,29 @@ function toStr(val: unknown): string {
 }
 
 // ── Shared style helpers ─────────────────────────────────────────────────────
-const card = { border:"1px solid #1E1E22", padding:"14px 16px", marginBottom:4 } as const;
-const label = (color = "#9A9AA8") => ({ marginBottom:6, color, fontSize:17, fontFamily:"var(--font-mono)", letterSpacing:"0.1em", textTransform:"uppercase" as const });
+const card = (mobile?: boolean) => ({
+  border:"1px solid #1E1E22",
+  padding: mobile ? "10px 12px" : "14px 16px",
+  marginBottom:4,
+}) as const;
+const label = (color = "#9A9AA8", mobile?: boolean) => ({
+  marginBottom: mobile ? 5 : 6,
+  color,
+  fontSize: mobile ? 10 : 13,
+  fontFamily:"var(--font-mono)",
+  letterSpacing: mobile ? "0.12em" : "0.1em",
+  textTransform:"uppercase" as const,
+});
 // dir:"auto" applied via attribute (not style) — set on elements individually
 const body = { color:"#C4C4CC", fontSize:16, lineHeight:1.6, margin:0 } as const;
 const bodyProps = { style:body, dir:"auto" as const };
-const pill = (color: string) => ({
-  display:"inline-block", padding:"2px 8px", fontSize:17,
+const pill = (color: string, mobile?: boolean) => ({
+  display:"inline-block",
+  padding: mobile ? "2px 6px" : "2px 8px",
+  fontSize: mobile ? 10 : 13,
   fontFamily:"var(--font-mono)", border:`1px solid ${color}`, color,
 } as const);
+const nameSize = (mobile?: boolean) => mobile ? 15 : 18;
 
 // dir="auto" lets the browser detect RTL (Arabic, Hebrew) per element
 function StringList({ items }: { items: string[] }) {
@@ -51,9 +66,13 @@ function StringList({ items }: { items: string[] }) {
   );
 }
 
-function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.ReactNode {
+function renderSection(key: SectionKey, report: Partial<GrowthReport>, mobile?: boolean): React.ReactNode {
   const data = (report as Record<string, unknown>)[key];
   if (!data) return null;
+  const c$ = () => card(mobile);
+  const l$ = (color?: string) => label(color, mobile);
+  const p$ = (color: string) => pill(color, mobile);
+  const n$ = nameSize(mobile);
 
   // ── Competitor Analysis ──────────────────────────────────────────────────
   if (key === "competitorAnalysis") {
@@ -62,24 +81,24 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
       <div>
         {competitors?.length > 0 && (
           <div style={{ marginBottom:20 }}>
-            <div style={label()}>Competitors</div>
+            <div style={l$()}>Competitors</div>
             {competitors.map((c, i) => (
               <div key={i} style={{ marginBottom:12, border:"1px solid #2A2A2E", overflow:"hidden" }}>
                 {/* Competitor name header */}
-                <div style={{ padding:"12px 16px", borderBottom:"1px solid #2A2A2E", background:"#111114",
+                <div style={{ padding: mobile ? "10px 12px" : "12px 16px", borderBottom:"1px solid #2A2A2E", background:"#111114",
                               display:"flex", alignItems:"center", gap:10 }}>
-                  <span style={{ fontFamily:"var(--font-mono)", fontSize:11, color:"#5C5C63",
+                  <span style={{ fontFamily:"var(--font-mono)", fontSize:10, color:"#5C5C63",
                                  letterSpacing:"0.12em", textTransform:"uppercase", flexShrink:0 }}>
                     {String(i+1).padStart(2,"0")}
                   </span>
-                  <div style={{ fontWeight:900, fontSize:16, color:"#F4F4F1",
+                  <div style={{ fontWeight:900, fontSize: n$, color:"#F4F4F1",
                                 fontFamily:"var(--font-archivo)", letterSpacing:"-0.01em" }}>{c.name}</div>
                 </div>
                 {/* Strength */}
-                <div style={{ padding:"14px 16px", borderBottom:"1px solid #2A2A2E",
+                <div style={{ padding: mobile ? "10px 12px" : "14px 16px", borderBottom:"1px solid #2A2A2E",
                               borderLeft:"3px solid var(--n3)", background:"rgba(212,255,46,0.03)" }}>
-                  <div style={{ display:"flex", alignItems:"center", gap:6, marginBottom:8 }}>
-                    <span style={{ color:"var(--n3)", fontSize:11, fontFamily:"var(--font-mono)",
+                  <div style={{ display:"flex", alignItems:"center", gap:6, marginBottom:6 }}>
+                    <span style={{ color:"var(--n3)", fontSize:10, fontFamily:"var(--font-mono)",
                                    letterSpacing:"0.14em", textTransform:"uppercase", fontWeight:700 }}>
                       ▲ Strength
                     </span>
@@ -87,10 +106,10 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
                   <p style={{ ...body, margin:0 }} dir="auto">{c.strength}</p>
                 </div>
                 {/* Weakness */}
-                <div style={{ padding:"14px 16px",
+                <div style={{ padding: mobile ? "10px 12px" : "14px 16px",
                               borderLeft:"3px solid var(--n2)", background:"rgba(255,46,110,0.03)" }}>
-                  <div style={{ display:"flex", alignItems:"center", gap:6, marginBottom:8 }}>
-                    <span style={{ color:"var(--n2)", fontSize:11, fontFamily:"var(--font-mono)",
+                  <div style={{ display:"flex", alignItems:"center", gap:6, marginBottom:6 }}>
+                    <span style={{ color:"var(--n2)", fontSize:10, fontFamily:"var(--font-mono)",
                                    letterSpacing:"0.14em", textTransform:"uppercase", fontWeight:700 }}>
                       ▼ Weakness
                     </span>
@@ -101,8 +120,8 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
             ))}
           </div>
         )}
-        {gaps?.length > 0 && <div style={{ marginBottom:16 }}><div style={label()}>Market Gaps</div><StringList items={gaps} /></div>}
-        {advantages?.length > 0 && <div><div style={label()}>Your Advantages</div><StringList items={advantages} /></div>}
+        {gaps?.length > 0 && <div style={{ marginBottom:16 }}><div style={l$()}>Market Gaps</div><StringList items={gaps} /></div>}
+        {advantages?.length > 0 && <div><div style={l$()}>Your Advantages</div><StringList items={advantages} /></div>}
       </div>
     );
   }
@@ -115,20 +134,20 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
       <div>
         {channels?.length > 0 && (
           <div style={{ marginBottom:20 }}>
-            <div style={label()}>Channels</div>
+            <div style={l$()}>Channels</div>
             {channels.map((c, i) => (
-              <div key={i} style={{ ...card, display:"flex", alignItems:"flex-start", gap:12 }}>
+              <div key={i} style={{ ...c$(), display:"flex", alignItems:"flex-start", gap:12 }}>
                 <div style={{ flex:1 }}>
-                  <div style={{ fontWeight:700, fontSize:25, color:"#F4F4F1", marginBottom:4 }}>{c.name}</div>
+                  <div style={{ fontWeight:700, fontSize: n$, color:"#F4F4F1", marginBottom:4 }}>{c.name}</div>
                   <p {...bodyProps}>{c.rationale}</p>
                 </div>
-                <div style={pill(priorityColor(c.priority))}>{c.priority}</div>
+                <div style={p$(priorityColor(c.priority))}>{c.priority}</div>
               </div>
             ))}
           </div>
         )}
-        {tactics?.length > 0 && <div style={{ marginBottom:16 }}><div style={label()}>Tactics</div><StringList items={tactics} /></div>}
-        {budgetGuidance && <div><div style={label()}>Budget Guidance</div><p style={body}>{budgetGuidance}</p></div>}
+        {tactics?.length > 0 && <div style={{ marginBottom:16 }}><div style={l$()}>Tactics</div><StringList items={tactics} /></div>}
+        {budgetGuidance && <div><div style={l$()}>Budget Guidance</div><p style={body}>{budgetGuidance}</p></div>}
       </div>
     );
   }
@@ -140,17 +159,17 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
       <div>
         {landingCopy && (
           <div style={{ marginBottom:20 }}>
-            <div style={label()}>Landing Page Copy</div>
-            <div style={{ ...card, borderLeft:"3px solid var(--n1)" }}>
+            <div style={l$()}>Landing Page Copy</div>
+            <div style={{ ...c$(), borderLeft:"3px solid var(--n1)" }}>
               <p {...bodyProps}>{landingCopy}</p>
             </div>
           </div>
         )}
         {adCopy?.length > 0 && (
           <div style={{ marginBottom:20 }}>
-            <div style={label()}>Ad Headlines</div>
+            <div style={l$()}>Ad Headlines</div>
             {adCopy.map((line, i) => (
-              <div key={i} style={{ ...card, display:"flex", alignItems:"center", gap:12 }}>
+              <div key={i} style={{ ...c$(), display:"flex", alignItems:"center", gap:12 }}>
                 <span style={{ color:"var(--n2)", fontFamily:"var(--font-mono)", fontSize:16 }}>{String(i+1).padStart(2,"0")}</span>
                 <span style={{ color:"#F4F4F1", fontSize:16 }}>{line}</span>
               </div>
@@ -159,12 +178,12 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
         )}
         {emailSequence?.length > 0 && (
           <div>
-            <div style={label()}>Email Sequence</div>
+            <div style={l$()}>Email Sequence</div>
             {emailSequence.map((e, i) => (
-              <div key={i} style={{ ...card, marginBottom:8 }}>
-                <div style={label("var(--n1)")}>Email {i+1} — {e.subject}</div>
+              <div key={i} style={{ ...c$(), marginBottom:8 }}>
+                <div style={l$("var(--n1)")}>Email {i+1} — {e.subject}</div>
                 <p style={{ ...body, marginBottom:8 }} dir="auto">{e.body}</p>
-                <div style={label()}>CTA</div>
+                <div style={l$()}>CTA</div>
                 <p style={{ ...body, color:"var(--n3)" }} dir="auto">{e.cta}</p>
               </div>
             ))}
@@ -181,17 +200,17 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
       <div>
         {outreachScript && (
           <div style={{ marginBottom:20 }}>
-            <div style={label()}>Cold Outreach Script</div>
-            <div style={{ ...card, borderLeft:"3px solid var(--n2)" }}>
+            <div style={l$()}>Cold Outreach Script</div>
+            <div style={{ ...c$(), borderLeft:"3px solid var(--n2)" }}>
               <p style={{ ...body, whiteSpace:"pre-line" }} dir="auto">{outreachScript}</p>
             </div>
           </div>
         )}
         {discoveryQuestions?.length > 0 && (
           <div style={{ marginBottom:20 }}>
-            <div style={label()}>Discovery Questions</div>
+            <div style={l$()}>Discovery Questions</div>
             {discoveryQuestions.map((q, i) => (
-              <div key={i} style={{ ...card, display:"flex", gap:12 }}>
+              <div key={i} style={{ ...c$(), display:"flex", gap:12 }}>
                 <span style={{ color:"var(--n1)", fontFamily:"var(--font-mono)", fontSize:16, flexShrink:0 }}>Q{i+1}</span>
                 <span style={{ color:"#C4C4CC", fontSize:16 }}>{q}</span>
               </div>
@@ -200,10 +219,10 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
         )}
         {objections?.length > 0 && (
           <div>
-            <div style={label()}>Objection Handling</div>
+            <div style={l$()}>Objection Handling</div>
             {objections.map((o, i) => (
-              <div key={i} style={{ ...card, marginBottom:8 }}>
-                <div style={{ ...label("var(--n2)"), marginBottom:4 }}>❝ {o.objection}</div>
+              <div key={i} style={{ ...c$(), marginBottom:8 }}>
+                <div style={{ ...l$("var(--n2)"), marginBottom:4 }}>❝ {o.objection}</div>
                 <p {...bodyProps}>{o.response}</p>
               </div>
             ))}
@@ -223,8 +242,8 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
         {/* Metric stat cards — 2-col grid */}
         {metrics?.length > 0 && (
           <div style={{ marginBottom:28 }}>
-            <div style={label()}>Tracked Metrics</div>
-            <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(180px,1fr))", gap:8 }}>
+            <div style={l$()}>Tracked Metrics</div>
+            <div style={{ display:"grid", gridTemplateColumns: mobile ? "1fr 1fr" : "repeat(auto-fill, minmax(180px,1fr))", gap: mobile ? 6 : 8 }}>
               {metrics.map((m, i) => (
                 <div key={i} style={{
                   background:"#111114", border:"1px solid #2A2A2E",
@@ -237,7 +256,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
                     {freqIcon(m.frequency)} {m.frequency}
                   </div>
                   <div style={{ fontSize:16, color:"#9A9AA8", marginBottom:6, lineHeight:1.3 }}>{m.metric}</div>
-                  <div style={{ fontSize:25, fontWeight:800, color:"#F4F4F1", fontFamily:"var(--font-archivo)", lineHeight:1 }}>
+                  <div style={{ fontSize:n$, fontWeight:800, color:"#F4F4F1", fontFamily:"var(--font-archivo)", lineHeight:1 }}>
                     {m.target}
                   </div>
                 </div>
@@ -249,7 +268,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
         {/* 90-day targets as checklist */}
         {targets?.length > 0 && (
           <div style={{ marginBottom:24 }}>
-            <div style={label()}>90-Day Targets</div>
+            <div style={l$()}>90-Day Targets</div>
             <div style={{ border:"1px solid #2A2A2E" }}>
               {targets.map((t, i) => (
                 <div key={i} style={{
@@ -267,7 +286,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
         {/* Red flags */}
         {warnings?.length > 0 && (
           <div style={{ background:"rgba(236,72,153,0.06)", border:"1px solid rgba(236,72,153,0.25)", padding:"16px 20px" }}>
-            <div style={{ ...label("var(--n2)"), marginBottom:12 }}>⚠ Red Flags to Watch</div>
+            <div style={{ ...l$("var(--n2)"), marginBottom:12 }}>⚠ Red Flags to Watch</div>
             {warnings.map((w, i) => (
               <div key={i} style={{ display:"flex", gap:10, marginBottom: i < warnings.length-1 ? 10 : 0 }}>
                 <span style={{ color:"var(--n2)", flexShrink:0 }}>▸</span>
@@ -313,16 +332,16 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
 
         {actions.map((a, i) => (
           <div key={i} style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start",
-                                 ...card }}>
+                                 ...c$() }}>
             <div style={{ flex:1, minWidth:0 }}>
-              <div style={{ fontWeight:700, fontSize:25, color:"#F4F4F1", marginBottom:4 }}>{a.title}</div>
+              <div style={{ fontWeight:700, fontSize:n$, color:"#F4F4F1", marginBottom:4 }}>{a.title}</div>
               <div style={{ fontSize:13, color:"#C4C4CC", lineHeight:1.5, marginBottom:6 }}>{a.description}</div>
               <div className="kicker" style={{ color:"#9A9AA8" }}>
                 Impact {a.impact} · Speed {a.speed} · Difficulty {a.difficulty}
               </div>
             </div>
             <div style={{ marginLeft:16, flexShrink:0, textAlign:"center" }}>
-              <div className="display" style={{ fontSize:25, color:"var(--n3)", lineHeight:1 }}>
+              <div className="display" style={{ fontSize:n$, color:"var(--n3)", lineHeight:1 }}>
                 {a.score.toFixed(1)}
               </div>
               <div style={{ fontSize:13, fontFamily:"var(--font-mono)", color:"#5C5C63",
@@ -342,17 +361,17 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
     const dayColor = (d: number) => d <= 2 ? "var(--n3)" : d <= 5 ? "var(--n1)" : "var(--n2)";
     return (
       <div>
-        <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(220px,1fr))", gap:8 }}>
+        <div style={{ display:"grid", gridTemplateColumns: mobile ? "1fr 1fr" : "repeat(auto-fill, minmax(220px,1fr))", gap: mobile ? 6 : 8 }}>
           {days.map(d => (
             <div key={d.day} style={{
               background:"#111114", border:"1px solid #2A2A2E",
-              padding:"20px 18px", position:"relative"
+              padding: mobile ? "14px 12px" : "20px 18px", position:"relative"
             }}>
               <div style={{ position:"absolute", top:0, left:0, right:0, height:3, background:dayColor(d.day) }} />
               {/* Big day number */}
               <div style={{
-                fontSize:66, fontWeight:900, fontFamily:"var(--font-archivo)",
-                color: dayColor(d.day), lineHeight:1, marginBottom:14, opacity:0.9
+                fontSize: mobile ? 40 : 66, fontWeight:900, fontFamily:"var(--font-archivo)",
+                color: dayColor(d.day), lineHeight:1, marginBottom: mobile ? 10 : 14, opacity:0.9
               }}>
                 {String(d.day).padStart(2,"0")}
               </div>
@@ -389,7 +408,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
                 fontSize:16, fontFamily:"var(--font-mono)", fontWeight:700,
                 color: weekAccent[idx % 4], letterSpacing:"0.12em", textTransform:"uppercase"
               }}>Week {w.week}</span>
-              <span style={{ color:"#F4F4F1", fontWeight:700, fontSize:25 }}>{w.focus}</span>
+              <span style={{ color:"#F4F4F1", fontWeight:700, fontSize:n$ }}>{w.focus}</span>
             </div>
             {/* Tasks */}
             <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
@@ -434,7 +453,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
               <div style={{
                 width:40, height:40, background: monthAccent[idx % 3],
                 display:"flex", alignItems:"center", justifyContent:"center",
-                fontWeight:900, fontFamily:"var(--font-archivo)", fontSize:25, color:"#000", flexShrink:0
+                fontWeight:900, fontFamily:"var(--font-archivo)", fontSize:n$, color:"#000", flexShrink:0
               }}>
                 {m.month}
               </div>
@@ -491,14 +510,14 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
         {/* Platform tabs */}
         {platforms?.length > 0 && (
           <div style={{ marginBottom:28 }}>
-            <div style={label()}>Platform Playbooks</div>
+            <div style={l$()}>Platform Playbooks</div>
             {platforms.map((p, idx) => {
               const pc = platformColor(p.platform);
               return (
                 <div key={idx} style={{ marginBottom:16, border:`1px solid #2A2A2E`, background:"#111114", overflow:"hidden" }}>
                   {/* Platform header bar */}
                   <div style={{ background: pc, padding:"12px 20px", display:"flex", alignItems:"center", gap:10 }}>
-                    <span style={{ fontSize:25, color:"#fff" }}>{platformIcon(p.platform)}</span>
+                    <span style={{ fontSize:n$, color:"#fff" }}>{platformIcon(p.platform)}</span>
                     <div>
                       <div style={{ fontSize:13, fontWeight:800, color:"#fff", fontFamily:"var(--font-archivo)" }}>
                         {p.platform}
@@ -593,7 +612,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
         {/* 4-week content calendar */}
         {contentCalendar?.length > 0 && (
           <div style={{ marginBottom:24 }}>
-            <div style={label()}>4-Week Content Calendar</div>
+            <div style={l$()}>4-Week Content Calendar</div>
             {contentCalendar.map((wk, i) => {
               const wc = ["var(--n3)","var(--n1)","var(--n2)","#9A9AA8"][i % 4];
               return (
@@ -623,8 +642,8 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
         {/* Viral formulas */}
         {viralFormulas?.length > 0 && (
           <div style={{ marginBottom:24 }}>
-            <div style={label()}>Viral Content Formulas</div>
-            <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(240px,1fr))", gap:8 }}>
+            <div style={l$()}>Viral Content Formulas</div>
+            <div style={{ display:"grid", gridTemplateColumns: mobile ? "1fr" : "repeat(auto-fill, minmax(240px,1fr))", gap:8 }}>
               {viralFormulas.map((vf, i) => {
                 const fc = ["var(--n3)","var(--n1)","var(--n2)","#9A9AA8","var(--n3)","var(--n1)"][i % 6];
                 return (
@@ -645,7 +664,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
         {/* Hashtag strategy */}
         {hashtagStrategy && (
           <div style={{ background:"rgba(163,230,53,0.05)", border:"1px solid rgba(163,230,53,0.2)", padding:"16px 20px" }}>
-            <div style={{ ...label("var(--n1)"), marginBottom:8 }}># Hashtag Strategy</div>
+            <div style={{ ...l$("var(--n1)"), marginBottom:8 }}># Hashtag Strategy</div>
             <p style={{ ...body, fontSize:13 }} dir="auto">{hashtagStrategy}</p>
           </div>
         )}
@@ -675,7 +694,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
   );
 }
 
-export default function SectionCard({ sectionKey, report, locked, onDeepDive, onRegenerate }: Props) {
+export default function SectionCard({ sectionKey, report, locked, mobile, onDeepDive, onRegenerate }: Props) {
   if (locked) {
     return (
       <div style={{ position:"relative", overflow:"hidden", marginBottom:2 }}>
@@ -727,6 +746,14 @@ export default function SectionCard({ sectionKey, report, locked, onDeepDive, on
             Unlock from $19 →
           </a>
         </div>
+      </div>
+    );
+  }
+
+  if (mobile) {
+    return (
+      <div>
+        {renderSection(sectionKey, report, true)}
       </div>
     );
   }

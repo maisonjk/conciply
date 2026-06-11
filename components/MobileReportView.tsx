@@ -125,33 +125,36 @@ export default function MobileReportView({ report, tier, input, reportId }: Prop
       <div
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
-        style={{ minHeight:"calc(100dvh - 44px - 56px - 64px)", padding:"24px 20px 120px", overflow:"hidden" }}
+        style={{ minHeight:"calc(100dvh - 44px - 56px - 64px)", padding:"0 0 120px", overflow:"hidden" }}
       >
         <div style={animStyle}>
           {/* Section header */}
-          <div style={{ marginBottom:20 }} className="mobile-report-section">
-            <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:10 }}>
-              <span style={{ fontSize:14, fontFamily:"var(--font-mono)", letterSpacing:"0.16em",
+          <div style={{ padding:"20px 16px 14px" }} className="mobile-report-section">
+            <div style={{ display:"flex", alignItems:"center", gap:6, marginBottom:8 }}>
+              <span style={{ width:6, height:6, borderRadius:"50%", background:activeGroup.color,
+                             display:"inline-block", flexShrink:0 }} />
+              <span style={{ fontSize:10, fontFamily:"var(--font-mono)", letterSpacing:"0.18em",
                              textTransform:"uppercase", color:activeGroup.color }}>
                 {sectionNum(active)} — {activeGroup.label}
               </span>
             </div>
             <h2 style={{
               fontFamily:"var(--font-archivo), sans-serif", fontWeight:900,
-              fontSize:"clamp(26px,7vw,26px)", lineHeight:0.95,
-              color:"#F4F4F1", margin:"0 0 10px", letterSpacing:"-0.02em",
+              fontSize:24, lineHeight:1.0,
+              color:"#F4F4F1", margin:"0 0 12px", letterSpacing:"-0.02em",
             }}>
               {SECTION_LABELS[active]}
             </h2>
-            <div style={{ height:2, background:activeGroup.color, width:40, marginBottom:16 }} />
+            <div style={{ height:2, background:activeGroup.color, width:32 }} />
           </div>
 
-          {/* Section content */}
-          <div className="mobile-report-section">
+          {/* Section content — edge-to-edge with inner padding */}
+          <div className="mobile-report-section" style={{ padding:"0 14px" }}>
             <SectionCard
               sectionKey={active}
               report={report}
               locked={!isPaid && !FREE_SECTIONS.includes(active)}
+              mobile
             />
           </div>
         </div>
