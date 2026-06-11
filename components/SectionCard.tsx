@@ -47,8 +47,8 @@ const label = (color = "#9A9AA8", mobile?: boolean) => ({
   textTransform:"uppercase" as const,
 });
 // dir:"auto" applied via attribute (not style) — set on elements individually
-const body = { color:"#C4C4CC", fontSize:18, lineHeight:1.6, margin:0 } as const;
-const bodyProps = { style:body, dir:"auto" as const };
+const body = (mobile?: boolean) => ({ color:"#C4C4CC", fontSize: mobile ? 16 : 18, lineHeight:1.6, margin:0 } as const);
+const bodyProps = (mobile?: boolean) => ({ style:body(mobile), dir:"auto" as const });
 const pill = (color: string, mobile?: boolean) => ({
   display:"inline-block",
   padding: mobile ? "2px 6px" : "2px 8px",
@@ -58,10 +58,10 @@ const pill = (color: string, mobile?: boolean) => ({
 const nameSize = (mobile?: boolean) => mobile ? 15 : 18;
 
 // dir="auto" lets the browser detect RTL (Arabic, Hebrew) per element
-function StringList({ items }: { items: string[] }) {
+function StringList({ items, mobile }: { items: string[]; mobile?: boolean }) {
   return (
     <ul style={{ margin:0, padding:"0 0 0 20px" }}>
-      {items.map((t, i) => <li key={i} style={body} dir="auto">{toStr(t)}</li>)}
+      {items.map((t, i) => <li key={i} style={body(mobile)} dir="auto">{toStr(t)}</li>)}
     </ul>
   );
 }
@@ -73,6 +73,8 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>, mobile?: 
   const l$ = (color?: string) => label(color, mobile);
   const p$ = (color: string) => pill(color, mobile);
   const n$ = nameSize(mobile);
+  const b$ = body(mobile);
+  const bp$ = bodyProps(mobile);
 
   // ── Competitor Analysis ──────────────────────────────────────────────────
   if (key === "competitorAnalysis") {
@@ -103,7 +105,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>, mobile?: 
                       ▲ Strength
                     </span>
                   </div>
-                  <p style={{ ...body, margin:0 }} dir="auto">{c.strength}</p>
+                  <p style={{ ...b$, margin:0 }} dir="auto">{c.strength}</p>
                 </div>
                 {/* Weakness */}
                 <div style={{ padding: mobile ? "10px 12px" : "14px 16px",
@@ -114,7 +116,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>, mobile?: 
                       ▼ Weakness
                     </span>
                   </div>
-                  <p style={{ ...body, margin:0 }} dir="auto">{c.weakness}</p>
+                  <p style={{ ...b$, margin:0 }} dir="auto">{c.weakness}</p>
                 </div>
               </div>
             ))}
@@ -139,15 +141,15 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>, mobile?: 
               <div key={i} style={{ ...c$(), display:"flex", alignItems:"flex-start", gap:12 }}>
                 <div style={{ flex:1 }}>
                   <div style={{ fontWeight:700, fontSize: n$, color:"#F4F4F1", marginBottom:4 }}>{c.name}</div>
-                  <p {...bodyProps}>{c.rationale}</p>
+                  <p {...bp$}>{c.rationale}</p>
                 </div>
                 <div style={p$(priorityColor(c.priority))}>{c.priority}</div>
               </div>
             ))}
           </div>
         )}
-        {tactics?.length > 0 && <div style={{ marginBottom:16 }}><div style={l$()}>Tactics</div><StringList items={tactics} /></div>}
-        {budgetGuidance && <div><div style={l$()}>Budget Guidance</div><p style={body}>{budgetGuidance}</p></div>}
+        {tactics?.length > 0 && <div style={{ marginBottom:16 }}><div style={l$()}>Tactics</div><StringList items={tactics} mobile={mobile} /></div>}
+        {budgetGuidance && <div><div style={l$()}>Budget Guidance</div><p style={b$}>{budgetGuidance}</p></div>}
       </div>
     );
   }
@@ -161,7 +163,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>, mobile?: 
           <div style={{ marginBottom:20 }}>
             <div style={l$()}>Landing Page Copy</div>
             <div style={{ ...c$(), borderLeft:"3px solid var(--n1)" }}>
-              <p {...bodyProps}>{landingCopy}</p>
+              <p {...bp$}>{landingCopy}</p>
             </div>
           </div>
         )}
@@ -182,9 +184,9 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>, mobile?: 
             {emailSequence.map((e, i) => (
               <div key={i} style={{ ...c$(), marginBottom:8 }}>
                 <div style={l$("var(--n1)")}>Email {i+1} — {e.subject}</div>
-                <p style={{ ...body, marginBottom:8 }} dir="auto">{e.body}</p>
+                <p style={{ ...b$, marginBottom:8 }} dir="auto">{e.body}</p>
                 <div style={l$()}>CTA</div>
-                <p style={{ ...body, color:"var(--n3)" }} dir="auto">{e.cta}</p>
+                <p style={{ ...b$, color:"var(--n3)" }} dir="auto">{e.cta}</p>
               </div>
             ))}
           </div>
@@ -202,7 +204,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>, mobile?: 
           <div style={{ marginBottom:20 }}>
             <div style={l$()}>Cold Outreach Script</div>
             <div style={{ ...c$(), borderLeft:"3px solid var(--n2)" }}>
-              <p style={{ ...body, whiteSpace:"pre-line" }} dir="auto">{outreachScript}</p>
+              <p style={{ ...b$, whiteSpace:"pre-line" }} dir="auto">{outreachScript}</p>
             </div>
           </div>
         )}
@@ -223,7 +225,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>, mobile?: 
             {objections.map((o, i) => (
               <div key={i} style={{ ...c$(), marginBottom:8 }}>
                 <div style={{ ...l$("var(--n2)"), marginBottom:4 }}>❝ {o.objection}</div>
-                <p {...bodyProps}>{o.response}</p>
+                <p {...bp$}>{o.response}</p>
               </div>
             ))}
           </div>
@@ -704,7 +706,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>, mobile?: 
                     }}>
                       Formula {String(i+1).padStart(2,"0")}
                     </div>
-                    <p style={{ ...body, fontSize:13 }} dir="auto">{vf}</p>
+                    <p style={{ ...b$, fontSize:13 }} dir="auto">{vf}</p>
                   </div>
                 );
               })}
@@ -719,7 +721,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>, mobile?: 
             padding: mobile ? "12px" : "16px 20px",
           }}>
             <div style={{ ...l$("var(--n1)"), marginBottom:8 }}># Hashtag Strategy</div>
-            <p style={{ ...body, fontSize:13 }} dir="auto">{hashtagStrategy}</p>
+            <p style={{ ...b$, fontSize:13 }} dir="auto">{hashtagStrategy}</p>
           </div>
         )}
       </div>
@@ -736,9 +738,9 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>, mobile?: 
             {field.replace(/([A-Z])/g, " $1").trim().toUpperCase()}
           </div>
           {Array.isArray(value) ? (
-            <StringList items={(value as unknown[]).map(v => typeof v === "string" ? v : JSON.stringify(v))} />
+            <StringList items={(value as unknown[]).map(v => typeof v === "string" ? v : JSON.stringify(v))} mobile={mobile} />
           ) : (
-            <p {...bodyProps}>
+            <p {...bp$}>
               {typeof value === "string" ? value : JSON.stringify(value)}
             </p>
           )}
