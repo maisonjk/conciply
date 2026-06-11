@@ -98,11 +98,20 @@ function WorkspaceContent() {
   useEffect(() => {
     const plan = getLicensePlan();
     if (!plan) { router.push("/unlock"); return; }
-    const r = getReport(id);
-    setAllReports(loadReports().reverse()); // newest first
-    if (!r) { router.push("/"); return; }
-    setStored(r);
+    const reports = loadReports().reverse(); // newest first
+    setAllReports(reports);
     setTier(plan);
+    const r = getReport(id);
+    if (!r) {
+      // No specific report selected — redirect to the most recent one if available
+      if (reports.length > 0) {
+        router.replace(`/workspace?id=${reports[0].id}`);
+      } else {
+        router.push("/"); // No reports at all — go generate one
+      }
+      return;
+    }
+    setStored(r);
   }, [id, router]);
 
 
