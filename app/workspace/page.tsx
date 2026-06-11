@@ -283,58 +283,6 @@ function WorkspaceContent() {
             ))}
           </nav>
 
-          {/* ── Export panel — pinned to sidebar bottom ── */}
-          <div style={{ borderTop:"1px solid #1E1E22", padding:"12px 16px", background:"#0A0A0B" }}>
-            <div style={{ fontSize:11, fontFamily:"var(--font-mono)", fontWeight:700,
-                          letterSpacing:"0.14em", textTransform:"uppercase",
-                          color:"#3C3C42", marginBottom:10 }}>
-              Export
-            </div>
-            <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
-              <button onClick={handleCopy}
-                style={{ width:"100%", textAlign:"left", background:"transparent",
-                         border:"1px solid #2A2A2E", color: copied ? "var(--n3)" : "#9A9AA8",
-                         borderColor: copied ? "var(--n3)" : "#2A2A2E",
-                         padding:"8px 12px", cursor:"pointer",
-                         fontFamily:"var(--font-mono)", fontSize:13,
-                         letterSpacing:"0.06em", display:"flex", alignItems:"center", gap:8 }}>
-                <span style={{ flexShrink:0 }}>⎘</span>
-                {copied ? "Copied to clipboard!" : "Copy plain text"}
-              </button>
-              <a href={`/report?id=${stored.id}`} target="_blank" rel="noopener noreferrer"
-                style={{ width:"100%", textAlign:"left", background:"transparent",
-                         border:"1px solid #2A2A2E", color:"#9A9AA8",
-                         padding:"8px 12px", cursor:"pointer",
-                         fontFamily:"var(--font-mono)", fontSize:13,
-                         letterSpacing:"0.06em", display:"flex", alignItems:"center", gap:8,
-                         textDecoration:"none" }}>
-                <span style={{ flexShrink:0 }}>⎙</span>
-                Print / Save PDF
-              </a>
-              <a href="/" style={{ width:"100%", textAlign:"left", background:"transparent",
-                         border:"1px solid #2A2A2E", color:"#9A9AA8",
-                         padding:"8px 12px", cursor:"pointer",
-                         fontFamily:"var(--font-mono)", fontSize:13,
-                         letterSpacing:"0.06em", display:"flex", alignItems:"center", gap:8,
-                         textDecoration:"none" }}>
-                <span style={{ flexShrink:0 }}>⊕</span>
-                New report
-              </a>
-              <button onClick={handleBilling} disabled={billingLoading}
-                title={billingError || undefined}
-                style={{ width:"100%", textAlign:"left", background:"transparent",
-                         border:"1px solid #2A2A2E",
-                         color: billingError ? "var(--n2)" : "#5C5C63",
-                         borderColor: billingError ? "var(--n2)" : "#1E1E22",
-                         padding:"8px 12px", cursor: billingLoading ? "wait" : "pointer",
-                         fontFamily:"var(--font-mono)", fontSize:13,
-                         letterSpacing:"0.06em", display:"flex", alignItems:"center", gap:8 }}>
-                <span style={{ flexShrink:0 }}>⚙</span>
-                {billingLoading ? "Opening…" : billingError ? "⚠ Billing error" : "Billing"}
-              </button>
-            </div>
-          </div>
-
         </aside>
 
         {/* ── Right content panel ──────────────────────────────────────── */}
@@ -414,7 +362,6 @@ function WorkspaceContent() {
               locked={false}
             />
 
-            {/* ── Email capture banner ─────────────────────────────── */}
             {/* Prev / Next navigation */}
             <div style={{ display:"flex", justifyContent:"space-between", marginTop:24, gap:12 }}>
               {(() => {
@@ -439,6 +386,61 @@ function WorkspaceContent() {
                 );
               })()}
             </div>
+            {/* ── Export panel ── */}
+            <div style={{
+              marginTop:32, borderTop:"1px solid #1E1E22", paddingTop:24,
+            }}>
+              <div style={{ fontSize:11, fontFamily:"var(--font-mono)", fontWeight:700,
+                            letterSpacing:"0.14em", textTransform:"uppercase",
+                            color:"#3C3C42", marginBottom:12 }}>
+                Export
+              </div>
+              <div style={{ display:"flex", flexWrap:"wrap", gap:8 }}>
+                <button onClick={handleCopy}
+                  style={{ background:"transparent",
+                           border:"1px solid #2A2A2E", color: copied ? "var(--n3)" : "#9A9AA8",
+                           borderColor: copied ? "var(--n3)" : "#2A2A2E",
+                           padding:"10px 18px", cursor:"pointer",
+                           fontFamily:"var(--font-mono)", fontSize:13,
+                           letterSpacing:"0.06em", display:"flex", alignItems:"center", gap:8 }}>
+                  <span>⎘</span>
+                  {copied ? "Copied!" : "Copy plain text"}
+                </button>
+                <a href={`/report?id=${stored.id}`} target="_blank" rel="noopener noreferrer"
+                  style={{ background:"transparent",
+                           border:"1px solid #2A2A2E", color:"#9A9AA8",
+                           padding:"10px 18px", cursor:"pointer",
+                           fontFamily:"var(--font-mono)", fontSize:13,
+                           letterSpacing:"0.06em", display:"flex", alignItems:"center", gap:8,
+                           textDecoration:"none" }}>
+                  <span>⎙</span>
+                  Print / Save PDF
+                </a>
+                <a href="/"
+                  style={{ background:"transparent",
+                           border:"1px solid #2A2A2E", color:"#9A9AA8",
+                           padding:"10px 18px", cursor:"pointer",
+                           fontFamily:"var(--font-mono)", fontSize:13,
+                           letterSpacing:"0.06em", display:"flex", alignItems:"center", gap:8,
+                           textDecoration:"none" }}>
+                  <span>⊕</span>
+                  New report
+                </a>
+                <button onClick={handleBilling} disabled={billingLoading}
+                  title={billingError || undefined}
+                  style={{ background:"transparent",
+                           border:"1px solid #2A2A2E",
+                           color: billingError ? "var(--n2)" : "#5C5C63",
+                           borderColor: billingError ? "var(--n2)" : "#1E1E22",
+                           padding:"10px 18px", cursor: billingLoading ? "wait" : "pointer",
+                           fontFamily:"var(--font-mono)", fontSize:13,
+                           letterSpacing:"0.06em", display:"flex", alignItems:"center", gap:8 }}>
+                  <span>⚙</span>
+                  {billingLoading ? "Opening…" : billingError ? "⚠ Billing error" : "Billing"}
+                </button>
+              </div>
+            </div>
+
           </div>
         </main>
 
