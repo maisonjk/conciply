@@ -258,7 +258,7 @@ function WorkspaceContent() {
                       <span style={{ fontSize:16, color: isActive ? group.color : "#5C5C63", flexShrink:0 }}>
                         {ICONS[key]}
                       </span>
-                      <span style={{ fontSize:12, fontFamily:"var(--font-mono)", letterSpacing:"0.04em",
+                      <span style={{ fontSize:14, fontFamily:"var(--font-mono)", letterSpacing:"0.04em",
                                      color: isActive ? "#F4F4F1" : "#9A9AA8", lineHeight:1.3 }}>
                         {SECTION_LABELS[key]}
                       </span>
