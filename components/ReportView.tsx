@@ -108,7 +108,7 @@ export default function ReportView({ report, tier, input, reportId }: Props) {
         style={{
           display:"none", position:"fixed", bottom:24, right:24, zIndex:50,
           background:"var(--n1)", color:"#000", border:"none", padding:"12px 18px",
-          fontSize:12, letterSpacing:"0.1em", cursor:"pointer",
+          fontSize:14, letterSpacing:"0.1em", cursor:"pointer",
         }}
         data-mobile-toggle
       >
@@ -128,23 +128,23 @@ export default function ReportView({ report, tier, input, reportId }: Props) {
 
         {/* Report title + tier badge */}
         <div style={{ padding:"16px 16px 14px", borderBottom:"1px solid #1E1E22" }}>
-          <div style={{ fontSize:9, fontFamily:"var(--font-mono)", letterSpacing:"0.14em",
+          <div style={{ fontSize:11, fontFamily:"var(--font-mono)", letterSpacing:"0.14em",
                         color:"#5C5C63", textTransform:"uppercase", marginBottom:5 }}>
             Growth Report
           </div>
-          <div style={{ fontSize:15, fontWeight:700, color:"#F4F4F1", lineHeight:1.35,
+          <div style={{ fontSize:18, fontWeight:700, color:"#F4F4F1", lineHeight:1.35,
                         display:"-webkit-box", WebkitLineClamp:2, WebkitBoxOrient:"vertical",
                         overflow:"hidden", marginBottom:10, fontFamily:"var(--font-grotesk), sans-serif" }}>
             {input}
           </div>
           {isPaid ? (
-            <span style={{ fontSize:9, fontFamily:"var(--font-mono)", fontWeight:700,
+            <span style={{ fontSize:11, fontFamily:"var(--font-mono)", fontWeight:700,
                            letterSpacing:"0.1em", textTransform:"uppercase",
                            color:"#000", background:"var(--n3)", padding:"3px 8px", display:"inline-block" }}>
               {tier} · all sections unlocked
             </span>
           ) : (
-            <span style={{ fontSize:9, fontFamily:"var(--font-mono)", color:"var(--n3)",
+            <span style={{ fontSize:11, fontFamily:"var(--font-mono)", color:"var(--n3)",
                            letterSpacing:"0.1em", textTransform:"uppercase" }}>
               Free · 8 of 17 sections
             </span>
@@ -154,8 +154,8 @@ export default function ReportView({ report, tier, input, reportId }: Props) {
         {/* Progress bar */}
         <div style={{ padding:"10px 16px", borderBottom:"1px solid #1E1E22" }}>
           <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:6 }}>
-            <span style={{ fontSize:9, fontFamily:"var(--font-mono)", color:"#5C5C63", letterSpacing:"0.1em", textTransform:"uppercase" }}>Progress</span>
-            <span style={{ fontSize:9, fontFamily:"var(--font-mono)", color:"#5C5C63" }}>
+            <span style={{ fontSize:11, fontFamily:"var(--font-mono)", color:"#5C5C63", letterSpacing:"0.1em", textTransform:"uppercase" }}>Progress</span>
+            <span style={{ fontSize:11, fontFamily:"var(--font-mono)", color:"#5C5C63" }}>
               {ALL_KEYS.indexOf(active) + 1} / {ALL_KEYS.length}
             </span>
           </div>
@@ -176,7 +176,7 @@ export default function ReportView({ report, tier, input, reportId }: Props) {
               {/* Group label */}
               <div style={{
                 padding:"10px 16px 5px",
-                fontSize:8, fontFamily:"var(--font-mono)", fontWeight:700,
+                fontSize:10, fontFamily:"var(--font-mono)", fontWeight:700,
                 letterSpacing:"0.18em", textTransform:"uppercase",
                 color: group.color, display:"flex", alignItems:"center", gap:8,
               }}>
@@ -199,18 +199,18 @@ export default function ReportView({ report, tier, input, reportId }: Props) {
                     }}>
                     {/* Number */}
                     <span style={{
-                      fontSize:9, fontFamily:"var(--font-mono)", color: isActive ? group.color : "#3C3C42",
+                      fontSize:11, fontFamily:"var(--font-mono)", color: isActive ? group.color : "#3C3C42",
                       flexShrink:0, width:18,
                     }}>
                       {sectionNum(key)}
                     </span>
                     {/* Icon */}
-                    <span style={{ fontSize:13, color: locked ? "#3C3C42" : isActive ? group.color : "#5C5C63", flexShrink:0 }}>
+                    <span style={{ fontSize:16, color: locked ? "#3C3C42" : isActive ? group.color : "#5C5C63", flexShrink:0 }}>
                       {locked ? "🔒" : ICONS[key]}
                     </span>
                     {/* Label */}
                     <span style={{
-                      fontSize:12, fontFamily:"var(--font-mono)", letterSpacing:"0.04em",
+                      fontSize:14, fontFamily:"var(--font-mono)", letterSpacing:"0.04em",
                       color: locked ? "#3C3C42" : isActive ? "#F4F4F1" : "#9A9AA8",
                       lineHeight:1.3,
                     }}>
@@ -239,12 +239,12 @@ export default function ReportView({ report, tier, input, reportId }: Props) {
         }}>
           {/* Breadcrumb — left */}
           <div style={{ display:"flex", alignItems:"center", gap:8, flexShrink:0 }}>
-            <span style={{ fontSize:10, fontFamily:"var(--font-mono)", color:activeGroup.color,
+            <span style={{ fontSize:12, fontFamily:"var(--font-mono)", color:activeGroup.color,
                            letterSpacing:"0.12em", textTransform:"uppercase" }}>
               {activeGroup.label}
             </span>
             <span style={{ color:"#2A2A2E" }}>›</span>
-            <span style={{ fontSize:11, fontFamily:"var(--font-mono)", color:"#F4F4F1",
+            <span style={{ fontSize:13, fontFamily:"var(--font-mono)", color:"#F4F4F1",
                            letterSpacing:"0.06em", whiteSpace:"nowrap" }}>
               {SECTION_LABELS[active]}
             </span>
@@ -253,17 +253,17 @@ export default function ReportView({ report, tier, input, reportId }: Props) {
           {/* Actions — right */}
           <div style={{ display:"flex", alignItems:"center", gap:4, flexShrink:0 }}>
             <a href="/" className="btn-ghost"
-              style={{ padding:"5px 10px", fontSize:10, letterSpacing:"0.08em", whiteSpace:"nowrap" }}>
+              style={{ padding:"5px 10px", fontSize:12, letterSpacing:"0.08em", whiteSpace:"nowrap" }}>
               + New Report
             </a>
             {isPaid && (
               <a href={`/workspace?id=${reportId}`} className="btn-ghost"
-                style={{ padding:"5px 10px", fontSize:10, letterSpacing:"0.08em", whiteSpace:"nowrap",
+                style={{ padding:"5px 10px", fontSize:12, letterSpacing:"0.08em", whiteSpace:"nowrap",
                          color:"var(--n1)", borderColor:"var(--n1)" }}>
                 Open Workspace →
               </a>
             )}
-            <span style={{ fontSize:10, fontFamily:"var(--font-mono)", color:"#5C5C63",
+            <span style={{ fontSize:12, fontFamily:"var(--font-mono)", color:"#5C5C63",
                            letterSpacing:"0.1em", marginLeft:8, flexShrink:0 }}>
               {sectionNum(active)} / {ALL_KEYS.length}
             </span>
@@ -286,7 +286,7 @@ export default function ReportView({ report, tier, input, reportId }: Props) {
               {sectionNum(active)}
             </div>
             <div style={{
-              fontSize:10, fontFamily:"var(--font-mono)", letterSpacing:"0.16em",
+              fontSize:12, fontFamily:"var(--font-mono)", letterSpacing:"0.16em",
               textTransform:"uppercase", color: activeGroup.color, marginBottom:12,
               display:"flex", alignItems:"center", gap:8,
             }}>
@@ -302,7 +302,7 @@ export default function ReportView({ report, tier, input, reportId }: Props) {
             </h2>
             {SECTION_SUBTITLES[active] && (
               <p style={{
-                margin:"14px 0 0", fontSize:16, color:"#7A7A88",
+                margin:"14px 0 0", fontSize:19, color:"#7A7A88",
                 lineHeight:1.6, fontFamily:"var(--font-grotesk), sans-serif",
                 maxWidth:560, position:"relative",
               }}>
@@ -327,7 +327,7 @@ export default function ReportView({ report, tier, input, reportId }: Props) {
               return (
                 <>
                   <button onClick={() => prev && setActive(prev)} disabled={!prev}
-                    className="btn-ghost" style={{ padding:"10px 18px", fontSize:12,
+                    className="btn-ghost" style={{ padding:"10px 18px", fontSize:14,
                     opacity: prev ? 1 : 0.2, cursor: prev ? "pointer" : "default" }}>
                     ← {prev ? SECTION_LABELS[prev] : ""}
                   </button>
@@ -340,7 +340,7 @@ export default function ReportView({ report, tier, input, reportId }: Props) {
                         background:"var(--n2)", border:"2px solid var(--n2)",
                         color:"#000",
                         fontFamily:"var(--font-archivo), sans-serif",
-                        fontSize:13, fontWeight:800, letterSpacing:"0.04em",
+                        fontSize:16, fontWeight:800, letterSpacing:"0.04em",
                         textTransform:"uppercase", textDecoration:"none",
                         cursor:"pointer",
                         transition:"filter .12s, transform .12s, box-shadow .12s",
@@ -437,28 +437,28 @@ export default function ReportView({ report, tier, input, reportId }: Props) {
               <span style={{ width:10, height:20, background:"#FF2E6E", display:"inline-block" }} />
               <span style={{ width:10, height:20, background:"#D4FF2E", display:"inline-block" }} />
             </div>
-            <span style={{ fontFamily:"Arial Black, Arial, sans-serif", fontSize:16, fontWeight:900, letterSpacing:"-0.01em", textTransform:"uppercase" }}>Conciply</span>
-            <span style={{ fontFamily:"monospace", fontSize:9, color:"#999", letterSpacing:"0.14em", textTransform:"uppercase" }}>Autonomous Growth OS</span>
+            <span style={{ fontFamily:"Arial Black, Arial, sans-serif", fontSize:19, fontWeight:900, letterSpacing:"-0.01em", textTransform:"uppercase" }}>Conciply</span>
+            <span style={{ fontFamily:"monospace", fontSize:11, color:"#999", letterSpacing:"0.14em", textTransform:"uppercase" }}>Autonomous Growth OS</span>
           </div>
-          <div style={{ fontFamily:"monospace", fontSize:10, color:"#999", letterSpacing:"0.14em", textTransform:"uppercase", marginBottom:10 }}>
+          <div style={{ fontFamily:"monospace", fontSize:12, color:"#999", letterSpacing:"0.14em", textTransform:"uppercase", marginBottom:10 }}>
             Growth Playbook
           </div>
-          <h1 style={{ fontFamily:"Arial Black, Arial, sans-serif", fontSize:28, fontWeight:900, margin:"0 0 12px", lineHeight:1.1, textTransform:"uppercase", letterSpacing:"-0.01em" }}>
+          <h1 style={{ fontFamily:"Arial Black, Arial, sans-serif", fontSize:34, fontWeight:900, margin:"0 0 12px", lineHeight:1.1, textTransform:"uppercase", letterSpacing:"-0.01em" }}>
             {input}
           </h1>
           <div style={{ display:"flex", gap:20, alignItems:"center", flexWrap:"wrap" }}>
-            <span style={{ fontFamily:"monospace", fontSize:10, color:"#666", letterSpacing:"0.1em", textTransform:"uppercase" }}>
+            <span style={{ fontFamily:"monospace", fontSize:12, color:"#666", letterSpacing:"0.1em", textTransform:"uppercase" }}>
               {tier ? `${tier} Plan · All 17 sections` : `Free · ${FREE_SECTIONS.length} of 17 sections`}
             </span>
-            <span style={{ fontFamily:"monospace", fontSize:10, color:"#999" }}>conciply.com</span>
-            <span style={{ fontFamily:"monospace", fontSize:10, color:"#999" }}>
+            <span style={{ fontFamily:"monospace", fontSize:12, color:"#999" }}>conciply.com</span>
+            <span style={{ fontFamily:"monospace", fontSize:12, color:"#999" }}>
               {new Date().toLocaleDateString("en-US", { month:"long", day:"numeric", year:"numeric" })}
             </span>
           </div>
         </div>
 
         {/* Privacy note */}
-        <div style={{ fontFamily:"monospace", fontSize:9, color:"#bbb", borderLeft:"3px solid #eee", paddingLeft:12, marginBottom:40, lineHeight:1.7 }}>
+        <div style={{ fontFamily:"monospace", fontSize:11, color:"#bbb", borderLeft:"3px solid #eee", paddingLeft:12, marginBottom:40, lineHeight:1.7 }}>
           Generated privately by Conciply. This report and its data are not stored on our servers.
           AI-generated for strategic inspiration — review before acting. conciply.com/terms
         </div>
@@ -471,10 +471,10 @@ export default function ReportView({ report, tier, input, reportId }: Props) {
           return (
             <div key={key} style={{ marginBottom:48, pageBreakInside:"avoid" }}>
               <div style={{ display:"flex", alignItems:"baseline", gap:12, borderBottom:"2px solid #111", paddingBottom:10, marginBottom:20 }}>
-                <span style={{ fontFamily:"monospace", fontSize:9, color:"#999", letterSpacing:"0.14em", textTransform:"uppercase", flexShrink:0 }}>
+                <span style={{ fontFamily:"monospace", fontSize:11, color:"#999", letterSpacing:"0.14em", textTransform:"uppercase", flexShrink:0 }}>
                   {String(i+1).padStart(2,"0")} — {group.label}
                 </span>
-                <h2 style={{ fontFamily:"Arial Black, Arial, sans-serif", fontSize:20, fontWeight:900, margin:0, textTransform:"uppercase", letterSpacing:"-0.01em" }}>
+                <h2 style={{ fontFamily:"Arial Black, Arial, sans-serif", fontSize:24, fontWeight:900, margin:0, textTransform:"uppercase", letterSpacing:"-0.01em" }}>
                   {SECTION_LABELS[key]}
                 </h2>
               </div>
@@ -484,10 +484,10 @@ export default function ReportView({ report, tier, input, reportId }: Props) {
         })}
         {/* Print footer */}
         <div style={{ borderTop:"2px solid #111", paddingTop:16, marginTop:48, display:"flex", justifyContent:"space-between", alignItems:"center", flexWrap:"wrap", gap:8 }}>
-          <span style={{ fontFamily:"monospace", fontSize:9, color:"#999", letterSpacing:"0.1em", textTransform:"uppercase" }}>
+          <span style={{ fontFamily:"monospace", fontSize:11, color:"#999", letterSpacing:"0.1em", textTransform:"uppercase" }}>
             Powered by Conciply · conciply.com
           </span>
-          <span style={{ fontFamily:"monospace", fontSize:9, color:"#bbb" }}>
+          <span style={{ fontFamily:"monospace", fontSize:11, color:"#bbb" }}>
             AI-generated for strategic inspiration. Review before acting.
           </span>
         </div>

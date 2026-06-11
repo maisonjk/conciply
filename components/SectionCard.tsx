@@ -33,12 +33,12 @@ function toStr(val: unknown): string {
 
 // ── Shared style helpers ─────────────────────────────────────────────────────
 const card = { border:"1px solid #1E1E22", padding:"14px 16px", marginBottom:4 } as const;
-const label = (color = "#9A9AA8") => ({ marginBottom:6, color, fontSize:12, fontFamily:"var(--font-mono)", letterSpacing:"0.1em", textTransform:"uppercase" as const });
+const label = (color = "#9A9AA8") => ({ marginBottom:6, color, fontSize:14, fontFamily:"var(--font-mono)", letterSpacing:"0.1em", textTransform:"uppercase" as const });
 // dir:"auto" applied via attribute (not style) — set on elements individually
-const body = { color:"#C4C4CC", fontSize:16, lineHeight:1.6, margin:0 } as const;
+const body = { color:"#C4C4CC", fontSize:19, lineHeight:1.6, margin:0 } as const;
 const bodyProps = { style:body, dir:"auto" as const };
 const pill = (color: string) => ({
-  display:"inline-block", padding:"2px 8px", fontSize:12,
+  display:"inline-block", padding:"2px 8px", fontSize:14,
   fontFamily:"var(--font-mono)", border:`1px solid ${color}`, color,
 } as const);
 
@@ -66,7 +66,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
             {competitors.map((c, i) => (
               <div key={i} style={{ ...card, display:"grid", gridTemplateColumns:"1fr 1fr", gap:12 }}>
                 <div>
-                  <div style={{ fontWeight:700, fontSize:17, color:"#F4F4F1", marginBottom:6 }}>{c.name}</div>
+                  <div style={{ fontWeight:700, fontSize:20, color:"#F4F4F1", marginBottom:6 }}>{c.name}</div>
                   <div style={label("var(--n3)")}>Strength</div>
                   <p {...bodyProps}>{c.strength}</p>
                 </div>
@@ -96,7 +96,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
             {channels.map((c, i) => (
               <div key={i} style={{ ...card, display:"flex", alignItems:"flex-start", gap:12 }}>
                 <div style={{ flex:1 }}>
-                  <div style={{ fontWeight:700, fontSize:17, color:"#F4F4F1", marginBottom:4 }}>{c.name}</div>
+                  <div style={{ fontWeight:700, fontSize:20, color:"#F4F4F1", marginBottom:4 }}>{c.name}</div>
                   <p {...bodyProps}>{c.rationale}</p>
                 </div>
                 <div style={pill(priorityColor(c.priority))}>{c.priority}</div>
@@ -128,8 +128,8 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
             <div style={label()}>Ad Headlines</div>
             {adCopy.map((line, i) => (
               <div key={i} style={{ ...card, display:"flex", alignItems:"center", gap:12 }}>
-                <span style={{ color:"var(--n2)", fontFamily:"var(--font-mono)", fontSize:11 }}>{String(i+1).padStart(2,"0")}</span>
-                <span style={{ color:"#F4F4F1", fontSize:16 }}>{line}</span>
+                <span style={{ color:"var(--n2)", fontFamily:"var(--font-mono)", fontSize:13 }}>{String(i+1).padStart(2,"0")}</span>
+                <span style={{ color:"#F4F4F1", fontSize:19 }}>{line}</span>
               </div>
             ))}
           </div>
@@ -169,8 +169,8 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
             <div style={label()}>Discovery Questions</div>
             {discoveryQuestions.map((q, i) => (
               <div key={i} style={{ ...card, display:"flex", gap:12 }}>
-                <span style={{ color:"var(--n1)", fontFamily:"var(--font-mono)", fontSize:11, flexShrink:0 }}>Q{i+1}</span>
-                <span style={{ color:"#C4C4CC", fontSize:16 }}>{q}</span>
+                <span style={{ color:"var(--n1)", fontFamily:"var(--font-mono)", fontSize:13, flexShrink:0 }}>Q{i+1}</span>
+                <span style={{ color:"#C4C4CC", fontSize:19 }}>{q}</span>
               </div>
             ))}
           </div>
@@ -209,12 +209,12 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
                 }}>
                   {/* coloured top bar */}
                   <div style={{ position:"absolute", top:0, left:0, right:0, height:3, background:freqColor(m.frequency) }} />
-                  <div style={{ fontSize:11, fontFamily:"var(--font-mono)", color:freqColor(m.frequency),
+                  <div style={{ fontSize:13, fontFamily:"var(--font-mono)", color:freqColor(m.frequency),
                                 letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:10 }}>
                     {freqIcon(m.frequency)} {m.frequency}
                   </div>
-                  <div style={{ fontSize:14, color:"#9A9AA8", marginBottom:6, lineHeight:1.3 }}>{m.metric}</div>
-                  <div style={{ fontSize:22, fontWeight:800, color:"#F4F4F1", fontFamily:"var(--font-archivo)", lineHeight:1 }}>
+                  <div style={{ fontSize:17, color:"#9A9AA8", marginBottom:6, lineHeight:1.3 }}>{m.metric}</div>
+                  <div style={{ fontSize:26, fontWeight:800, color:"#F4F4F1", fontFamily:"var(--font-archivo)", lineHeight:1 }}>
                     {m.target}
                   </div>
                 </div>
@@ -233,8 +233,8 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
                   display:"flex", alignItems:"flex-start", gap:12, padding:"12px 16px",
                   borderBottom: i < targets.length - 1 ? "1px solid #1E1E22" : "none"
                 }}>
-                  <span style={{ color:"var(--n3)", marginTop:2, flexShrink:0, fontSize:12 }}>◉</span>
-                  <span style={{ color:"#C4C4CC", fontSize:16, lineHeight:1.5 }}>{toStr(t)}</span>
+                  <span style={{ color:"var(--n3)", marginTop:2, flexShrink:0, fontSize:14 }}>◉</span>
+                  <span style={{ color:"#C4C4CC", fontSize:19, lineHeight:1.5 }}>{toStr(t)}</span>
                 </div>
               ))}
             </div>
@@ -248,7 +248,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
             {warnings.map((w, i) => (
               <div key={i} style={{ display:"flex", gap:10, marginBottom: i < warnings.length-1 ? 10 : 0 }}>
                 <span style={{ color:"var(--n2)", flexShrink:0 }}>▸</span>
-                <span style={{ color:"#C4C4CC", fontSize:14, lineHeight:1.5 }}>{w}</span>
+                <span style={{ color:"#C4C4CC", fontSize:17, lineHeight:1.5 }}>{w}</span>
               </div>
             ))}
           </div>
@@ -278,12 +278,12 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
               borderRight: i < arr.length - 1 ? "1px solid #1E1E22" : "none",
               background:"#111114",
             }}>
-              <div style={{ fontSize:10, fontFamily:"var(--font-mono)", fontWeight:700,
+              <div style={{ fontSize:12, fontFamily:"var(--font-mono)", fontWeight:700,
                             letterSpacing:"0.1em", textTransform:"uppercase",
                             color: item.color, marginBottom:4 }}>
                 {item.label}
               </div>
-              <div style={{ fontSize:11, color:"#5C5C63", lineHeight:1.4 }}>{item.desc}</div>
+              <div style={{ fontSize:13, color:"#5C5C63", lineHeight:1.4 }}>{item.desc}</div>
             </div>
           ))}
         </div>
@@ -292,17 +292,17 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
           <div key={i} style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start",
                                  ...card }}>
             <div style={{ flex:1, minWidth:0 }}>
-              <div style={{ fontWeight:700, fontSize:17, color:"#F4F4F1", marginBottom:4 }}>{a.title}</div>
-              <div style={{ fontSize:15, color:"#C4C4CC", lineHeight:1.5, marginBottom:6 }}>{a.description}</div>
+              <div style={{ fontWeight:700, fontSize:20, color:"#F4F4F1", marginBottom:4 }}>{a.title}</div>
+              <div style={{ fontSize:18, color:"#C4C4CC", lineHeight:1.5, marginBottom:6 }}>{a.description}</div>
               <div className="kicker" style={{ color:"#9A9AA8" }}>
                 Impact {a.impact} · Speed {a.speed} · Difficulty {a.difficulty}
               </div>
             </div>
             <div style={{ marginLeft:16, flexShrink:0, textAlign:"center" }}>
-              <div className="display" style={{ fontSize:28, color:"var(--n3)", lineHeight:1 }}>
+              <div className="display" style={{ fontSize:34, color:"var(--n3)", lineHeight:1 }}>
                 {a.score.toFixed(1)}
               </div>
-              <div style={{ fontSize:9, fontFamily:"var(--font-mono)", color:"#5C5C63",
+              <div style={{ fontSize:11, fontFamily:"var(--font-mono)", color:"#5C5C63",
                             letterSpacing:"0.1em", textTransform:"uppercase", marginTop:2 }}>
                 score
               </div>
@@ -328,7 +328,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
               <div style={{ position:"absolute", top:0, left:0, right:0, height:3, background:dayColor(d.day) }} />
               {/* Big day number */}
               <div style={{
-                fontSize:48, fontWeight:900, fontFamily:"var(--font-archivo)",
+                fontSize:58, fontWeight:900, fontFamily:"var(--font-archivo)",
                 color: dayColor(d.day), lineHeight:1, marginBottom:14, opacity:0.9
               }}>
                 {String(d.day).padStart(2,"0")}
@@ -337,8 +337,8 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
               <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
                 {d.tasks.map((t, i) => (
                   <div key={i} style={{ display:"flex", gap:8, alignItems:"flex-start" }}>
-                    <span style={{ color:dayColor(d.day), fontSize:10, marginTop:4, flexShrink:0 }}>▸</span>
-                    <span style={{ color:"#C4C4CC", fontSize:15, lineHeight:1.5 }}>{toStr(t)}</span>
+                    <span style={{ color:dayColor(d.day), fontSize:12, marginTop:4, flexShrink:0 }}>▸</span>
+                    <span style={{ color:"#C4C4CC", fontSize:18, lineHeight:1.5 }}>{toStr(t)}</span>
                   </div>
                 ))}
               </div>
@@ -363,10 +363,10 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
             {/* Week header */}
             <div style={{ display:"flex", alignItems:"baseline", gap:10, marginBottom:12 }}>
               <span style={{
-                fontSize:11, fontFamily:"var(--font-mono)", fontWeight:700,
+                fontSize:13, fontFamily:"var(--font-mono)", fontWeight:700,
                 color: weekAccent[idx % 4], letterSpacing:"0.12em", textTransform:"uppercase"
               }}>Week {w.week}</span>
-              <span style={{ color:"#F4F4F1", fontWeight:700, fontSize:17 }}>{w.focus}</span>
+              <span style={{ color:"#F4F4F1", fontWeight:700, fontSize:20 }}>{w.focus}</span>
             </div>
             {/* Tasks */}
             <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
@@ -375,8 +375,8 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
                   display:"flex", gap:10, alignItems:"flex-start",
                   background:"#111114", border:"1px solid #1E1E22", padding:"10px 14px"
                 }}>
-                  <span style={{ color: weekAccent[idx % 4], fontSize:11, marginTop:3, flexShrink:0 }}>◆</span>
-                  <span style={{ color:"#C4C4CC", fontSize:15, lineHeight:1.5 }}>{toStr(t)}</span>
+                  <span style={{ color: weekAccent[idx % 4], fontSize:13, marginTop:3, flexShrink:0 }}>◆</span>
+                  <span style={{ color:"#C4C4CC", fontSize:18, lineHeight:1.5 }}>{toStr(t)}</span>
                 </div>
               ))}
             </div>
@@ -400,7 +400,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
             {/* Giant faded month number as background */}
             <div style={{
               position:"absolute", top:-10, right:12,
-              fontSize:120, fontWeight:900, fontFamily:"var(--font-archivo)",
+              fontSize:144, fontWeight:900, fontFamily:"var(--font-archivo)",
               color: monthAccent[idx % 3], opacity:0.06, lineHeight:1, userSelect:"none",
               pointerEvents:"none"
             }}>
@@ -411,24 +411,24 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
               <div style={{
                 width:40, height:40, background: monthAccent[idx % 3],
                 display:"flex", alignItems:"center", justifyContent:"center",
-                fontWeight:900, fontFamily:"var(--font-archivo)", fontSize:18, color:"#000", flexShrink:0
+                fontWeight:900, fontFamily:"var(--font-archivo)", fontSize:22, color:"#000", flexShrink:0
               }}>
                 {m.month}
               </div>
               <div>
-                <div style={{ fontSize:11, fontFamily:"var(--font-mono)", color:"#9A9AA8",
+                <div style={{ fontSize:13, fontFamily:"var(--font-mono)", color:"#9A9AA8",
                               letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:2 }}>
                   Month {m.month}
                 </div>
-                <div style={{ fontWeight:700, fontSize:16, color:"#F4F4F1" }}>{m.theme}</div>
+                <div style={{ fontWeight:700, fontSize:19, color:"#F4F4F1" }}>{m.theme}</div>
               </div>
             </div>
             {/* Milestones */}
             <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
               {m.milestones.map((ms, i) => (
                 <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start" }}>
-                  <span style={{ color: monthAccent[idx % 3], flexShrink:0, marginTop:3, fontSize:12 }}>◉</span>
-                  <span style={{ color:"#C4C4CC", fontSize:16, lineHeight:1.5 }}>{toStr(ms)}</span>
+                  <span style={{ color: monthAccent[idx % 3], flexShrink:0, marginTop:3, fontSize:14 }}>◉</span>
+                  <span style={{ color:"#C4C4CC", fontSize:19, lineHeight:1.5 }}>{toStr(ms)}</span>
                 </div>
               ))}
             </div>
@@ -475,22 +475,22 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
                 <div key={idx} style={{ marginBottom:16, border:`1px solid #2A2A2E`, background:"#111114", overflow:"hidden" }}>
                   {/* Platform header bar */}
                   <div style={{ background: pc, padding:"12px 20px", display:"flex", alignItems:"center", gap:10 }}>
-                    <span style={{ fontSize:18, color:"#fff" }}>{platformIcon(p.platform)}</span>
+                    <span style={{ fontSize:22, color:"#fff" }}>{platformIcon(p.platform)}</span>
                     <div>
-                      <div style={{ fontSize:15, fontWeight:800, color:"#fff", fontFamily:"var(--font-archivo)" }}>
+                      <div style={{ fontSize:18, fontWeight:800, color:"#fff", fontFamily:"var(--font-archivo)" }}>
                         {p.platform}
                       </div>
                       {p.handle && (
-                        <div style={{ fontSize:11, color:"rgba(255,255,255,0.75)", fontFamily:"var(--font-mono)" }}>
+                        <div style={{ fontSize:13, color:"rgba(255,255,255,0.75)", fontFamily:"var(--font-mono)" }}>
                           {p.handle}
                         </div>
                       )}
                     </div>
                     <div style={{ marginLeft:"auto", textAlign:"right" }}>
-                      <div style={{ fontSize:11, color:"rgba(255,255,255,0.75)", fontFamily:"var(--font-mono)", letterSpacing:"0.08em" }}>
+                      <div style={{ fontSize:13, color:"rgba(255,255,255,0.75)", fontFamily:"var(--font-mono)", letterSpacing:"0.08em" }}>
                         {p.postingFrequency}
                       </div>
-                      <div style={{ fontSize:11, color:"rgba(255,255,255,0.6)", fontFamily:"var(--font-mono)" }}>
+                      <div style={{ fontSize:13, color:"rgba(255,255,255,0.6)", fontFamily:"var(--font-mono)" }}>
                         Best: {p.bestTimes}
                       </div>
                     </div>
@@ -502,7 +502,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
                         <div style={{ ...label(pc), opacity:0.9 }}>Content Formats</div>
                         <div style={{ display:"flex", flexWrap:"wrap", gap:6 }}>
                           {p.contentTypes.map((ct, i) => (
-                            <span key={i} style={{ fontSize:11, fontFamily:"var(--font-mono)", border:`1px solid ${pc}`,
+                            <span key={i} style={{ fontSize:13, fontFamily:"var(--font-mono)", border:`1px solid ${pc}`,
                                                     color: pc, padding:"3px 10px", opacity:0.9 }}>
                               {ct}
                             </span>
@@ -517,8 +517,8 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
                         <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
                           {p.contentPillars.map((cp, i) => (
                             <div key={i} style={{ display:"flex", gap:8, alignItems:"flex-start" }}>
-                              <span style={{ color: pc, flexShrink:0, fontSize:12 }}>◆</span>
-                              <span style={{ color:"#C4C4CC", fontSize:15, lineHeight:1.5 }}>{cp}</span>
+                              <span style={{ color: pc, flexShrink:0, fontSize:14 }}>◆</span>
+                              <span style={{ color:"#C4C4CC", fontSize:18, lineHeight:1.5 }}>{cp}</span>
                             </div>
                           ))}
                         </div>
@@ -534,11 +534,11 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
                               background:"#0A0A0B", border:"1px solid #1E1E22",
                               padding:"10px 14px", display:"flex", gap:10, alignItems:"flex-start"
                             }}>
-                              <span style={{ color: pc, fontFamily:"var(--font-mono)", fontSize:11,
+                              <span style={{ color: pc, fontFamily:"var(--font-mono)", fontSize:13,
                                              flexShrink:0, marginTop:2 }}>
                                 {String(i+1).padStart(2,"0")}
                               </span>
-                              <span style={{ color:"#C4C4CC", fontSize:15, lineHeight:1.5 }} dir="auto">{pi}</span>
+                              <span style={{ color:"#C4C4CC", fontSize:18, lineHeight:1.5 }} dir="auto">{pi}</span>
                             </div>
                           ))}
                         </div>
@@ -554,7 +554,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
                               background:"rgba(255,255,255,0.03)", border:`1px solid rgba(${pc === "#E1306C" ? "225,48,108" : "100,100,200"},0.2)`,
                               padding:"8px 14px", borderLeft:`3px solid ${pc}`
                             }}>
-                              <span style={{ color:"#F4F4F1", fontSize:15, fontStyle:"italic", lineHeight:1.4 }} dir="auto">"{h}"</span>
+                              <span style={{ color:"#F4F4F1", fontSize:18, fontStyle:"italic", lineHeight:1.4 }} dir="auto">"{h}"</span>
                             </div>
                           ))}
                         </div>
@@ -576,18 +576,18 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
               return (
                 <div key={wk.week} style={{ borderLeft:`3px solid ${wc}`, paddingLeft:16, marginBottom:20 }}>
                   <div style={{ display:"flex", alignItems:"baseline", gap:8, marginBottom:10 }}>
-                    <span style={{ fontSize:11, fontFamily:"var(--font-mono)", fontWeight:700,
+                    <span style={{ fontSize:13, fontFamily:"var(--font-mono)", fontWeight:700,
                                    color: wc, letterSpacing:"0.12em", textTransform:"uppercase" }}>
                       Week {wk.week}
                     </span>
-                    <span style={{ color:"#F4F4F1", fontWeight:600, fontSize:16 }}>{wk.theme}</span>
+                    <span style={{ color:"#F4F4F1", fontWeight:600, fontSize:19 }}>{wk.theme}</span>
                   </div>
                   <div style={{ display:"flex", flexDirection:"column", gap:5 }}>
                     {wk.posts.map((post, j) => (
                       <div key={j} style={{ display:"flex", gap:10, alignItems:"flex-start",
                                             background:"#111114", border:"1px solid #1E1E22", padding:"9px 12px" }}>
-                        <span style={{ color: wc, fontSize:10, marginTop:3, flexShrink:0 }}>▸</span>
-                        <span style={{ color:"#C4C4CC", fontSize:15, lineHeight:1.4 }}>{post}</span>
+                        <span style={{ color: wc, fontSize:12, marginTop:3, flexShrink:0 }}>▸</span>
+                        <span style={{ color:"#C4C4CC", fontSize:18, lineHeight:1.4 }}>{post}</span>
                       </div>
                     ))}
                   </div>
@@ -607,11 +607,11 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
                 return (
                   <div key={i} style={{ background:"#111114", border:"1px solid #2A2A2E", padding:"16px 14px",
                                         borderTop:`3px solid ${fc}` }}>
-                    <div style={{ fontSize:11, fontFamily:"var(--font-mono)", color: fc,
+                    <div style={{ fontSize:13, fontFamily:"var(--font-mono)", color: fc,
                                   letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:8 }}>
                       Formula {String(i+1).padStart(2,"0")}
                     </div>
-                    <p style={{ ...body, fontSize:15 }} dir="auto">{vf}</p>
+                    <p style={{ ...body, fontSize:18 }} dir="auto">{vf}</p>
                   </div>
                 );
               })}
@@ -623,7 +623,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
         {hashtagStrategy && (
           <div style={{ background:"rgba(163,230,53,0.05)", border:"1px solid rgba(163,230,53,0.2)", padding:"16px 20px" }}>
             <div style={{ ...label("var(--n1)"), marginBottom:8 }}># Hashtag Strategy</div>
-            <p style={{ ...body, fontSize:15 }} dir="auto">{hashtagStrategy}</p>
+            <p style={{ ...body, fontSize:18 }} dir="auto">{hashtagStrategy}</p>
           </div>
         )}
       </div>
@@ -689,18 +689,18 @@ export default function SectionCard({ sectionKey, report, locked, onDeepDive, on
           alignItems:"center", justifyContent:"center",
           gap:12, padding:"24px 32px",
         }}>
-          <span style={{ fontSize:22 }}>🔒</span>
+          <span style={{ fontSize:26 }}>🔒</span>
           <div style={{ textAlign:"center" }}>
-            <div className="font-mono" style={{ fontSize:11, letterSpacing:"0.12em",
+            <div className="font-mono" style={{ fontSize:13, letterSpacing:"0.12em",
                            textTransform:"uppercase", color:"var(--n2)", marginBottom:6 }}>
               {SECTION_LABELS[sectionKey]}
             </div>
-            <div style={{ fontSize:15, color:"#9A9AA8", lineHeight:1.5 }}>
+            <div style={{ fontSize:18, color:"#9A9AA8", lineHeight:1.5 }}>
               Unlock this section with a paid plan.
             </div>
           </div>
           <a href="/pricing" className="btn-neon"
-            style={{ padding:"10px 24px", fontSize:12, marginTop:4 }}>
+            style={{ padding:"10px 24px", fontSize:14, marginTop:4 }}>
             Unlock from $19 →
           </a>
         </div>
@@ -716,11 +716,11 @@ export default function SectionCard({ sectionKey, report, locked, onDeepDive, on
         <div style={{ display:"flex", gap:6 }}>
           {onRegenerate && (
             <button className="btn-ghost" onClick={() => onRegenerate(sectionKey)}
-              style={{ padding:"6px 12px", fontSize:11 }}>↻ Regen</button>
+              style={{ padding:"6px 12px", fontSize:13 }}>↻ Regen</button>
           )}
           {onDeepDive && (
             <button className="btn-ghost" onClick={() => onDeepDive(sectionKey)}
-              style={{ padding:"6px 12px", fontSize:11, borderColor:"var(--n2)", color:"var(--n2)" }}>
+              style={{ padding:"6px 12px", fontSize:13, borderColor:"var(--n2)", color:"var(--n2)" }}>
               ⚡ Deep Dive
             </button>
           )}

@@ -186,7 +186,7 @@ function WorkspaceContent() {
           aria-label={sidebarOpen ? "Close workspace menu" : "Open workspace menu"}
           style={{ display:"none", position:"fixed", bottom:24, right:24, zIndex:50,
                    background:"var(--n2)", color:"#000", border:"none", padding:"12px 18px",
-                   fontSize:12, letterSpacing:"0.1em", cursor:"pointer" }}
+                   fontSize:14, letterSpacing:"0.1em", cursor:"pointer" }}
           data-ws-toggle>
           {sidebarOpen ? "✕ Close" : "☰ Sections"}
         </button>
@@ -208,16 +208,16 @@ function WorkspaceContent() {
         }}>
           {/* Report title + tier badge */}
           <div style={{ padding:"20px 16px 16px", borderBottom:"1px solid #1E1E22" }}>
-            <div style={{ fontSize:10, fontFamily:"var(--font-mono)", letterSpacing:"0.12em",
+            <div style={{ fontSize:12, fontFamily:"var(--font-mono)", letterSpacing:"0.12em",
                           color:"#5C5C63", textTransform:"uppercase", marginBottom:6 }}>
               Workspace
             </div>
-            <div style={{ fontSize:15, fontWeight:700, color:"#F4F4F1", lineHeight:1.4,
+            <div style={{ fontSize:18, fontWeight:700, color:"#F4F4F1", lineHeight:1.4,
                           display:"-webkit-box", WebkitLineClamp:2, WebkitBoxOrient:"vertical",
                           overflow:"hidden", marginBottom:10 }}>
               {stored.input}
             </div>
-            <span style={{ fontSize:10, fontFamily:"var(--font-mono)", fontWeight:700,
+            <span style={{ fontSize:12, fontFamily:"var(--font-mono)", fontWeight:700,
                            letterSpacing:"0.1em", textTransform:"uppercase",
                            color:"#000", background:"var(--n2)", padding:"3px 8px" }}>
               {tier} · editing
@@ -228,8 +228,8 @@ function WorkspaceContent() {
           <div style={{ padding:"10px 16px", borderBottom:"1px solid #1E1E22",
                         background:"#0D0D10" }}>
             <div style={{ display:"flex", gap:8, alignItems:"flex-start" }}>
-              <span style={{ fontSize:12, color:"#3C3C42", flexShrink:0, marginTop:1 }}>🔒</span>
-              <p style={{ margin:0, fontSize:10, fontFamily:"var(--font-mono)",
+              <span style={{ fontSize:14, color:"#3C3C42", flexShrink:0, marginTop:1 }}>🔒</span>
+              <p style={{ margin:0, fontSize:12, fontFamily:"var(--font-mono)",
                           color:"#7A7A88", letterSpacing:"0.03em", lineHeight:1.6 }}>
                 Your reports are stored <span style={{ color:"#B0B0BC" }}>only in this browser</span> — we collect no data.
                 History is lost if you clear your browser, switch browsers, or use a different device.
@@ -246,11 +246,11 @@ function WorkspaceContent() {
                 style={{ width:"100%", background:"transparent", border:"none", cursor:"pointer",
                          padding:"10px 16px", display:"flex", alignItems:"center",
                          justifyContent:"space-between", gap:8 }}>
-                <span style={{ fontSize:9, fontFamily:"var(--font-mono)", fontWeight:700,
+                <span style={{ fontSize:11, fontFamily:"var(--font-mono)", fontWeight:700,
                                letterSpacing:"0.14em", textTransform:"uppercase", color:"#5C5C63" }}>
                   Recent Reports
                 </span>
-                <span style={{ fontSize:10, color:"#3C3C42" }}>{historyOpen ? "▲" : "▼"}</span>
+                <span style={{ fontSize:12, color:"#3C3C42" }}>{historyOpen ? "▲" : "▼"}</span>
               </button>
               {historyOpen && (
                 <div style={{ maxHeight:200, overflowY:"auto", paddingBottom:8 }}>
@@ -262,13 +262,13 @@ function WorkspaceContent() {
                         style={{ width:"100%", textAlign:"left", border:"none", cursor:"pointer",
                                  padding:"8px 16px", background: isCurrent ? "#16161A" : "transparent",
                                  borderLeft: isCurrent ? "2px solid #5C5C63" : "2px solid transparent" }}>
-                        <div style={{ fontSize:11, fontWeight:600, color: isCurrent ? "#F4F4F1" : "#9A9AA8",
+                        <div style={{ fontSize:13, fontWeight:600, color: isCurrent ? "#F4F4F1" : "#9A9AA8",
                                       lineHeight:1.3, fontFamily:"var(--font-archivo), sans-serif",
                                       display:"-webkit-box", WebkitLineClamp:2,
                                       WebkitBoxOrient:"vertical", overflow:"hidden" }}>
                           {r.input}
                         </div>
-                        <div style={{ fontSize:9, fontFamily:"var(--font-mono)", color:"#3C3C42",
+                        <div style={{ fontSize:11, fontFamily:"var(--font-mono)", color:"#3C3C42",
                                       letterSpacing:"0.06em", marginTop:3 }}>
                           {new Date(r.createdAt).toLocaleDateString(undefined, { month:"short", day:"numeric", year:"numeric" })}
                         </div>
@@ -284,7 +284,7 @@ function WorkspaceContent() {
           <nav style={{ flex:1, overflowY:"auto", padding:"8px 0" }}>
             {GROUPS.map(group => (
               <div key={group.label} style={{ marginBottom:4 }}>
-                <div style={{ padding:"10px 16px 6px", fontSize:9, fontFamily:"var(--font-mono)",
+                <div style={{ padding:"10px 16px 6px", fontSize:11, fontFamily:"var(--font-mono)",
                               fontWeight:700, letterSpacing:"0.14em", textTransform:"uppercase",
                               color: group.color }}>
                   {group.label}
@@ -298,14 +298,14 @@ function WorkspaceContent() {
                                background: isActive ? "#16161A" : "transparent",
                                borderLeft: isActive ? `2px solid ${group.color}` : "2px solid transparent",
                                transition:"background 0.1s" }}>
-                      <span style={{ fontSize:9, fontFamily:"var(--font-mono)",
+                      <span style={{ fontSize:11, fontFamily:"var(--font-mono)",
                                      color: isActive ? group.color : "#3C3C42", flexShrink:0, width:18 }}>
                         {sectionNum(key)}
                       </span>
-                      <span style={{ fontSize:13, color: isActive ? group.color : "#5C5C63", flexShrink:0 }}>
+                      <span style={{ fontSize:16, color: isActive ? group.color : "#5C5C63", flexShrink:0 }}>
                         {ICONS[key]}
                       </span>
-                      <span style={{ fontSize:12, fontFamily:"var(--font-mono)", letterSpacing:"0.04em",
+                      <span style={{ fontSize:14, fontFamily:"var(--font-mono)", letterSpacing:"0.04em",
                                      color: isActive ? "#F4F4F1" : "#9A9AA8", lineHeight:1.3 }}>
                         {SECTION_LABELS[key]}
                       </span>
@@ -318,7 +318,7 @@ function WorkspaceContent() {
 
           {/* ── Export panel — pinned to sidebar bottom ── */}
           <div style={{ borderTop:"1px solid #1E1E22", padding:"12px 16px", background:"#0A0A0B" }}>
-            <div style={{ fontSize:9, fontFamily:"var(--font-mono)", fontWeight:700,
+            <div style={{ fontSize:11, fontFamily:"var(--font-mono)", fontWeight:700,
                           letterSpacing:"0.14em", textTransform:"uppercase",
                           color:"#3C3C42", marginBottom:10 }}>
               Export
@@ -329,7 +329,7 @@ function WorkspaceContent() {
                          border:"1px solid #2A2A2E", color: copied ? "var(--n3)" : "#9A9AA8",
                          borderColor: copied ? "var(--n3)" : "#2A2A2E",
                          padding:"8px 12px", cursor:"pointer",
-                         fontFamily:"var(--font-mono)", fontSize:11,
+                         fontFamily:"var(--font-mono)", fontSize:13,
                          letterSpacing:"0.06em", display:"flex", alignItems:"center", gap:8 }}>
                 <span style={{ flexShrink:0 }}>⎘</span>
                 {copied ? "Copied to clipboard!" : "Copy plain text"}
@@ -338,7 +338,7 @@ function WorkspaceContent() {
                 style={{ width:"100%", textAlign:"left", background:"transparent",
                          border:"1px solid #2A2A2E", color:"#9A9AA8",
                          padding:"8px 12px", cursor:"pointer",
-                         fontFamily:"var(--font-mono)", fontSize:11,
+                         fontFamily:"var(--font-mono)", fontSize:13,
                          letterSpacing:"0.06em", display:"flex", alignItems:"center", gap:8,
                          textDecoration:"none" }}>
                 <span style={{ flexShrink:0 }}>⎙</span>
@@ -347,7 +347,7 @@ function WorkspaceContent() {
               <a href="/" style={{ width:"100%", textAlign:"left", background:"transparent",
                          border:"1px solid #2A2A2E", color:"#9A9AA8",
                          padding:"8px 12px", cursor:"pointer",
-                         fontFamily:"var(--font-mono)", fontSize:11,
+                         fontFamily:"var(--font-mono)", fontSize:13,
                          letterSpacing:"0.06em", display:"flex", alignItems:"center", gap:8,
                          textDecoration:"none" }}>
                 <span style={{ flexShrink:0 }}>⊕</span>
@@ -360,7 +360,7 @@ function WorkspaceContent() {
                          color: billingError ? "var(--n2)" : "#5C5C63",
                          borderColor: billingError ? "var(--n2)" : "#1E1E22",
                          padding:"8px 12px", cursor: billingLoading ? "wait" : "pointer",
-                         fontFamily:"var(--font-mono)", fontSize:11,
+                         fontFamily:"var(--font-mono)", fontSize:13,
                          letterSpacing:"0.06em", display:"flex", alignItems:"center", gap:8 }}>
                 <span style={{ flexShrink:0 }}>⚙</span>
                 {billingLoading ? "Opening…" : billingError ? "⚠ Billing error" : "Billing"}
@@ -384,12 +384,12 @@ function WorkspaceContent() {
           }}>
             {/* Breadcrumb — left */}
             <div style={{ display:"flex", alignItems:"center", gap:8, flexShrink:0 }}>
-              <span style={{ fontSize:10, fontFamily:"var(--font-mono)", color:activeGroup.color,
+              <span style={{ fontSize:12, fontFamily:"var(--font-mono)", color:activeGroup.color,
                              letterSpacing:"0.12em", textTransform:"uppercase" }}>
                 {activeGroup.label}
               </span>
               <span style={{ color:"#2A2A2E" }}>›</span>
-              <span style={{ fontSize:11, fontFamily:"var(--font-mono)", color:"#F4F4F1",
+              <span style={{ fontSize:13, fontFamily:"var(--font-mono)", color:"#F4F4F1",
                              letterSpacing:"0.06em", whiteSpace:"nowrap" }}>
                 {SECTION_LABELS[active]}
               </span>
@@ -399,20 +399,20 @@ function WorkspaceContent() {
             <div style={{ display:"flex", alignItems:"center", gap:4, flexShrink:0 }}>
               {canDeepDive ? (
                 <button onClick={() => setDeepDiveKey(active)} className="btn-ghost"
-                  style={{ padding:"5px 10px", fontSize:10, letterSpacing:"0.08em", whiteSpace:"nowrap",
+                  style={{ padding:"5px 10px", fontSize:12, letterSpacing:"0.08em", whiteSpace:"nowrap",
                            color:"var(--n2)", borderColor:"var(--n2)" }}>
                   ⚡ Deep Dive
                 </button>
               ) : isPaid && (
                 <a href="/pricing" className="btn-ghost"
-                  style={{ padding:"5px 10px", fontSize:10, letterSpacing:"0.08em", whiteSpace:"nowrap",
+                  style={{ padding:"5px 10px", fontSize:12, letterSpacing:"0.08em", whiteSpace:"nowrap",
                            color:"#5C5C63", borderColor:"#3C3C42", textDecoration:"none" }}
                   title="Deep Dive is available on Pro and Agency plans">
                   ⚡ Deep Dive ↑
                 </a>
               )}
               {/* Counter */}
-              <span style={{ fontSize:10, fontFamily:"var(--font-mono)", color:"#5C5C63",
+              <span style={{ fontSize:12, fontFamily:"var(--font-mono)", color:"#5C5C63",
                              letterSpacing:"0.1em", marginLeft:8, flexShrink:0 }}>
                 {sectionNum(active)} / {ALL_KEYS.length}
               </span>
@@ -424,7 +424,7 @@ function WorkspaceContent() {
 
             {/* Big section title */}
             <div style={{ marginBottom:32, paddingBottom:24, borderBottom:`2px solid ${activeGroup.color}` }}>
-              <div style={{ fontSize:11, fontFamily:"var(--font-mono)", letterSpacing:"0.14em",
+              <div style={{ fontSize:13, fontFamily:"var(--font-mono)", letterSpacing:"0.14em",
                             textTransform:"uppercase", color: activeGroup.color, marginBottom:10 }}>
                 {sectionNum(active)} — {activeGroup.label}
               </div>
@@ -434,7 +434,7 @@ function WorkspaceContent() {
                 {SECTION_LABELS[active]}
               </h2>
               {SECTION_SUBTITLES[active] && (
-                <p style={{ margin:"12px 0 0", fontSize:13, color:"#9A9AA8",
+                <p style={{ margin:"12px 0 0", fontSize:16, color:"#9A9AA8",
                             lineHeight:1.5, fontFamily:"var(--font-grotesk), sans-serif" }}>
                   {SECTION_SUBTITLES[active]}
                 </p>
@@ -457,18 +457,18 @@ function WorkspaceContent() {
             }}>
               <div style={{ flex:"1 1 220px" }}>
                 <p className="font-mono" style={{
-                  fontSize:9, letterSpacing:"0.14em", textTransform:"uppercase",
+                  fontSize:11, letterSpacing:"0.14em", textTransform:"uppercase",
                   color:"var(--n1)", margin:"0 0 6px",
                 }}>
                   📬 Save your playbook
                 </p>
-                <p style={{ margin:0, fontSize:13, color:"#C4C4CC", lineHeight:1.5 }}>
+                <p style={{ margin:0, fontSize:16, color:"#C4C4CC", lineHeight:1.5 }}>
                   {emailSent
                     ? "Report sent! Check your inbox."
                     : "Get a copy of this report emailed to you."}
                 </p>
                 {emailError && (
-                  <p style={{ margin:"6px 0 0", fontSize:12, color:"var(--n2)" }}>{emailError}</p>
+                  <p style={{ margin:"6px 0 0", fontSize:14, color:"var(--n2)" }}>{emailError}</p>
                 )}
               </div>
 
@@ -484,7 +484,7 @@ function WorkspaceContent() {
                       flex:1, minWidth:0,
                       background:"#0A0A0B", border:"1px solid #2A2A2E",
                       color:"#F4F4F1", padding:"10px 14px",
-                      fontFamily:"var(--font-mono), monospace", fontSize:12,
+                      fontFamily:"var(--font-mono), monospace", fontSize:14,
                       letterSpacing:"0.04em", outline:"none",
                     }}
                   />
@@ -495,7 +495,7 @@ function WorkspaceContent() {
                       background:"var(--n1)", color:"#000", border:"none",
                       padding:"10px 18px", cursor: emailLoading ? "wait" : "pointer",
                       fontFamily:"var(--font-archivo), sans-serif",
-                      fontSize:11, fontWeight:800, letterSpacing:"0.08em",
+                      fontSize:13, fontWeight:800, letterSpacing:"0.08em",
                       textTransform:"uppercase", flexShrink:0,
                       opacity: emailLoading ? 0.7 : 1,
                     }}
@@ -508,7 +508,7 @@ function WorkspaceContent() {
               {emailSent && (
                 <div style={{
                   display:"inline-flex", alignItems:"center", gap:8,
-                  fontFamily:"var(--font-mono)", fontSize:11, color:"var(--n3)",
+                  fontFamily:"var(--font-mono)", fontSize:13, color:"var(--n3)",
                   letterSpacing:"0.08em", textTransform:"uppercase",
                 }}>
                   <span>✓</span> Sent
@@ -525,12 +525,12 @@ function WorkspaceContent() {
                 return (
                   <>
                     <button onClick={() => prev && setActive(prev)} disabled={!prev}
-                      className="btn-ghost" style={{ padding:"10px 18px", fontSize:12,
+                      className="btn-ghost" style={{ padding:"10px 18px", fontSize:14,
                       opacity: prev ? 1 : 0.2, cursor: prev ? "pointer" : "default" }}>
                       ← {prev ? SECTION_LABELS[prev] : ""}
                     </button>
                     <button onClick={() => next && setActive(next)} disabled={!next}
-                      className="btn-ghost" style={{ padding:"10px 18px", fontSize:12,
+                      className="btn-ghost" style={{ padding:"10px 18px", fontSize:14,
                       opacity: next ? 1 : 0.2, cursor: next ? "pointer" : "default",
                       borderColor: next ? activeGroup.color : undefined,
                       color: next ? activeGroup.color : undefined }}>
@@ -573,14 +573,14 @@ function WorkspaceContent() {
         <div style={{ fontFamily:"system-ui, sans-serif", padding:"24px 32px", maxWidth:900, margin:"0 auto" }}>
           {/* Cover */}
           <div style={{ borderBottom:"3px solid #000", paddingBottom:16, marginBottom:32 }}>
-            <div style={{ fontSize:11, letterSpacing:"0.12em", textTransform:"uppercase",
+            <div style={{ fontSize:13, letterSpacing:"0.12em", textTransform:"uppercase",
                           color:"#666", marginBottom:6, fontFamily:"monospace" }}>
               Conciply Growth Playbook
             </div>
-            <h1 style={{ fontSize:28, fontWeight:900, margin:"0 0 8px", lineHeight:1.1 }}>
+            <h1 style={{ fontSize:34, fontWeight:900, margin:"0 0 8px", lineHeight:1.1 }}>
               {stored.input}
             </h1>
-            <div style={{ fontSize:12, color:"#666", fontFamily:"monospace" }}>
+            <div style={{ fontSize:14, color:"#666", fontFamily:"monospace" }}>
               {tier?.toUpperCase()} PLAN · Generated {new Date(stored.createdAt).toLocaleDateString("en-GB", { day:"numeric", month:"long", year:"numeric" })} · conciply.com
             </div>
           </div>
@@ -592,11 +592,11 @@ function WorkspaceContent() {
               <div key={key} style={{ marginBottom:40, pageBreakInside:"avoid" }}>
                 <div style={{ display:"flex", alignItems:"baseline", gap:10, borderBottom:"1px solid #ddd",
                               paddingBottom:8, marginBottom:16 }}>
-                  <span style={{ fontSize:10, fontFamily:"monospace", color:"#999",
+                  <span style={{ fontSize:12, fontFamily:"monospace", color:"#999",
                                  letterSpacing:"0.1em", textTransform:"uppercase" }}>
                     {String(i+1).padStart(2,"0")} — {group.label}
                   </span>
-                  <h2 style={{ fontSize:18, fontWeight:800, margin:0, textTransform:"uppercase",
+                  <h2 style={{ fontSize:22, fontWeight:800, margin:0, textTransform:"uppercase",
                                letterSpacing:"-0.01em" }}>
                     {SECTION_LABELS[key]}
                   </h2>
@@ -607,7 +607,7 @@ function WorkspaceContent() {
           })}
 
           <div style={{ borderTop:"2px solid #000", paddingTop:12, marginTop:40,
-                        fontSize:11, color:"#999", fontFamily:"monospace", textAlign:"center" }}>
+                        fontSize:13, color:"#999", fontFamily:"monospace", textAlign:"center" }}>
             Powered by Conciply · conciply.com · AI-generated for strategic inspiration
           </div>
         </div>
