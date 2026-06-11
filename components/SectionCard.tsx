@@ -583,13 +583,13 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>, mobile?: 
 
                     {/* Content pillars */}
                     {p.contentPillars?.length > 0 && (
-                      <div style={{ marginBottom:12 }}>
-                        <div style={{ ...l$(pc), marginBottom:6 }}>Content Pillars</div>
-                        <div style={{ display:"flex", flexDirection:"column", gap: mobile ? 5 : 6 }}>
+                      <div style={{ marginBottom:14 }}>
+                        <div style={{ ...l$(pc), marginBottom:8 }}>Content Pillars</div>
+                        <div style={{ display:"flex", flexDirection:"column", gap: mobile ? 8 : 8 }}>
                           {p.contentPillars.map((cp, i) => (
-                            <div key={i} style={{ display:"flex", gap:8, alignItems:"flex-start" }}>
-                              <span style={{ color: pc, flexShrink:0, fontSize: mobile ? 10 : 13, marginTop:2 }}>◆</span>
-                              <span style={{ color:"#C4C4CC", fontSize: mobile ? 13 : 13, lineHeight:1.55 }}>{cp}</span>
+                            <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start" }}>
+                              <span style={{ color: pc, flexShrink:0, fontSize: mobile ? 12 : 14, marginTop:3 }}>◆</span>
+                              <span style={{ ...b$, lineHeight:1.55 }}>{cp}</span>
                             </div>
                           ))}
                         </div>
@@ -598,22 +598,22 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>, mobile?: 
 
                     {/* Post ideas */}
                     {p.postIdeas?.length > 0 && (
-                      <div style={{ marginBottom:12 }}>
-                        <div style={{ ...l$(pc), marginBottom:6 }}>Post Ideas</div>
-                        <div style={{ display:"flex", flexDirection:"column", gap: mobile ? 4 : 6 }}>
+                      <div style={{ marginBottom:14 }}>
+                        <div style={{ ...l$(pc), marginBottom:8 }}>Post Ideas</div>
+                        <div style={{ display:"flex", flexDirection:"column", gap: mobile ? 6 : 8 }}>
                           {p.postIdeas.map((pi, i) => (
                             <div key={i} style={{
                               background:"#0A0A0B", border:"1px solid #1E1E22",
-                              padding: mobile ? "8px 10px" : "10px 14px",
-                              display:"flex", gap:8, alignItems:"flex-start",
+                              padding: mobile ? "10px 12px" : "10px 14px",
+                              display:"flex", gap:10, alignItems:"flex-start",
                             }}>
                               <span style={{
                                 color: pc, fontFamily:"var(--font-mono)",
-                                fontSize: mobile ? 10 : 13, flexShrink:0, marginTop:2,
+                                fontSize: mobile ? 11 : 13, flexShrink:0, marginTop:3, fontWeight:700,
                               }}>
                                 {String(i+1).padStart(2,"0")}
                               </span>
-                              <span style={{ color:"#C4C4CC", fontSize:13, lineHeight:1.55 }} dir="auto">{pi}</span>
+                              <span style={{ ...b$, lineHeight:1.55 }} dir="auto">{pi}</span>
                             </div>
                           ))}
                         </div>
@@ -623,15 +623,15 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>, mobile?: 
                     {/* Hooks */}
                     {p.hooks?.length > 0 && (
                       <div>
-                        <div style={{ ...l$(pc), marginBottom:6 }}>Scroll-Stopping Hooks</div>
-                        <div style={{ display:"flex", flexDirection:"column", gap: mobile ? 4 : 5 }}>
+                        <div style={{ ...l$(pc), marginBottom:8 }}>Scroll-Stopping Hooks</div>
+                        <div style={{ display:"flex", flexDirection:"column", gap: mobile ? 6 : 6 }}>
                           {p.hooks.map((h, i) => (
                             <div key={i} style={{
                               background:"rgba(255,255,255,0.02)",
                               borderLeft:`3px solid ${pc}`,
-                              padding: mobile ? "8px 10px" : "8px 14px",
+                              padding: mobile ? "10px 12px" : "10px 14px",
                             }}>
-                              <span style={{ color:"#E0E0E8", fontSize:13, fontStyle:"italic", lineHeight:1.55, display:"block" }} dir="auto">"{h}"</span>
+                              <span style={{ ...b$, fontStyle:"italic", lineHeight:1.6, display:"block" }} dir="auto">"{h}"</span>
                             </div>
                           ))}
                         </div>
@@ -661,19 +661,19 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>, mobile?: 
                     }}>
                       Week {wk.week}
                     </span>
-                    <span style={{ color:"#F4F4F1", fontWeight:700, fontSize: mobile ? 14 : 15, lineHeight:1.3, display:"block" }}>
+                    <span style={{ color:"#F4F4F1", fontWeight:700, fontSize: mobile ? 16 : 17, lineHeight:1.3, display:"block" }}>
                       {wk.theme}
                     </span>
                   </div>
-                  <div style={{ display:"flex", flexDirection:"column", gap: mobile ? 4 : 5 }}>
+                  <div style={{ display:"flex", flexDirection:"column", gap: mobile ? 6 : 6 }}>
                     {wk.posts.map((post, j) => (
                       <div key={j} style={{
-                        display:"flex", gap:8, alignItems:"flex-start",
+                        display:"flex", gap:10, alignItems:"flex-start",
                         background:"#111114", border:"1px solid #1E1E22",
-                        padding: mobile ? "8px 10px" : "9px 12px",
+                        padding: mobile ? "10px 12px" : "10px 12px",
                       }}>
-                        <span style={{ color: wc, fontSize: mobile ? 10 : 13, marginTop: mobile ? 2 : 3, flexShrink:0 }}>▸</span>
-                        <span style={{ color:"#C4C4CC", fontSize:13, lineHeight:1.5 }}>{post}</span>
+                        <span style={{ color: wc, fontSize: mobile ? 12 : 14, marginTop: mobile ? 3 : 3, flexShrink:0 }}>▸</span>
+                        <span style={{ ...b$, lineHeight:1.55 }}>{post}</span>
                       </div>
                     ))}
                   </div>
@@ -702,7 +702,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>, mobile?: 
                     }}>
                       Formula {String(i+1).padStart(2,"0")}
                     </div>
-                    <p style={{ ...b$, fontSize:13 }} dir="auto">{vf}</p>
+                    <p style={{ ...b$, lineHeight:1.6 }} dir="auto">{vf}</p>
                   </div>
                 );
               })}
@@ -717,7 +717,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>, mobile?: 
             padding: mobile ? "12px" : "16px 20px",
           }}>
             <div style={{ ...l$("var(--n1)"), marginBottom:8 }}># Hashtag Strategy</div>
-            <p style={{ ...b$, fontSize:13 }} dir="auto">{hashtagStrategy}</p>
+            <p style={{ ...b$, lineHeight:1.6 }} dir="auto">{hashtagStrategy}</p>
           </div>
         )}
       </div>
