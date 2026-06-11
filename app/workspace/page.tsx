@@ -191,20 +191,6 @@ function WorkspaceContent() {
             </span>
           </div>
 
-          {/* Privacy notice */}
-          <div style={{ padding:"10px 16px", borderBottom:"1px solid #1E1E22",
-                        background:"#0D0D10" }}>
-            <div style={{ display:"flex", gap:8, alignItems:"flex-start" }}>
-              <span style={{ fontSize:14, color:"#3C3C42", flexShrink:0, marginTop:1 }}>🔒</span>
-              <p style={{ margin:0, fontSize:12, fontFamily:"var(--font-mono)",
-                          color:"#7A7A88", letterSpacing:"0.03em", lineHeight:1.6 }}>
-                Your reports are stored <span style={{ color:"#B0B0BC" }}>only in this browser</span> — we collect no data.
-                History is lost if you clear your browser, switch browsers, or use a different device.
-                Up to 20 reports saved locally.
-              </p>
-            </div>
-          </div>
-
           {/* Report history — collapsible */}
           {allReports.length > 1 && (
             <div style={{ borderBottom:"1px solid #1E1E22" }}>
@@ -439,6 +425,17 @@ function WorkspaceContent() {
                   {billingLoading ? "Opening…" : billingError ? "⚠ Billing error" : "Billing"}
                 </button>
               </div>
+            </div>
+
+            {/* Privacy notice */}
+            <div style={{ marginTop:20, display:"flex", gap:8, alignItems:"flex-start" }}>
+              <span style={{ fontSize:13, color:"#3C3C42", flexShrink:0, marginTop:1 }}>🔒</span>
+              <p style={{ margin:0, fontSize:12, fontFamily:"var(--font-mono)",
+                          color:"#5C5C63", letterSpacing:"0.03em", lineHeight:1.6 }}>
+                Your reports are stored <span style={{ color:"#9A9AA8" }}>only in this browser</span> — we collect no data.
+                History is lost if you clear your browser, switch browsers, or use a different device.
+                Up to 20 reports saved locally.
+              </p>
             </div>
 
           </div>
