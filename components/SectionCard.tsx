@@ -35,7 +35,7 @@ function toStr(val: unknown): string {
 const card = { border:"1px solid #1E1E22", padding:"14px 16px", marginBottom:4 } as const;
 const label = (color = "#9A9AA8") => ({ marginBottom:6, color, fontSize:17, fontFamily:"var(--font-mono)", letterSpacing:"0.1em", textTransform:"uppercase" as const });
 // dir:"auto" applied via attribute (not style) — set on elements individually
-const body = { color:"#C4C4CC", fontSize:22, lineHeight:1.6, margin:0 } as const;
+const body = { color:"#C4C4CC", fontSize:16, lineHeight:1.6, margin:0 } as const;
 const bodyProps = { style:body, dir:"auto" as const };
 const pill = (color: string) => ({
   display:"inline-block", padding:"2px 8px", fontSize:17,
@@ -129,7 +129,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
             {adCopy.map((line, i) => (
               <div key={i} style={{ ...card, display:"flex", alignItems:"center", gap:12 }}>
                 <span style={{ color:"var(--n2)", fontFamily:"var(--font-mono)", fontSize:16 }}>{String(i+1).padStart(2,"0")}</span>
-                <span style={{ color:"#F4F4F1", fontSize:22 }}>{line}</span>
+                <span style={{ color:"#F4F4F1", fontSize:16 }}>{line}</span>
               </div>
             ))}
           </div>
@@ -170,7 +170,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
             {discoveryQuestions.map((q, i) => (
               <div key={i} style={{ ...card, display:"flex", gap:12 }}>
                 <span style={{ color:"var(--n1)", fontFamily:"var(--font-mono)", fontSize:16, flexShrink:0 }}>Q{i+1}</span>
-                <span style={{ color:"#C4C4CC", fontSize:22 }}>{q}</span>
+                <span style={{ color:"#C4C4CC", fontSize:16 }}>{q}</span>
               </div>
             ))}
           </div>
@@ -234,7 +234,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
                   borderBottom: i < targets.length - 1 ? "1px solid #1E1E22" : "none"
                 }}>
                   <span style={{ color:"var(--n3)", marginTop:2, flexShrink:0, fontSize:13 }}>◉</span>
-                  <span style={{ color:"#C4C4CC", fontSize:22, lineHeight:1.5 }}>{toStr(t)}</span>
+                  <span style={{ color:"#C4C4CC", fontSize:16, lineHeight:1.5 }}>{toStr(t)}</span>
                 </div>
               ))}
             </div>
@@ -420,7 +420,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
                               letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:2 }}>
                   Month {m.month}
                 </div>
-                <div style={{ fontWeight:700, fontSize:22, color:"#F4F4F1" }}>{m.theme}</div>
+                <div style={{ fontWeight:700, fontSize:16, color:"#F4F4F1" }}>{m.theme}</div>
               </div>
             </div>
             {/* Milestones */}
@@ -428,7 +428,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
               {m.milestones.map((ms, i) => (
                 <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start" }}>
                   <span style={{ color: monthAccent[idx % 3], flexShrink:0, marginTop:3, fontSize:13 }}>◉</span>
-                  <span style={{ color:"#C4C4CC", fontSize:22, lineHeight:1.5 }}>{toStr(ms)}</span>
+                  <span style={{ color:"#C4C4CC", fontSize:16, lineHeight:1.5 }}>{toStr(ms)}</span>
                 </div>
               ))}
             </div>
@@ -580,7 +580,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
                                    color: wc, letterSpacing:"0.12em", textTransform:"uppercase" }}>
                       Week {wk.week}
                     </span>
-                    <span style={{ color:"#F4F4F1", fontWeight:600, fontSize:22 }}>{wk.theme}</span>
+                    <span style={{ color:"#F4F4F1", fontWeight:600, fontSize:16 }}>{wk.theme}</span>
                   </div>
                   <div style={{ display:"flex", flexDirection:"column", gap:5 }}>
                     {wk.posts.map((post, j) => (
