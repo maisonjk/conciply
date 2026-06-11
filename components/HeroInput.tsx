@@ -425,7 +425,7 @@ export default function HeroInput() {
 
         {/* Error */}
         {status === "error" && (
-          <div className="font-mono" style={{ marginTop:20, fontSize:20, color:"var(--n2)",
+          <div className="font-mono" style={{ marginTop:20, fontSize:13, color:"var(--n2)",
                                               borderLeft:"3px solid var(--n2)", paddingLeft:12 }}>
             {error}
           </div>
@@ -449,7 +449,7 @@ export default function HeroInput() {
                     Your playbook is ready
                   </span>
                 </div>
-                <p style={{ margin:0, fontSize:20, color:"#C4C4CC", lineHeight:1.5,
+                <p style={{ margin:0, fontSize:13, color:"#C4C4CC", lineHeight:1.5,
                             fontFamily:"var(--font-grotesk), sans-serif" }}>
                   {doneSections.length} sections generated. Open your report to read, copy, and print the full playbook.
                 </p>
@@ -675,7 +675,7 @@ export default function HeroInput() {
       </p>
 
       {status === "error" && (
-        <div className="font-mono" style={{ marginTop:24, fontSize:20, color:"var(--n2)",
+        <div className="font-mono" style={{ marginTop:24, fontSize:13, color:"var(--n2)",
                                             borderLeft:"3px solid var(--n2)", paddingLeft:12 }}>
           {error}
         </div>
@@ -699,7 +699,7 @@ export default function HeroInput() {
                                                       fontWeight:700, marginBottom:4 }}>
                     Your playbook is ready — {doneSections.length} sections generated
                   </div>
-                  <div style={{ fontSize:20, color:"#9A9AA8", fontFamily:"var(--font-grotesk), sans-serif", lineHeight:1.4 }}>
+                  <div style={{ fontSize:13, color:"#9A9AA8", fontFamily:"var(--font-grotesk), sans-serif", lineHeight:1.4 }}>
                     Open your full report to read every section, copy the content, and print or save as PDF.
                   </div>
                 </div>
@@ -710,7 +710,7 @@ export default function HeroInput() {
                   background:"var(--n3)", color:"#000", border:"none",
                   padding:"14px 28px", textDecoration:"none", flexShrink:0,
                   fontFamily:"var(--font-archivo), sans-serif",
-                  fontSize:20, fontWeight:900, letterSpacing:"0.04em",
+                  fontSize:13, fontWeight:900, letterSpacing:"0.04em",
                   textTransform:"uppercase",
                   boxShadow:"4px 4px 0 #F4F4F1",
                 }}>
