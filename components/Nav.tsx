@@ -1,19 +1,16 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { getLicensePlan } from "@/lib/workspace";
 
 export default function Nav() {
   const path = usePathname();
-  const navLink = (href: string, label: string) => {
-    const active = path === href;
-    return (
-      <Link href={href} className="font-mono uppercase transition-colors"
-        style={{ fontSize:12, letterSpacing:"0.1em", color: active ? "#000" : "#C4C4CC",
-                 background: active ? "var(--n3)" : "transparent", padding:"8px 14px" }}>
-        {label}
-      </Link>
-    );
-  };
+  const [plan, setPlan] = useState<string | null>(null);
+
+  useEffect(() => {
+    setPlan(getLicensePlan());
+  }, []);
 
   return (
     <header style={{ position:"sticky", top:0, zIndex:40,
@@ -29,7 +26,28 @@ export default function Nav() {
           </span>
           <span className="display" style={{ fontSize:22 }}>Conciply</span>
         </Link>
-        <nav style={{ display:"flex", gap:2, alignItems:"center" }}>
+        <nav style={{ display:"flex", gap:8, alignItems:"center" }}>
+          {plan && path !== "/workspace" && (
+            <Link href="/workspace"
+              style={{
+                display:"inline-flex", alignItems:"center", gap:6,
+                background:"var(--n3)", color:"#000",
+                fontFamily:"var(--font-archivo), sans-serif",
+                fontWeight:800, fontSize:11, letterSpacing:"0.06em",
+                textTransform:"uppercase", padding:"8px 16px",
+                textDecoration:"none",
+              }}>
+              ▣ My Dashboard
+            </Link>
+          )}
+          {!plan && path !== "/unlock" && (
+            <Link href="/unlock"
+              className="font-mono"
+              style={{ fontSize:11, letterSpacing:"0.1em", color:"#C4C4CC",
+                       textTransform:"uppercase", padding:"8px 14px" }}>
+              Unlock →
+            </Link>
+          )}
         </nav>
       </div>
     </header>
