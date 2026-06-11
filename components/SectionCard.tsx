@@ -507,9 +507,7 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>, mobile?: 
       if (lp.includes("pinterest")) return "✦";
       return "◈";
     };
-    const innerPad = mobile ? "12px" : "16px 20px";
-    const chipSize = mobile ? 10 : 13;
-    const metaSize = mobile ? 11 : 13;
+    const chipSize = mobile ? 11 : 13;
 
     return (
       <div>
@@ -520,51 +518,49 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>, mobile?: 
             {platforms.map((p, idx) => {
               const pc = platformColor(p.platform);
               return (
-                <div key={idx} style={{ marginBottom:mobile ? 12 : 16, border:`1px solid #2A2A2E`, background:"#111114", overflow:"hidden" }}>
+                <div key={idx} style={{ marginBottom:mobile ? 16 : 20, border:`1px solid #2A2A2E`, background:"#111114", overflow:"hidden" }}>
 
                   {/* ── Platform header ── */}
-                  <div style={{ background: pc, padding: mobile ? "10px 12px" : "12px 20px" }}>
-                    {/* Row 1: icon + platform name */}
-                    <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom: mobile && (p.postingFrequency || p.bestTimes) ? 6 : 0 }}>
-                      <span style={{ fontSize: mobile ? 13 : n$, color:"#fff", flexShrink:0 }}>{platformIcon(p.platform)}</span>
-                      <div style={{ minWidth:0 }}>
-                        <div style={{ fontSize: mobile ? 13 : 14, fontWeight:800, color:"#fff",
-                                      fontFamily:"var(--font-archivo)", lineHeight:1.2 }}>
-                          {p.platform}
-                        </div>
-                        {p.handle && (
-                          <div style={{ fontSize: mobile ? 10 : 12, color:"rgba(255,255,255,0.75)",
-                                        fontFamily:"var(--font-mono)", marginTop:1 }}>
-                            {p.handle}
-                          </div>
-                        )}
+                  <div style={{ background: pc, padding: mobile ? "14px 16px" : "14px 20px" }}>
+                    {/* Icon + name row */}
+                    <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom: (p.postingFrequency || p.bestTimes || p.handle) ? (mobile ? 10 : 8) : 0 }}>
+                      <span style={{ fontSize: mobile ? 20 : 22, color:"#fff", flexShrink:0, lineHeight:1 }}>{platformIcon(p.platform)}</span>
+                      <div style={{ fontSize: mobile ? 16 : 15, fontWeight:900, color:"#fff",
+                                    fontFamily:"var(--font-archivo)", lineHeight:1.2,
+                                    wordBreak:"break-word" as const }}>
+                        {p.platform}
                       </div>
                     </div>
-                    {/* Row 2 (mobile): frequency + best times on their own line */}
-                    {(p.postingFrequency || p.bestTimes) && (
-                      <div style={{
-                        display:"flex", gap: mobile ? 12 : 0,
-                        ...(mobile ? {} : { marginLeft:"auto", textAlign:"right" as const, position:"absolute" as const }),
-                        flexWrap:"wrap",
-                      }}>
-                        {p.postingFrequency && (
-                          <span style={{ fontSize: metaSize, color:"rgba(255,255,255,0.85)",
-                                         fontFamily:"var(--font-mono)", letterSpacing:"0.06em" }}>
-                            {p.postingFrequency}
+                    {/* Meta row: handle / frequency / best times */}
+                    {(p.handle || p.postingFrequency || p.bestTimes) && (
+                      <div style={{ display:"flex", flexDirection:"column" as const, gap:4 }}>
+                        {p.handle && (
+                          <span style={{ fontSize: mobile ? 11 : 12, color:"rgba(255,255,255,0.8)",
+                                         fontFamily:"var(--font-mono)", letterSpacing:"0.04em" }}>
+                            {p.handle}
                           </span>
                         )}
-                        {p.bestTimes && (
-                          <span style={{ fontSize: metaSize, color:"rgba(255,255,255,0.65)",
-                                         fontFamily:"var(--font-mono)" }}>
-                            Best: {p.bestTimes}
-                          </span>
-                        )}
+                        <div style={{ display:"flex", flexWrap:"wrap" as const, gap:"4px 16px" }}>
+                          {p.postingFrequency && (
+                            <span style={{ fontSize: mobile ? 11 : 12, color:"rgba(255,255,255,0.9)",
+                                           fontFamily:"var(--font-mono)", letterSpacing:"0.06em",
+                                           fontWeight:700 }}>
+                              {p.postingFrequency}
+                            </span>
+                          )}
+                          {p.bestTimes && (
+                            <span style={{ fontSize: mobile ? 11 : 12, color:"rgba(255,255,255,0.7)",
+                                           fontFamily:"var(--font-mono)" }}>
+                              ⏱ {p.bestTimes}
+                            </span>
+                          )}
+                        </div>
                       </div>
                     )}
                   </div>
 
                   {/* ── Platform body ── */}
-                  <div style={{ padding: innerPad }}>
+                  <div style={{ padding: mobile ? "14px 16px" : "16px 20px" }}>
 
                     {/* Content formats — pill chips */}
                     {p.contentTypes?.length > 0 && (
