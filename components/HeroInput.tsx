@@ -297,7 +297,7 @@ export default function HeroInput() {
         </h1>
 
         {/* Badges */}
-        <div style={{ display:"flex", flexWrap:"wrap", gap:5, marginBottom:20 }}>
+        <div style={{ display:"flex", flexWrap:"wrap", gap:5, marginBottom:14 }}>
           {[{ label:"No login", color:"var(--n3)" }, { label:"22 AI specialists", color:"var(--n1)" }, { label:"Any business", color:"var(--n2)" }]
             .map(({ label, color }) => (
             <span key={label} className="font-mono"
@@ -306,6 +306,29 @@ export default function HeroInput() {
               {label}
             </span>
           ))}
+        </div>
+
+        {/* Description */}
+        <p style={{ fontSize:14, lineHeight:1.65, color:"#9A9AA8", margin:"0 0 14px",
+                    fontFamily:"var(--font-grotesk), sans-serif" }}>
+          Drop in any business or idea. Your team of{" "}
+          <span style={{ color:"#C4C4CC" }}>22 AI specialists</span> — CEO, CMO, CRO, VP Growth and more —
+          deliver a <span style={{ color:"#C4C4CC" }}>17-section growth playbook.</span>{" "}
+          Fully written. Ready to execute.
+        </p>
+
+        {/* Specialist marquee */}
+        <div style={{ overflow:"hidden", borderTop:"1px solid #1E1E22", borderBottom:"1px solid #1E1E22",
+                      marginBottom:18, padding:"8px 0", background:"#0D0D0F" }}>
+          <div style={{ display:"flex", width:"max-content", animation:"marquee 32s linear infinite" }}>
+            {[...SPECIALISTS, ...SPECIALISTS].map((s, i) => (
+              <span key={i} className="font-mono"
+                style={{ fontSize:10, color:"#3C3C42", letterSpacing:"0.12em", textTransform:"uppercase",
+                         whiteSpace:"nowrap", padding:"0 18px" }}>
+                {s}
+              </span>
+            ))}
+          </div>
         </div>
 
         {/* Input box */}
