@@ -47,7 +47,7 @@ const label = (color = "#9A9AA8", mobile?: boolean) => ({
   textTransform:"uppercase" as const,
 });
 // dir:"auto" applied via attribute (not style) — set on elements individually
-const body = { color:"#C4C4CC", fontSize:16, lineHeight:1.6, margin:0 } as const;
+const body = { color:"#C4C4CC", fontSize:18, lineHeight:1.6, margin:0 } as const;
 const bodyProps = { style:body, dir:"auto" as const };
 const pill = (color: string, mobile?: boolean) => ({
   display:"inline-block",
