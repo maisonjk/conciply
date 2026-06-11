@@ -277,6 +277,7 @@ export default function HeroInput() {
         <style>{`
           @keyframes mobileSlideUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
           @keyframes mobilePulse { 0%,100% { opacity:1; } 50% { opacity:0.5; } }
+          @keyframes marquee { 0% { transform: translateX(0) } 100% { transform: translateX(-50%) } }
           .mobile-input-row { display:flex; flex-direction:column; gap:0; }
           .mobile-analyze-btn {
             width:100%; border:none; padding:20px;
@@ -321,13 +322,16 @@ export default function HeroInput() {
         <div style={{ overflow:"hidden", borderTop:"1px solid #1E1E22", borderBottom:"1px solid #1E1E22",
                       marginBottom:18, padding:"8px 0", background:"#0D0D0F" }}>
           <div style={{ display:"flex", width:"max-content", animation:"marquee 32s linear infinite" }}>
-            {[...SPECIALISTS, ...SPECIALISTS].map((s, i) => (
+            {[...SPECIALISTS, ...SPECIALISTS].map((s, i) => {
+              const colors = ["var(--n1)", "var(--n3)", "var(--n2)", "#9A9AA8"];
+              const color = colors[i % colors.length];
+              return (
               <span key={i} className="font-mono"
-                style={{ fontSize:10, color:"#3C3C42", letterSpacing:"0.12em", textTransform:"uppercase",
+                style={{ fontSize:10, color, letterSpacing:"0.12em", textTransform:"uppercase",
                          whiteSpace:"nowrap", padding:"0 18px" }}>
                 {s}
               </span>
-            ))}
+            )})}
           </div>
         </div>
 
