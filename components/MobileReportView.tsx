@@ -138,7 +138,7 @@ export default function MobileReportView({ report, tier, input, reportId }: Prop
             </div>
             <h2 style={{
               fontFamily:"var(--font-archivo), sans-serif", fontWeight:900,
-              fontSize:"clamp(26px,7vw,36px)", lineHeight:0.95,
+              fontSize:"clamp(26px,7vw,26px)", lineHeight:0.95,
               color:"#F4F4F1", margin:"0 0 10px", letterSpacing:"-0.02em",
             }}>
               {SECTION_LABELS[active]}

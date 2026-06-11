@@ -292,7 +292,7 @@ export default function HeroInput() {
         <p className="kicker" style={{ marginBottom:10, color:"#7A7A8A", fontSize:11 }}>Autonomous Growth OS</p>
 
         {/* H1 */}
-        <h1 className="display" style={{ fontSize:"clamp(32px,9vw,48px)", lineHeight:0.95, marginBottom:16 }}>
+        <h1 className="display" style={{ fontSize:"clamp(35px,9vw,35px)", lineHeight:0.95, marginBottom:16 }}>
           Your complete<br />growth playbook.<br />
           <span style={{ color:"var(--n1)" }}>Built by 22 AI specialists.</span>
         </h1>
@@ -526,7 +526,7 @@ export default function HeroInput() {
       <p className="kicker" style={{ marginBottom:14, color:"#7A7A8A" }}>Autonomous Growth OS</p>
 
       {/* ── H1 — Tier 1: The Claim ── */}
-      <h1 className="display" style={{ fontSize:"clamp(28px,3.8vw,58px)", lineHeight:1.0, marginBottom:20 }}>
+      <h1 className="display" style={{ fontSize:"clamp(56px,7vw,70px)", lineHeight:1.0, marginBottom:20 }}>
         Your complete<br />growth playbook.<br /><span style={{ color:"var(--n1)" }}>Built by 22 AI specialists.</span>
       </h1>
 

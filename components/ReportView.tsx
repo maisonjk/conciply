@@ -294,7 +294,7 @@ export default function ReportView({ report, tier, input, reportId }: Props) {
               {sectionNum(active)} — {activeGroup.label}
             </div>
             <h2 className="display" style={{
-              fontSize:"clamp(28px, 3.2vw, 52px)",
+              fontSize:"clamp(26px, 3.2vw, 26px)",
               fontWeight:900, color:"#F4F4F1", lineHeight:1.0,
               margin:0, letterSpacing:"-0.02em", position:"relative",
             }}>

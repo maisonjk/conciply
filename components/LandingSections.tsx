@@ -197,7 +197,7 @@ export function WhatYouGet() {
             <p className="font-mono" style={{ fontSize: 12, color: "var(--n3)", letterSpacing: "0.14em", textTransform: "uppercase", margin: "0 0 12px" }}>
               What you get
             </p>
-            <h2 className="display" style={{ fontSize: "clamp(28px,4vw,52px)", margin: 0, lineHeight: 1.0 }}>
+            <h2 className="display" style={{ fontSize: "clamp(40px,4vw,52px)", margin: 0, lineHeight: 1.0 }}>
               17 sections.<br />Every angle covered.
             </h2>
           </div>
@@ -409,7 +409,7 @@ export function FinalCTA() {
             <p className="font-mono" style={{ fontSize: 12, color: "#7A7A8A", letterSpacing: "0.14em", textTransform: "uppercase", margin: "0 0 16px" }}>
               Ready when you are
             </p>
-            <h2 className="display" style={{ fontSize: "clamp(28px,4vw,56px)", margin: "0 0 16px", lineHeight: 1.0, color: "#F4F4F1" }}>
+            <h2 className="display" style={{ fontSize: "clamp(40px,4vw,56px)", margin: "0 0 16px", lineHeight: 1.0, color: "#F4F4F1" }}>
               Your growth playbook,<br />on demand.
             </h2>
             <p style={{ fontSize: 15, color: "#9A9AA8", fontFamily: "var(--font-grotesk), sans-serif", margin: 0, lineHeight: 1.6 }}>
@@ -465,7 +465,7 @@ export function LandingPricing() {
             <p className="font-mono" style={{ fontSize: 12, color: "var(--n2)", letterSpacing: "0.14em", textTransform: "uppercase", margin: "0 0 8px" }}>
               Pricing
             </p>
-            <h2 className="display" style={{ fontSize: "clamp(22px,3vw,38px)", margin: 0, lineHeight: 1.0 }}>
+            <h2 className="display" style={{ fontSize: "clamp(40px,3vw,40px)", margin: 0, lineHeight: 1.0 }}>
               Simple.<br /><span style={{ color: "var(--n2)" }}>Flexible.</span>
             </h2>
           </div>
