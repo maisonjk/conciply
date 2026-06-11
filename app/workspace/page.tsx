@@ -212,7 +212,7 @@ function WorkspaceContent() {
                           color:"#5C5C63", textTransform:"uppercase", marginBottom:6 }}>
               Workspace
             </div>
-            <div style={{ fontSize:13, fontWeight:700, color:"#F4F4F1", lineHeight:1.4,
+            <div style={{ fontSize:15, fontWeight:700, color:"#F4F4F1", lineHeight:1.4,
                           display:"-webkit-box", WebkitLineClamp:2, WebkitBoxOrient:"vertical",
                           overflow:"hidden", marginBottom:10 }}>
               {stored.input}

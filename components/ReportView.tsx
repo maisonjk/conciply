@@ -132,7 +132,7 @@ export default function ReportView({ report, tier, input, reportId }: Props) {
                         color:"#5C5C63", textTransform:"uppercase", marginBottom:5 }}>
             Growth Report
           </div>
-          <div style={{ fontSize:13, fontWeight:700, color:"#F4F4F1", lineHeight:1.35,
+          <div style={{ fontSize:15, fontWeight:700, color:"#F4F4F1", lineHeight:1.35,
                         display:"-webkit-box", WebkitLineClamp:2, WebkitBoxOrient:"vertical",
                         overflow:"hidden", marginBottom:10, fontFamily:"var(--font-grotesk), sans-serif" }}>
             {input}
@@ -302,7 +302,7 @@ export default function ReportView({ report, tier, input, reportId }: Props) {
             </h2>
             {SECTION_SUBTITLES[active] && (
               <p style={{
-                margin:"14px 0 0", fontSize:14, color:"#7A7A88",
+                margin:"14px 0 0", fontSize:16, color:"#7A7A88",
                 lineHeight:1.6, fontFamily:"var(--font-grotesk), sans-serif",
                 maxWidth:560, position:"relative",
               }}>
