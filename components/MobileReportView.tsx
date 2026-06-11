@@ -102,19 +102,19 @@ export default function MobileReportView({ report, tier, input, reportId }: Prop
       }}>
         <div style={{ display:"flex", alignItems:"center", gap:6 }}>
           <span style={{ width:6, height:6, borderRadius:"50%", background:activeGroup.color, display:"inline-block", flexShrink:0 }} />
-          <span style={{ fontSize:10, fontFamily:"var(--font-mono)", color:activeGroup.color,
+          <span style={{ fontSize:15, fontFamily:"var(--font-mono)", color:activeGroup.color,
                          letterSpacing:"0.12em", textTransform:"uppercase" }}>
             {activeGroup.label}
           </span>
-          <span style={{ color:"#2A2A2E", fontSize:12, margin:"0 2px" }}>›</span>
-          <span style={{ fontSize:11, fontFamily:"var(--font-mono)", color:"#F4F4F1",
+          <span style={{ color:"#2A2A2E", fontSize:18, margin:"0 2px" }}>›</span>
+          <span style={{ fontSize:17, fontFamily:"var(--font-mono)", color:"#F4F4F1",
                          letterSpacing:"0.04em", whiteSpace:"nowrap",
                          overflow:"hidden", textOverflow:"ellipsis", maxWidth:160 }}>
             {SECTION_LABELS[active]}
           </span>
         </div>
         <a href="/"
-          style={{ fontSize:10, fontFamily:"var(--font-mono)", letterSpacing:"0.08em",
+          style={{ fontSize:15, fontFamily:"var(--font-mono)", letterSpacing:"0.08em",
                    color:"var(--n1)", textTransform:"uppercase", padding:"6px 0 6px 12px",
                    flexShrink:0 }}>
           + New
@@ -131,7 +131,7 @@ export default function MobileReportView({ report, tier, input, reportId }: Prop
           {/* Section header */}
           <div style={{ marginBottom:20 }} className="mobile-report-section">
             <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:10 }}>
-              <span style={{ fontSize:9, fontFamily:"var(--font-mono)", letterSpacing:"0.16em",
+              <span style={{ fontSize:14, fontFamily:"var(--font-mono)", letterSpacing:"0.16em",
                              textTransform:"uppercase", color:activeGroup.color }}>
                 {sectionNum(active)} — {activeGroup.label}
               </span>
@@ -174,7 +174,7 @@ export default function MobileReportView({ report, tier, input, reportId }: Prop
             width:44, height:44, display:"flex", alignItems:"center", justifyContent:"center",
             border:"1px solid #2A2A2E", background:"transparent",
             color: activeIdx === 0 ? "#2A2A2E" : "#F4F4F1",
-            fontSize:18, cursor: activeIdx === 0 ? "default" : "pointer",
+            fontSize:27, cursor: activeIdx === 0 ? "default" : "pointer",
             flexShrink:0,
           }}
         >
@@ -206,7 +206,7 @@ export default function MobileReportView({ report, tier, input, reportId }: Prop
           <button
             onClick={() => setSheetOpen(true)}
             style={{
-              fontSize:10, fontFamily:"var(--font-mono)", letterSpacing:"0.1em",
+              fontSize:15, fontFamily:"var(--font-mono)", letterSpacing:"0.1em",
               textTransform:"uppercase", color:"#7A7A8A",
               background:"transparent", border:"none", padding:0, cursor:"pointer",
             }}
@@ -222,7 +222,7 @@ export default function MobileReportView({ report, tier, input, reportId }: Prop
             style={{
               width:44, height:44, display:"flex", alignItems:"center", justifyContent:"center",
               background:"var(--n2)", color:"#000",
-              fontSize:10, fontFamily:"var(--font-mono)", fontWeight:700,
+              fontSize:15, fontFamily:"var(--font-mono)", fontWeight:700,
               letterSpacing:"0.08em", textTransform:"uppercase",
               flexShrink:0, textDecoration:"none",
             }}
@@ -240,7 +240,7 @@ export default function MobileReportView({ report, tier, input, reportId }: Prop
               borderWidth: activeIdx === ALL_KEYS.length - 1 ? 1 : 0,
               borderStyle:"solid", borderColor:"#2A2A2E",
               color: activeIdx < ALL_KEYS.length - 1 ? "#000" : "#2A2A2E",
-              fontSize:18, cursor: activeIdx < ALL_KEYS.length - 1 ? "pointer" : "default",
+              fontSize:27, cursor: activeIdx < ALL_KEYS.length - 1 ? "pointer" : "default",
               flexShrink:0,
             }}
           >
@@ -261,11 +261,11 @@ export default function MobileReportView({ report, tier, input, reportId }: Prop
 
             {/* Report title */}
             <div style={{ padding:"8px 20px 16px", borderBottom:"1px solid #1E1E22" }}>
-              <div style={{ fontSize:9, fontFamily:"var(--font-mono)", letterSpacing:"0.14em",
+              <div style={{ fontSize:14, fontFamily:"var(--font-mono)", letterSpacing:"0.14em",
                             color:"#5C5C63", textTransform:"uppercase", marginBottom:4 }}>
                 Growth Report
               </div>
-              <div style={{ fontSize:14, fontWeight:700, color:"#F4F4F1", lineHeight:1.3,
+              <div style={{ fontSize:21, fontWeight:700, color:"#F4F4F1", lineHeight:1.3,
                             fontFamily:"var(--font-grotesk), sans-serif",
                             display:"-webkit-box", WebkitLineClamp:2, WebkitBoxOrient:"vertical", overflow:"hidden" }}>
                 {input}
@@ -277,7 +277,7 @@ export default function MobileReportView({ report, tier, input, reportId }: Prop
               <div key={group.label}>
                 <div style={{
                   padding:"12px 20px 6px",
-                  fontSize:8, fontFamily:"var(--font-mono)", fontWeight:700,
+                  fontSize:12, fontFamily:"var(--font-mono)", fontWeight:700,
                   letterSpacing:"0.18em", textTransform:"uppercase",
                   color:group.color, display:"flex", alignItems:"center", gap:8,
                 }}>
@@ -306,16 +306,16 @@ export default function MobileReportView({ report, tier, input, reportId }: Prop
                         cursor: locked ? "default" : "pointer",
                       }}
                     >
-                      <span style={{ fontSize:10, fontFamily:"var(--font-mono)",
+                      <span style={{ fontSize:15, fontFamily:"var(--font-mono)",
                                      color: isCurrent ? group.color : "#3C3C42",
                                      flexShrink:0, width:20 }}>
                         {sectionNum(key)}
                       </span>
-                      <span style={{ fontSize:16, color: locked ? "#2A2A2E" : isCurrent ? group.color : "#5C5C63", flexShrink:0 }}>
+                      <span style={{ fontSize:24, color: locked ? "#2A2A2E" : isCurrent ? group.color : "#5C5C63", flexShrink:0 }}>
                         {locked ? "🔒" : ICONS[key]}
                       </span>
                       <span style={{
-                        fontSize:13, fontFamily:"var(--font-grotesk), sans-serif",
+                        fontSize:20, fontFamily:"var(--font-grotesk), sans-serif",
                         color: locked ? "#3C3C42" : isCurrent ? "#F4F4F1" : "#9A9AA8",
                         lineHeight:1.3, fontWeight: isCurrent ? 700 : 400,
                       }}>
@@ -338,7 +338,7 @@ export default function MobileReportView({ report, tier, input, reportId }: Prop
                   display:"block", textAlign:"center",
                   background:"var(--n2)", color:"#000",
                   fontFamily:"var(--font-archivo), sans-serif", fontWeight:900,
-                  fontSize:13, letterSpacing:"0.04em", textTransform:"uppercase",
+                  fontSize:20, letterSpacing:"0.04em", textTransform:"uppercase",
                   padding:"16px 24px", textDecoration:"none",
                 }}>
                   Unlock all 17 sections →
