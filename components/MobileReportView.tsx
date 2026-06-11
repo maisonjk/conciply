@@ -43,6 +43,7 @@ export default function MobileReportView({ report, tier, input, reportId }: Prop
     setTimeout(() => {
       setActive(key);
       setDirection(null);
+      window.scrollTo({ top: 0, behavior: "instant" });
     }, 220);
   }, []);
 
