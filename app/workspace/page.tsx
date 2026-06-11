@@ -259,7 +259,7 @@ function WorkspaceContent() {
                 {group.keys.map(key => {
                   const isActive = key === active;
                   return (
-                    <button key={key} onClick={() => { setActive(key); setSidebarOpen(false); }}
+                    <button key={key} onClick={() => { setActive(key); setSidebarOpen(false); window.scrollTo({ top: 0, behavior: "instant" }); }}
                       style={{ width:"100%", textAlign:"left", border:"none", cursor:"pointer",
                                padding:"9px 16px", display:"flex", alignItems:"center", gap:10,
                                background: isActive ? "#16161A" : "transparent",
@@ -370,12 +370,12 @@ function WorkspaceContent() {
                 const next = idx < ALL_KEYS.length - 1 ? ALL_KEYS[idx + 1] : null;
                 return (
                   <>
-                    <button onClick={() => prev && setActive(prev)} disabled={!prev}
+                    <button onClick={() => { if (prev) { setActive(prev); window.scrollTo({ top: 0, behavior: "instant" }); } }} disabled={!prev}
                       className="btn-ghost" style={{ padding:"10px 18px", fontSize:14,
                       opacity: prev ? 1 : 0.2, cursor: prev ? "pointer" : "default" }}>
                       ← {prev ? SECTION_LABELS[prev] : ""}
                     </button>
-                    <button onClick={() => next && setActive(next)} disabled={!next}
+                    <button onClick={() => { if (next) { setActive(next); window.scrollTo({ top: 0, behavior: "instant" }); } }} disabled={!next}
                       className="btn-ghost" style={{ padding:"10px 18px", fontSize:14,
                       opacity: next ? 1 : 0.2, cursor: next ? "pointer" : "default",
                       borderColor: next ? activeGroup.color : undefined,
