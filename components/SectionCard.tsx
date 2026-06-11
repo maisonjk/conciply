@@ -505,98 +505,135 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>, mobile?: 
       if (lp.includes("pinterest")) return "✦";
       return "◈";
     };
+    const innerPad = mobile ? "12px" : "16px 20px";
+    const chipSize = mobile ? 10 : 13;
+    const metaSize = mobile ? 11 : 13;
+
     return (
       <div>
-        {/* Platform tabs */}
+        {/* Platform cards */}
         {platforms?.length > 0 && (
-          <div style={{ marginBottom:28 }}>
+          <div style={{ marginBottom:24 }}>
             <div style={l$()}>Platform Playbooks</div>
             {platforms.map((p, idx) => {
               const pc = platformColor(p.platform);
               return (
-                <div key={idx} style={{ marginBottom:16, border:`1px solid #2A2A2E`, background:"#111114", overflow:"hidden" }}>
-                  {/* Platform header bar */}
-                  <div style={{ background: pc, padding:"12px 20px", display:"flex", alignItems:"center", gap:10 }}>
-                    <span style={{ fontSize:n$, color:"#fff" }}>{platformIcon(p.platform)}</span>
-                    <div>
-                      <div style={{ fontSize:13, fontWeight:800, color:"#fff", fontFamily:"var(--font-archivo)" }}>
-                        {p.platform}
-                      </div>
-                      {p.handle && (
-                        <div style={{ fontSize:16, color:"rgba(255,255,255,0.75)", fontFamily:"var(--font-mono)" }}>
-                          {p.handle}
+                <div key={idx} style={{ marginBottom:mobile ? 12 : 16, border:`1px solid #2A2A2E`, background:"#111114", overflow:"hidden" }}>
+
+                  {/* ── Platform header ── */}
+                  <div style={{ background: pc, padding: mobile ? "10px 12px" : "12px 20px" }}>
+                    {/* Row 1: icon + platform name */}
+                    <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom: mobile && (p.postingFrequency || p.bestTimes) ? 6 : 0 }}>
+                      <span style={{ fontSize: mobile ? 13 : n$, color:"#fff", flexShrink:0 }}>{platformIcon(p.platform)}</span>
+                      <div style={{ minWidth:0 }}>
+                        <div style={{ fontSize: mobile ? 13 : 14, fontWeight:800, color:"#fff",
+                                      fontFamily:"var(--font-archivo)", lineHeight:1.2 }}>
+                          {p.platform}
                         </div>
-                      )}
-                    </div>
-                    <div style={{ marginLeft:"auto", textAlign:"right" }}>
-                      <div style={{ fontSize:16, color:"rgba(255,255,255,0.75)", fontFamily:"var(--font-mono)", letterSpacing:"0.08em" }}>
-                        {p.postingFrequency}
-                      </div>
-                      <div style={{ fontSize:16, color:"rgba(255,255,255,0.6)", fontFamily:"var(--font-mono)" }}>
-                        Best: {p.bestTimes}
+                        {p.handle && (
+                          <div style={{ fontSize: mobile ? 10 : 12, color:"rgba(255,255,255,0.75)",
+                                        fontFamily:"var(--font-mono)", marginTop:1 }}>
+                            {p.handle}
+                          </div>
+                        )}
                       </div>
                     </div>
+                    {/* Row 2 (mobile): frequency + best times on their own line */}
+                    {(p.postingFrequency || p.bestTimes) && (
+                      <div style={{
+                        display:"flex", gap: mobile ? 12 : 0,
+                        ...(mobile ? {} : { marginLeft:"auto", textAlign:"right" as const, position:"absolute" as const }),
+                        flexWrap:"wrap",
+                      }}>
+                        {p.postingFrequency && (
+                          <span style={{ fontSize: metaSize, color:"rgba(255,255,255,0.85)",
+                                         fontFamily:"var(--font-mono)", letterSpacing:"0.06em" }}>
+                            {p.postingFrequency}
+                          </span>
+                        )}
+                        {p.bestTimes && (
+                          <span style={{ fontSize: metaSize, color:"rgba(255,255,255,0.65)",
+                                         fontFamily:"var(--font-mono)" }}>
+                            Best: {p.bestTimes}
+                          </span>
+                        )}
+                      </div>
+                    )}
                   </div>
-                  <div style={{ padding:"16px 20px" }}>
-                    {/* Content types */}
+
+                  {/* ── Platform body ── */}
+                  <div style={{ padding: innerPad }}>
+
+                    {/* Content formats — pill chips */}
                     {p.contentTypes?.length > 0 && (
-                      <div style={{ marginBottom:14 }}>
-                        <div style={{ ...label(pc), opacity:0.9 }}>Content Formats</div>
-                        <div style={{ display:"flex", flexWrap:"wrap", gap:6 }}>
+                      <div style={{ marginBottom:12 }}>
+                        <div style={{ ...l$(pc), marginBottom:6 }}>Content Formats</div>
+                        <div style={{ display:"flex", flexWrap:"wrap", gap: mobile ? 4 : 6 }}>
                           {p.contentTypes.map((ct, i) => (
-                            <span key={i} style={{ fontSize:16, fontFamily:"var(--font-mono)", border:`1px solid ${pc}`,
-                                                    color: pc, padding:"3px 10px", opacity:0.9 }}>
+                            <span key={i} style={{
+                              fontSize: chipSize, fontFamily:"var(--font-mono)",
+                              border:`1px solid ${pc}`, color: pc,
+                              padding: mobile ? "2px 7px" : "3px 10px",
+                              lineHeight:1.4, flexShrink:0,
+                            }}>
                               {ct}
                             </span>
                           ))}
                         </div>
                       </div>
                     )}
+
                     {/* Content pillars */}
                     {p.contentPillars?.length > 0 && (
-                      <div style={{ marginBottom:14 }}>
-                        <div style={{ ...label(pc), opacity:0.9 }}>Content Pillars</div>
-                        <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
+                      <div style={{ marginBottom:12 }}>
+                        <div style={{ ...l$(pc), marginBottom:6 }}>Content Pillars</div>
+                        <div style={{ display:"flex", flexDirection:"column", gap: mobile ? 5 : 6 }}>
                           {p.contentPillars.map((cp, i) => (
                             <div key={i} style={{ display:"flex", gap:8, alignItems:"flex-start" }}>
-                              <span style={{ color: pc, flexShrink:0, fontSize:13 }}>◆</span>
-                              <span style={{ color:"#C4C4CC", fontSize:13, lineHeight:1.5 }}>{cp}</span>
+                              <span style={{ color: pc, flexShrink:0, fontSize: mobile ? 10 : 13, marginTop:2 }}>◆</span>
+                              <span style={{ color:"#C4C4CC", fontSize: mobile ? 13 : 13, lineHeight:1.55 }}>{cp}</span>
                             </div>
                           ))}
                         </div>
                       </div>
                     )}
+
                     {/* Post ideas */}
                     {p.postIdeas?.length > 0 && (
-                      <div style={{ marginBottom:14 }}>
-                        <div style={{ ...label(pc), opacity:0.9 }}>Post Ideas (Ready to Execute)</div>
-                        <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
+                      <div style={{ marginBottom:12 }}>
+                        <div style={{ ...l$(pc), marginBottom:6 }}>Post Ideas</div>
+                        <div style={{ display:"flex", flexDirection:"column", gap: mobile ? 4 : 6 }}>
                           {p.postIdeas.map((pi, i) => (
                             <div key={i} style={{
                               background:"#0A0A0B", border:"1px solid #1E1E22",
-                              padding:"10px 14px", display:"flex", gap:10, alignItems:"flex-start"
+                              padding: mobile ? "8px 10px" : "10px 14px",
+                              display:"flex", gap:8, alignItems:"flex-start",
                             }}>
-                              <span style={{ color: pc, fontFamily:"var(--font-mono)", fontSize:16,
-                                             flexShrink:0, marginTop:2 }}>
+                              <span style={{
+                                color: pc, fontFamily:"var(--font-mono)",
+                                fontSize: mobile ? 10 : 13, flexShrink:0, marginTop:2,
+                              }}>
                                 {String(i+1).padStart(2,"0")}
                               </span>
-                              <span style={{ color:"#C4C4CC", fontSize:13, lineHeight:1.5 }} dir="auto">{pi}</span>
+                              <span style={{ color:"#C4C4CC", fontSize:13, lineHeight:1.55 }} dir="auto">{pi}</span>
                             </div>
                           ))}
                         </div>
                       </div>
                     )}
+
                     {/* Hooks */}
                     {p.hooks?.length > 0 && (
                       <div>
-                        <div style={{ ...label(pc), opacity:0.9 }}>Scroll-Stopping Hooks</div>
-                        <div style={{ display:"flex", flexDirection:"column", gap:4 }}>
+                        <div style={{ ...l$(pc), marginBottom:6 }}>Scroll-Stopping Hooks</div>
+                        <div style={{ display:"flex", flexDirection:"column", gap: mobile ? 4 : 5 }}>
                           {p.hooks.map((h, i) => (
                             <div key={i} style={{
-                              background:"rgba(255,255,255,0.03)", border:`1px solid rgba(${pc === "#E1306C" ? "225,48,108" : "100,100,200"},0.2)`,
-                              padding:"8px 14px", borderLeft:`3px solid ${pc}`
+                              background:"rgba(255,255,255,0.02)",
+                              borderLeft:`3px solid ${pc}`,
+                              padding: mobile ? "8px 10px" : "8px 14px",
                             }}>
-                              <span style={{ color:"#F4F4F1", fontSize:13, fontStyle:"italic", lineHeight:1.4 }} dir="auto">"{h}"</span>
+                              <span style={{ color:"#E0E0E8", fontSize:13, fontStyle:"italic", lineHeight:1.55, display:"block" }} dir="auto">"{h}"</span>
                             </div>
                           ))}
                         </div>
@@ -616,20 +653,29 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>, mobile?: 
             {contentCalendar.map((wk, i) => {
               const wc = ["var(--n3)","var(--n1)","var(--n2)","#9A9AA8"][i % 4];
               return (
-                <div key={wk.week} style={{ borderLeft:`3px solid ${wc}`, paddingLeft:16, marginBottom:20 }}>
-                  <div style={{ display:"flex", alignItems:"baseline", gap:8, marginBottom:10 }}>
-                    <span style={{ fontSize:16, fontFamily:"var(--font-mono)", fontWeight:700,
-                                   color: wc, letterSpacing:"0.12em", textTransform:"uppercase" }}>
+                <div key={wk.week} style={{ borderLeft:`3px solid ${wc}`, paddingLeft: mobile ? 10 : 16, marginBottom: mobile ? 16 : 20 }}>
+                  {/* Week header — stacked on mobile */}
+                  <div style={{ marginBottom: mobile ? 8 : 10 }}>
+                    <span style={{
+                      fontSize: mobile ? 10 : 12, fontFamily:"var(--font-mono)", fontWeight:700,
+                      color: wc, letterSpacing:"0.14em", textTransform:"uppercase",
+                      display:"block", marginBottom:2,
+                    }}>
                       Week {wk.week}
                     </span>
-                    <span style={{ color:"#F4F4F1", fontWeight:600, fontSize:16 }}>{wk.theme}</span>
+                    <span style={{ color:"#F4F4F1", fontWeight:700, fontSize: mobile ? 14 : 15, lineHeight:1.3, display:"block" }}>
+                      {wk.theme}
+                    </span>
                   </div>
-                  <div style={{ display:"flex", flexDirection:"column", gap:5 }}>
+                  <div style={{ display:"flex", flexDirection:"column", gap: mobile ? 4 : 5 }}>
                     {wk.posts.map((post, j) => (
-                      <div key={j} style={{ display:"flex", gap:10, alignItems:"flex-start",
-                                            background:"#111114", border:"1px solid #1E1E22", padding:"9px 12px" }}>
-                        <span style={{ color: wc, fontSize:14, marginTop:3, flexShrink:0 }}>▸</span>
-                        <span style={{ color:"#C4C4CC", fontSize:13, lineHeight:1.4 }}>{post}</span>
+                      <div key={j} style={{
+                        display:"flex", gap:8, alignItems:"flex-start",
+                        background:"#111114", border:"1px solid #1E1E22",
+                        padding: mobile ? "8px 10px" : "9px 12px",
+                      }}>
+                        <span style={{ color: wc, fontSize: mobile ? 10 : 13, marginTop: mobile ? 2 : 3, flexShrink:0 }}>▸</span>
+                        <span style={{ color:"#C4C4CC", fontSize:13, lineHeight:1.5 }}>{post}</span>
                       </div>
                     ))}
                   </div>
@@ -647,10 +693,15 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>, mobile?: 
               {viralFormulas.map((vf, i) => {
                 const fc = ["var(--n3)","var(--n1)","var(--n2)","#9A9AA8","var(--n3)","var(--n1)"][i % 6];
                 return (
-                  <div key={i} style={{ background:"#111114", border:"1px solid #2A2A2E", padding:"16px 14px",
-                                        borderTop:`3px solid ${fc}` }}>
-                    <div style={{ fontSize:16, fontFamily:"var(--font-mono)", color: fc,
-                                  letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:8 }}>
+                  <div key={i} style={{
+                    background:"#111114", border:"1px solid #2A2A2E",
+                    padding: mobile ? "10px 12px" : "16px 14px",
+                    borderTop:`3px solid ${fc}`,
+                  }}>
+                    <div style={{
+                      fontSize: mobile ? 10 : 12, fontFamily:"var(--font-mono)", color: fc,
+                      letterSpacing:"0.1em", textTransform:"uppercase", marginBottom: mobile ? 6 : 8,
+                    }}>
                       Formula {String(i+1).padStart(2,"0")}
                     </div>
                     <p style={{ ...body, fontSize:13 }} dir="auto">{vf}</p>
@@ -663,7 +714,10 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>, mobile?: 
 
         {/* Hashtag strategy */}
         {hashtagStrategy && (
-          <div style={{ background:"rgba(163,230,53,0.05)", border:"1px solid rgba(163,230,53,0.2)", padding:"16px 20px" }}>
+          <div style={{
+            background:"rgba(163,230,53,0.05)", border:"1px solid rgba(163,230,53,0.2)",
+            padding: mobile ? "12px" : "16px 20px",
+          }}>
             <div style={{ ...l$("var(--n1)"), marginBottom:8 }}># Hashtag Strategy</div>
             <p style={{ ...body, fontSize:13 }} dir="auto">{hashtagStrategy}</p>
           </div>
