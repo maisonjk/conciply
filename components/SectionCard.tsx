@@ -64,15 +64,38 @@ function renderSection(key: SectionKey, report: Partial<GrowthReport>): React.Re
           <div style={{ marginBottom:20 }}>
             <div style={label()}>Competitors</div>
             {competitors.map((c, i) => (
-              <div key={i} style={{ ...card, display:"grid", gridTemplateColumns:"1fr 1fr", gap:12 }}>
-                <div>
-                  <div style={{ fontWeight:700, fontSize:25, color:"#F4F4F1", marginBottom:6 }}>{c.name}</div>
-                  <div style={label("var(--n3)")}>Strength</div>
-                  <p {...bodyProps}>{c.strength}</p>
+              <div key={i} style={{ marginBottom:12, border:"1px solid #2A2A2E", overflow:"hidden" }}>
+                {/* Competitor name header */}
+                <div style={{ padding:"12px 16px", borderBottom:"1px solid #2A2A2E", background:"#111114",
+                              display:"flex", alignItems:"center", gap:10 }}>
+                  <span style={{ fontFamily:"var(--font-mono)", fontSize:11, color:"#5C5C63",
+                                 letterSpacing:"0.12em", textTransform:"uppercase", flexShrink:0 }}>
+                    {String(i+1).padStart(2,"0")}
+                  </span>
+                  <div style={{ fontWeight:900, fontSize:16, color:"#F4F4F1",
+                                fontFamily:"var(--font-archivo)", letterSpacing:"-0.01em" }}>{c.name}</div>
                 </div>
-                <div>
-                  <div style={label("var(--n2)")}>Weakness</div>
-                  <p {...bodyProps}>{c.weakness}</p>
+                {/* Strength */}
+                <div style={{ padding:"14px 16px", borderBottom:"1px solid #2A2A2E",
+                              borderLeft:"3px solid var(--n3)", background:"rgba(212,255,46,0.03)" }}>
+                  <div style={{ display:"flex", alignItems:"center", gap:6, marginBottom:8 }}>
+                    <span style={{ color:"var(--n3)", fontSize:11, fontFamily:"var(--font-mono)",
+                                   letterSpacing:"0.14em", textTransform:"uppercase", fontWeight:700 }}>
+                      ▲ Strength
+                    </span>
+                  </div>
+                  <p style={{ ...body, margin:0 }} dir="auto">{c.strength}</p>
+                </div>
+                {/* Weakness */}
+                <div style={{ padding:"14px 16px",
+                              borderLeft:"3px solid var(--n2)", background:"rgba(255,46,110,0.03)" }}>
+                  <div style={{ display:"flex", alignItems:"center", gap:6, marginBottom:8 }}>
+                    <span style={{ color:"var(--n2)", fontSize:11, fontFamily:"var(--font-mono)",
+                                   letterSpacing:"0.14em", textTransform:"uppercase", fontWeight:700 }}>
+                      ▼ Weakness
+                    </span>
+                  </div>
+                  <p style={{ ...body, margin:0 }} dir="auto">{c.weakness}</p>
                 </div>
               </div>
             ))}
