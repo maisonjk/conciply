@@ -524,7 +524,7 @@ export default function HeroInput() {
 
       {/* ── H1 — Tier 1: The Claim ── */}
       <h1 className="display" style={{ fontSize:"clamp(56px,7vw,70px)", lineHeight:1.0, marginBottom:20 }}>
-        Your complete<br />growth playbook.<br /><span style={{ color:"var(--n1)" }}>Built by 22 AI specialists.</span>
+        Drop in your idea.<br />Get your complete<br />growth playbook.<br /><span style={{ color:"var(--n1)" }}>Built by 22 AI specialists.</span>
       </h1>
 
       {/* ── Body — Tier 2: The Proof ── */}
@@ -533,10 +533,10 @@ export default function HeroInput() {
         color:"#7A7A88", maxWidth:520, marginBottom:20,
         fontFamily:"var(--font-grotesk), sans-serif",
       }}>
-        Drop in any business or idea. Your team of{" "}
-        <span style={{ color:"#C4C4CC" }}>22 AI specialists</span> — CEO, CMO, CRO, VP Growth and more —
-        deliver a <span style={{ color:"#C4C4CC" }}>17-section growth playbook</span> — fully written, ready to execute.
-        Fully written. Ready to execute.
+        Type in any business or idea.{" "}
+        <span style={{ color:"#C4C4CC" }}>22 AI specialists</span> — CEO, CMO, CRO, VP Growth and more — go to work instantly. The result: a{" "}
+        <span style={{ color:"#C4C4CC" }}>17-section growth playbook,</span>{" "}
+        fully written and ready to execute.
       </p>
 
       {/* ── Badges — Tier 3: Proof points ── */}
