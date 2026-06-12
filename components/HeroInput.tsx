@@ -293,7 +293,8 @@ export default function HeroInput() {
 
         {/* H1 */}
         <h1 className="display" style={{ fontSize:"clamp(35px,9vw,35px)", lineHeight:0.95, marginBottom:16 }}>
-          Your complete<br />growth playbook.<br />
+          Drop in your idea.<br />
+          Get your complete<br />growth playbook.<br />
           <span style={{ color:"var(--n1)" }}>Built by 22 AI specialists.</span>
         </h1>
 
@@ -312,10 +313,9 @@ export default function HeroInput() {
         {/* Description */}
         <p style={{ fontSize:14, lineHeight:1.65, color:"#9A9AA8", margin:"0 0 14px",
                     fontFamily:"var(--font-grotesk), sans-serif" }}>
-          Drop in any business or idea. Your team of{" "}
-          <span style={{ color:"#C4C4CC" }}>22 AI specialists</span> — CEO, CMO, CRO, VP Growth and more —
-          deliver a <span style={{ color:"#C4C4CC" }}>17-section growth playbook.</span>{" "}
-          Fully written. Ready to execute.
+          Type in any business or idea. <span style={{ color:"#C4C4CC" }}>22 AI specialists</span> — CEO, CMO, CRO, VP Growth and more — go to work instantly. The result: a{" "}
+          <span style={{ color:"#C4C4CC" }}>17-section growth playbook,</span>{" "}
+          fully written and ready to execute.
         </p>
 
         {/* Specialist marquee */}
