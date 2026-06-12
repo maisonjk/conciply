@@ -23,10 +23,6 @@ export async function POST(req: NextRequest) {
   try {
     const session = await getStripe().checkout.sessions.create({
       mode: "subscription",
-      // Always create a Stripe Customer object so the webhook always receives
-      // a customerId. Without this, guest checkouts produce a null customer,
-      // which makes the customer → licenseKey revocation lookup impossible.
-      customer_creation: "always",
       line_items: [{ price: priceId, quantity: 1 }],
       success_url: `${base}/unlock?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${base}/pricing`,
