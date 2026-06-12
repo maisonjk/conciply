@@ -23,6 +23,7 @@ export async function POST(req: NextRequest) {
   try {
     const session = await getStripe().checkout.sessions.create({
       mode: "subscription",
+      payment_method_types: ["card"],
       line_items: [{ price: priceId, quantity: 1 }],
       success_url: `${base}/unlock?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${base}/pricing`,
