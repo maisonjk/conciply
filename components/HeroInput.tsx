@@ -293,9 +293,9 @@ export default function HeroInput() {
 
         {/* H1 */}
         <h1 className="display" style={{ fontSize:"clamp(28px,7vw,28px)", lineHeight:0.95, marginBottom:16 }}>
-          Drop in your idea.<br />
-          Get your complete<br />growth playbook.<br />
-          <span style={{ color:"var(--n1)" }}>Built by 22 AI specialists.</span>
+          <span style={{ color:"var(--n1)" }}>Drop in your idea.</span><br />
+          <span style={{ color:"var(--n2)" }}>Get your complete<br />growth playbook.</span><br />
+          <span style={{ color:"var(--n3)" }}>Built by 22 AI specialists.</span>
         </h1>
 
         {/* Badges */}
@@ -524,7 +524,7 @@ export default function HeroInput() {
 
       {/* ── H1 — Tier 1: The Claim ── */}
       <h1 className="display" style={{ fontSize:"clamp(44px,5.5vw,56px)", lineHeight:1.0, marginBottom:20 }}>
-        Drop in your idea.<br />Get your complete<br />growth playbook.<br /><span style={{ color:"var(--n1)" }}>Built by 22 AI specialists.</span>
+        <span style={{ color:"var(--n1)" }}>Drop in your idea.</span><br /><span style={{ color:"var(--n2)" }}>Get your complete<br />growth playbook.</span><br /><span style={{ color:"var(--n3)" }}>Built by 22 AI specialists.</span>
       </h1>
 
       {/* ── Body — Tier 2: The Proof ── */}
