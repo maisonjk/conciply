@@ -205,7 +205,7 @@ export function WhatYouGet() {
             <p style={{ fontSize: 15, color: "#9A9AA8", lineHeight: 1.65, margin: "0 0 12px", fontFamily: "var(--font-grotesk), sans-serif" }}>
               Most growth consultants charge $3,000–8,000 for a fraction of this. Conciply generates the full playbook on demand.
             </p>
-            <p className="font-mono" style={{ fontSize: 10, color: "#7A7A8A", letterSpacing: "0.08em" }}>
+            <p className="font-mono" style={{ fontSize: 12, color: "#B0B0BC", letterSpacing: "0.08em" }}>
               Free sections marked below · Upgrade for all 17
             </p>
           </div>
@@ -226,7 +226,7 @@ export function WhatYouGet() {
                 <span style={{ width: 20, height: 20, background: group.color, display: "inline-block", flexShrink: 0 }} />
                 <span className="display" style={{ fontSize: 14, color: group.color }}>{group.label}</span>
                 <span style={{ height: 1, flex: 1, background: "#1E1E22" }} />
-                <span className="font-mono" style={{ fontSize: 10, color: "#6A6A7A", letterSpacing: "0.08em" }}>{group.description}</span>
+                <span className="font-mono" style={{ fontSize: 12, color: "#B0B0BC", letterSpacing: "0.08em" }}>{group.description}</span>
               </div>
 
               {/* Section rows — 2-col grid */}
@@ -245,7 +245,7 @@ export function WhatYouGet() {
                     }}>
                       {/* Left: number + dot */}
                       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4, flexShrink: 0, paddingTop: 2 }}>
-                        <span className="font-mono" style={{ fontSize: 9, color: group.color, letterSpacing: "0.1em", opacity: 0.6 }}>
+                        <span className="font-mono" style={{ fontSize: 11, color: group.color, letterSpacing: "0.1em", opacity: 0.9 }}>
                           {String(sectionIdx).padStart(2, "0")}
                         </span>
                         <div style={{ width: 1, flex: 1, background: `${group.accent}20`, minHeight: 20 }} />
@@ -254,7 +254,7 @@ export function WhatYouGet() {
                       {/* Right: name + description */}
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4, flexWrap: "wrap" }}>
-                          <span style={{ fontSize: 13, fontWeight: 700, color: "#EBEBEB", fontFamily: "var(--font-grotesk), sans-serif", lineHeight: 1.2 }}>
+                          <span style={{ fontSize: 14, fontWeight: 700, color: "#F4F4F1", fontFamily: "var(--font-grotesk), sans-serif", lineHeight: 1.2 }}>
                             {key.replace(/([A-Z])/g, " $1").trim().replace(/^\w/, c => c.toUpperCase())}
                           </span>
                           {isFree && (
@@ -265,7 +265,7 @@ export function WhatYouGet() {
                             }}>Free</span>
                           )}
                         </div>
-                        <p style={{ fontSize: 11, color: "#7A7A8A", lineHeight: 1.5, margin: 0, fontFamily: "var(--font-grotesk), sans-serif" }}>
+                        <p style={{ fontSize: 13, color: "#C4C4CC", lineHeight: 1.5, margin: 0, fontFamily: "var(--font-grotesk), sans-serif" }}>
                           {SECTION_ONE_LINERS[key] ?? ""}
                         </p>
                       </div>
@@ -289,7 +289,7 @@ export function WhatYouGet() {
           }}>
             Generate your free report →
           </a>
-          <span className="font-mono" style={{ fontSize: 11, color: "#7A7A8A", letterSpacing: "0.08em" }}>
+          <span className="font-mono" style={{ fontSize: 12, color: "#B0B0BC", letterSpacing: "0.08em" }}>
             8 of 17 sections free · no login required
           </span>
         </div>
