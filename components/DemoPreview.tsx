@@ -117,13 +117,13 @@ export default function DemoPreview() {
           {/* Report label */}
           <div style={{ padding: "14px 14px 10px", borderBottom: "1px solid #1E1E22" }}>
             <div style={{
-              fontSize: 9, fontFamily: "var(--font-mono)", letterSpacing: "0.12em",
-              color: "#5C5C63", textTransform: "uppercase", marginBottom: 5,
+              fontSize: 11, fontFamily: "var(--font-mono)", letterSpacing: "0.12em",
+              color: "#9A9AA8", textTransform: "uppercase", marginBottom: 5,
             }}>
               Demo Report
             </div>
             <div style={{
-              fontSize: 11, fontWeight: 700, color: "#F4F4F1", lineHeight: 1.4,
+              fontSize: 13, fontWeight: 700, color: "#F4F4F1", lineHeight: 1.4,
               display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical",
               overflow: "hidden",
             }}>
@@ -137,7 +137,7 @@ export default function DemoPreview() {
               <div key={group.label} style={{ marginBottom: 2 }}>
                 <div style={{
                   padding: "8px 14px 4px",
-                  fontSize: 8, fontFamily: "var(--font-mono)", fontWeight: 700,
+                  fontSize: 11, fontFamily: "var(--font-mono)", fontWeight: 700,
                   letterSpacing: "0.14em", textTransform: "uppercase",
                   color: group.color,
                 }}>
@@ -154,15 +154,15 @@ export default function DemoPreview() {
                         background: isActive ? "#16161A" : "transparent",
                         borderLeft: isActive ? `2px solid ${group.color}` : "2px solid transparent",
                       }}>
-                      <span style={{ fontSize: 8, fontFamily: "var(--font-mono)", color: isActive ? group.color : "#3C3C42", flexShrink: 0, width: 16 }}>
+                      <span style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: isActive ? group.color : "#5C5C6A", flexShrink: 0, width: 18 }}>
                         {sectionNum(key)}
                       </span>
-                      <span style={{ fontSize: 11, color: locked ? "#3C3C42" : isActive ? "#3C3C42" : "#3C3C42", flexShrink: 0 }}>
+                      <span style={{ fontSize: 13, color: locked ? "#5C5C6A" : isActive ? group.color : "#7A7A8A", flexShrink: 0 }}>
                         {locked ? "🔒" : ICONS[key]}
                       </span>
                       <span style={{
-                        fontSize: 11, fontFamily: "var(--font-mono)", letterSpacing: "0.03em",
-                        color: locked ? "#3C3C42" : isActive ? "#F4F4F1" : "#9A9AA8",
+                        fontSize: 12, fontFamily: "var(--font-mono)", letterSpacing: "0.03em",
+                        color: locked ? "#5C5C6A" : isActive ? "#F4F4F1" : "#B0B0BC",
                         lineHeight: 1.3, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
                       }}>
                         {SECTION_LABELS[key]}
@@ -187,21 +187,21 @@ export default function DemoPreview() {
           }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
               <span style={{
-                fontSize: 9, fontFamily: "var(--font-mono)", color: activeGroup.color,
+                fontSize: 11, fontFamily: "var(--font-mono)", color: activeGroup.color,
                 letterSpacing: "0.12em", textTransform: "uppercase",
               }}>
                 {activeGroup.label}
               </span>
               <span style={{ color: "#2A2A2E" }}>›</span>
               <span style={{
-                fontSize: 10, fontFamily: "var(--font-mono)", color: "#F4F4F1",
+                fontSize: 12, fontFamily: "var(--font-mono)", color: "#F4F4F1",
                 letterSpacing: "0.06em",
               }}>
                 {SECTION_LABELS[active]}
               </span>
             </div>
             <span style={{
-              fontSize: 9, fontFamily: "var(--font-mono)", color: "#5C5C63",
+              fontSize: 11, fontFamily: "var(--font-mono)", color: "#9A9AA8",
               letterSpacing: "0.1em",
             }}>
               {sectionNum(active)} / {ALL_KEYS.length}
@@ -213,7 +213,7 @@ export default function DemoPreview() {
             {/* Section heading */}
             <div style={{ marginBottom: 24, paddingBottom: 20, borderBottom: `2px solid ${activeGroup.color}` }}>
               <div style={{
-                fontSize: 9, fontFamily: "var(--font-mono)", letterSpacing: "0.14em",
+                fontSize: 11, fontFamily: "var(--font-mono)", letterSpacing: "0.14em",
                 textTransform: "uppercase", color: activeGroup.color, marginBottom: 8,
               }}>
                 {sectionNum(active)} — {activeGroup.label}
@@ -226,7 +226,7 @@ export default function DemoPreview() {
               </h3>
               {SECTION_SUBTITLES[active] && (
                 <p style={{
-                  margin: "8px 0 0", fontSize: 12, color: "#9A9AA8",
+                  margin: "8px 0 0", fontSize: 14, color: "#C4C4CC",
                   lineHeight: 1.5, fontFamily: "var(--font-grotesk), sans-serif",
                 }}>
                   {SECTION_SUBTITLES[active]}
@@ -282,11 +282,11 @@ export default function DemoPreview() {
         flexWrap: "wrap", gap: 12,
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <span className="font-mono" style={{ fontSize: 11, color: "#5C5C63", letterSpacing: "0.04em" }}>
+          <span className="font-mono" style={{ fontSize: 12, color: "#9A9AA8", letterSpacing: "0.04em" }}>
             8 of 17 sections free · no account required
           </span>
           <span style={{ color: "#2A2A2E" }}>·</span>
-          <span className="font-mono" style={{ fontSize: 11, color: "#5C5C63" }}>
+          <span className="font-mono" style={{ fontSize: 12, color: "#9A9AA8" }}>
             🔒 9 sections unlock with any paid plan
           </span>
         </div>
