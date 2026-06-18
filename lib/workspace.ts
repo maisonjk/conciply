@@ -5,22 +5,34 @@ import type { StoredReport, SectionKey, GrowthReport } from "./types";
 const KEY = "conciply_reports";
 const MAX = 60; // matches agency plan limit (highest tier)
 
+// Some browsers (Reddit/Instagram/TikTok in-app, Safari private) throw
+// SecurityError when accessing localStorage. Always wrap in try/catch.
+function lsGet(key: string): string | null {
+  try { return localStorage.getItem(key); } catch { return null; }
+}
+function lsSet(key: string, value: string): void {
+  try { localStorage.setItem(key, value); } catch { /* storage unavailable */ }
+}
+function lsRemove(key: string): void {
+  try { localStorage.removeItem(key); } catch { /* storage unavailable */ }
+}
+
 export function loadReports(): StoredReport[] {
   if (typeof window === "undefined") return [];
   try {
-    return JSON.parse(localStorage.getItem(KEY) ?? "[]");
+    return JSON.parse(lsGet(KEY) ?? "[]");
   } catch { return []; }
 }
 
 function saveReports(reports: StoredReport[]): void {
   try {
-    localStorage.setItem(KEY, JSON.stringify(reports.slice(-MAX)));
+    lsSet(KEY, JSON.stringify(reports.slice(-MAX)));
   } catch (err) {
     // QuotaExceededError: storage is full. Drop the oldest half and retry.
     if (err instanceof DOMException && err.name === "QuotaExceededError") {
       try {
         const trimmed = reports.slice(-Math.floor(MAX / 2));
-        localStorage.setItem(KEY, JSON.stringify(trimmed));
+        lsSet(KEY, JSON.stringify(trimmed));
       } catch {
         // Silently give up — don't crash the app over storage limits
       }
@@ -100,32 +112,29 @@ function getCookie(name: string): string | null {
 
 export function getLicensePlan(): string | null {
   if (typeof window === "undefined") return null;
-  // localStorage first (fast), fall back to cookie, auto-restore if found
-  const fromStorage = localStorage.getItem("conciply_plan");
+  const fromStorage = lsGet("conciply_plan");
   if (fromStorage) return fromStorage;
   const fromCookie = getCookie("conciply_plan");
   if (fromCookie) {
-    // Restore into localStorage so future reads are fast
-    localStorage.setItem("conciply_plan", fromCookie);
+    lsSet("conciply_plan", fromCookie);
     const keyCookie = getCookie("conciply_key");
-    if (keyCookie) localStorage.setItem("conciply_key", keyCookie);
+    if (keyCookie) lsSet("conciply_key", keyCookie);
   }
   return fromCookie;
 }
 
 export function getLicenseKey(): string | null {
   if (typeof window === "undefined") return null;
-  const fromStorage = localStorage.getItem("conciply_key");
+  const fromStorage = lsGet("conciply_key");
   if (fromStorage) return fromStorage;
   const fromCookie = getCookie("conciply_key");
-  if (fromCookie) localStorage.setItem("conciply_key", fromCookie);
+  if (fromCookie) lsSet("conciply_key", fromCookie);
   return fromCookie;
 }
 
 export function setLicense(key: string, plan: string): void {
-  // Write to both stores so either one can rescue the other
-  localStorage.setItem("conciply_key", key);
-  localStorage.setItem("conciply_plan", plan);
+  lsSet("conciply_key", key);
+  lsSet("conciply_plan", plan);
   setCookie("conciply_key", key);
   setCookie("conciply_plan", plan);
 }

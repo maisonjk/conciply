@@ -8,13 +8,17 @@ export default function AgeGate() {
   const [checked, setChecked] = useState(false);
 
   useEffect(() => {
-    const confirmed = localStorage.getItem(STORAGE_KEY);
-    if (!confirmed) setShow(true);
+    try {
+      const confirmed = localStorage.getItem(STORAGE_KEY);
+      if (!confirmed) setShow(true);
+    } catch {
+      // localStorage blocked (in-app browser) — skip age gate silently
+    }
   }, []);
 
   const confirm = () => {
     if (!checked) return;
-    localStorage.setItem(STORAGE_KEY, "1");
+    try { localStorage.setItem(STORAGE_KEY, "1"); } catch { /* ignore */ }
     setShow(false);
   };
 
