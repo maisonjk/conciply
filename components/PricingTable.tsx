@@ -1,5 +1,7 @@
 "use client";
 import { useState } from "react";
+import RenewalConsent from "@/components/RenewalConsent";
+import { renewalConsentText } from "@/lib/legal";
 import type { LicenseTier } from "@/lib/types";
 
 interface TierDef {
@@ -104,18 +106,26 @@ const TIERS: TierDef[] = [
 export default function PricingTable() {
   const [annual, setAnnual] = useState(false);
   const [loading, setLoading] = useState<string | null>(null);
+  const [consent, setConsent] = useState(false);
+  const [consentError, setConsentError] = useState(false);
+  const [checkoutError, setCheckoutError] = useState("");
 
   const checkout = async (tier: LicenseTier) => {
+    if (!consent) { setConsentError(true); return; }
     const key = `${tier}${annual ? "_annual" : ""}`;
     setLoading(key);
+    setCheckoutError("");
     try {
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ tier, annual }),
+        body: JSON.stringify({ tier, annual, consent: true }),
       });
       const data = await res.json();
       if (data.url) window.location.href = data.url;
+      else setCheckoutError(data.error || "Checkout is unavailable right now.");
+    } catch {
+      setCheckoutError("Network error. Please try again.");
     } finally {
       setLoading(null);
     }
@@ -410,6 +420,26 @@ export default function PricingTable() {
         })}
       </div>
 
+      {/* Auto-renewal consent (California ARL) */}
+      <div style={{ marginTop: 28 }}>
+        <RenewalConsent
+          checked={consent}
+          onChange={v => { setConsent(v); if (v) setConsentError(false); }}
+          text={renewalConsentText(annual ? "annual" : "monthly")}
+          error={consentError}
+        />
+        {consentError && (
+          <p className="font-mono" role="alert" style={{ fontSize: 12, color: "var(--n2)", textAlign: "center", marginTop: 10 }}>
+            Tick the box to agree to the renewal terms before checkout.
+          </p>
+        )}
+        {checkoutError && (
+          <p className="font-mono" role="alert" style={{ fontSize: 12, color: "var(--n2)", textAlign: "center", marginTop: 10 }}>
+            {checkoutError}
+          </p>
+        )}
+      </div>
+
       {/* Billing footnote */}
       <p
         className="font-mono"
@@ -419,8 +449,8 @@ export default function PricingTable() {
         }}
       >
         {annual
-          ? "Annual plans are billed as a single yearly charge. Renews automatically. Cancel before your renewal date to stop — no refunds for the current year."
-          : "Monthly plans renew automatically. Cancel any time — you keep full access until the end of the period you already paid for. No partial refunds."}
+          ? "Annual plans are billed as a single yearly charge and renew automatically each year. Cancel anytime at conciply.com/manage before your renewal date. No refunds for the current year, except where the law requires."
+          : "Monthly plans renew automatically each month. Cancel anytime at conciply.com/manage and keep access until the end of the period you paid for. No partial refunds, except where the law requires."}
       </p>
     </div>
   );

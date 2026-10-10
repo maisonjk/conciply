@@ -40,7 +40,8 @@ export default function RestorePage() {
         </h1>
         <p style={{ color:"#C4C4CC", fontSize:16, lineHeight:1.6, marginBottom:32 }}>
           Paste your license key to restore access on a new device or browser.
-          Your key was emailed when you purchased.
+          Your key was shown on screen after checkout. Want to cancel or change plans?{" "}
+          <a href="/manage" style={{ color:"var(--n1)", textDecoration:"underline" }}>Manage or cancel</a>.
         </p>
 
         {status === "success" ? (

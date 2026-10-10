@@ -138,3 +138,15 @@ export function setLicense(key: string, plan: string): void {
   setCookie("conciply_key", key);
   setCookie("conciply_plan", plan);
 }
+
+/** Removes every piece of Conciply data this browser holds (reports, license key, plan). */
+export function clearAllLocalData(): void {
+  lsRemove(KEY);
+  lsRemove("conciply_key");
+  lsRemove("conciply_plan");
+  if (typeof document !== "undefined") {
+    for (const name of ["conciply_key", "conciply_plan", "conciply_license"]) {
+      document.cookie = `${name}=; Max-Age=0; path=/; SameSite=Lax`;
+    }
+  }
+}

@@ -10,8 +10,8 @@ export function ProofBar() {
   const stats = [
     { value: "22", label: "AI specialists per report" },
     { value: "17", label: "sections, fully written" },
-    { value: "Private", label: "zero data stored — ever" },
-    { value: "100%", label: "free for your first report" },
+    { value: "Private", label: "no account · reports stay in your browser" },
+    { value: "8/17", label: "sections free to preview" },
     { value: "0", label: "login required" },
   ];
   return (

@@ -1,0 +1,5 @@
+Contact: mailto:hello@conciply.com
+Expires: 2027-10-10T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://www.conciply.com/.well-known/security.txt
+Policy: https://www.conciply.com/terms

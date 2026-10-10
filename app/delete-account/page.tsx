@@ -1,19 +1,19 @@
 "use client";
 import { useState } from "react";
 import Nav, { Footer } from "@/components/Nav";
+import { clearAllLocalData } from "@/lib/workspace";
+import { LEGAL } from "@/lib/legal";
 
 export default function DeleteAccountPage() {
   const [deleted, setDeleted] = useState(false);
 
   function handleDelete() {
-    if (!window.confirm("Delete all Conciply reports from this browser? This cannot be undone.")) return;
+    if (!window.confirm("Delete all Conciply reports and your saved license key from this browser? This cannot be undone. Your subscription is not cancelled; do that at /manage.")) return;
     try {
-      // Remove Conciply workspace key
-      localStorage.removeItem("conciply_reports");
-      // Remove any license cookie
-      document.cookie = "conciply_license=; Max-Age=0; path=/";
+      // Reports, license key and plan in localStorage, plus the license and plan cookies
+      clearAllLocalData();
     } catch {
-      // localStorage may be unavailable (private browsing, etc.)
+      // storage may be unavailable (private browsing, etc.)
     }
     setDeleted(true);
   }
@@ -27,7 +27,7 @@ export default function DeleteAccountPage() {
           Delete Your Data
         </h1>
         <p className="font-mono" style={{ fontSize: 12, color: "#7A7A88", marginBottom: 48, letterSpacing: "0.06em" }}>
-          Last updated: June 2026
+          Last updated: {LEGAL.updated}
         </p>
 
         {/* How Conciply stores data */}
@@ -41,14 +41,16 @@ export default function DeleteAccountPage() {
           </h2>
           <p style={{ color: "#C4C4CC", lineHeight: 1.7, marginBottom: 12 }}>
             Conciply has no user accounts. There is no login, no profile, and no server-side
-            storage of your business inputs or AI-generated reports. Everything you generate
-            is saved only in your{" "}
+            storage of your business inputs or AI-generated reports. Your reports are saved only
+            in your{" "}
             <strong style={{ color: "#F4F4F1" }}>browser&apos;s local storage</strong> on
-            your device.
+            this device.
           </p>
           <p style={{ color: "#C4C4CC", lineHeight: 1.7 }}>
-            If you purchased a plan, your license key is stored in a cookie in your browser.
-            Billing details are held by Stripe — visit{" "}
+            If you purchased a plan, your license key and plan name are stored in your browser&apos;s
+            local storage and in two first-party cookies (conciply_key and conciply_plan). Billing
+            details are held by Stripe. If you joined our email list, your email address is stored on
+            our database provider until you ask us to delete it. Visit{" "}
             <a href="https://stripe.com/privacy" target="_blank" rel="noopener noreferrer"
               style={{ color: "var(--n1)", textDecoration: "none" }}>
               stripe.com/privacy
@@ -67,8 +69,9 @@ export default function DeleteAccountPage() {
             Delete your reports now
           </h2>
           <p style={{ color: "#C4C4CC", lineHeight: 1.7, marginBottom: 24 }}>
-            Click the button below to permanently delete all reports stored in this browser.
-            This action cannot be undone.
+            Click the button below to permanently delete all reports, your saved license key and
+            plan from this browser. This cannot be undone, and it does not cancel your subscription
+            (use <a href="/manage" style={{ color: "var(--n1)", textDecoration: "underline" }}>Manage / Cancel</a> for that).
           </p>
 
           {deleted ? (
@@ -182,8 +185,10 @@ export default function DeleteAccountPage() {
             </a>{" "}
             with the subject line{" "}
             <strong style={{ color: "#F4F4F1" }}>Data Deletion Request</strong>.
-            We will respond within 5 business days and confirm that no identifiable data
-            is associated with your request on our end.
+            We will delete any email address on our list and any license record linked to you,
+            ask Stripe to delete your billing data where the law allows, and confirm within
+            5 business days. California and EU/UK residents can use the same address for any
+            privacy right described in our <a href="/privacy" style={{ color: "var(--n1)", textDecoration: "underline" }}>Privacy Policy</a>.
           </p>
         </section>
       </main>

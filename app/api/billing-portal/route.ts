@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
   try {
     const session = await getStripe().billingPortal.sessions.create({
       customer: license.customerId,
-      return_url: `${base}/workspace`,
+      return_url: `${base}/manage`,
     });
     return NextResponse.json({ url: session.url });
   } catch (err) {

@@ -1,25 +1,36 @@
 "use client";
 import { useState } from "react";
 import type { LicenseTier } from "@/lib/types";
+import RenewalConsent from "@/components/RenewalConsent";
+import { renewalConsentText } from "@/lib/legal";
 
+// Quotas must match REPORT_LIMITS in lib/license.ts.
 const TIERS: { tier: LicenseTier; label: string; price: string; reports: string }[] = [
-  { tier: "founder", label: "Founder", price: "$19", reports: "5 reports" },
-  { tier: "pro",     label: "Pro",     price: "$49", reports: "20 reports" },
-  { tier: "agency",  label: "Agency",  price: "$99", reports: "500/mo" },
+  { tier: "founder", label: "Founder", price: "$19/mo", reports: "5 reports" },
+  { tier: "pro",     label: "Pro",     price: "$49/mo", reports: "20 reports" },
+  { tier: "agency",  label: "Agency",  price: "$99/mo", reports: "60 reports" },
 ];
 
 export default function Paywall() {
   const [loading, setLoading] = useState<LicenseTier | null>(null);
+  const [consent, setConsent] = useState(false);
+  const [consentError, setConsentError] = useState(false);
+  const [error, setError] = useState("");
 
   const checkout = async (tier: LicenseTier) => {
+    if (!consent) { setConsentError(true); return; }
     setLoading(tier);
+    setError("");
     try {
       const res = await fetch("/api/checkout", {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ tier }),
+        body: JSON.stringify({ tier, consent: true }),
       });
       const data = await res.json();
       if (data.url) window.location.href = data.url;
+      else setError(data.error || "Checkout is unavailable right now.");
+    } catch {
+      setError("Network error. Please try again.");
     } finally {
       setLoading(null);
     }
@@ -28,7 +39,7 @@ export default function Paywall() {
   return (
     <div style={{ marginTop:"clamp(32px,4vw,48px)" }}>
       <div style={{ border:"2px solid var(--n2)", padding:"clamp(28px,4vw,48px)", background:"#121214" }}>
-        <div className="kicker" style={{ marginBottom:18, color:"var(--n2)" }}>Free limit reached</div>
+        <div className="kicker" style={{ marginBottom:18, color:"var(--n2)" }}>Preview limit reached</div>
         <h2 className="display" style={{ fontSize:"clamp(28px,4vw,52px)" }}>
           Unlock your full<br /><span style={{ color:"var(--n2)" }}>growth playbook.</span>
         </h2>
@@ -48,9 +59,25 @@ export default function Paywall() {
             );
           })}
         </div>
+        <div style={{ marginTop:20 }}>
+          <RenewalConsent
+            checked={consent}
+            onChange={v => { setConsent(v); if (v) setConsentError(false); }}
+            text={renewalConsentText("monthly")}
+            error={consentError}
+          />
+          {consentError && (
+            <p className="font-mono" role="alert" style={{ fontSize:12, color:"var(--n2)", marginTop:10 }}>
+              Tick the box to agree to the renewal terms before checkout.
+            </p>
+          )}
+          {error && (
+            <p className="font-mono" role="alert" style={{ fontSize:12, color:"var(--n2)", marginTop:10 }}>{error}</p>
+          )}
+        </div>
         <p style={{ marginTop:16 }}>
           <a href="/pricing" style={{ color:"#C4C4CC", fontSize:13, textDecoration:"underline" }}>
-            See full feature comparison →
+            See annual plans and the full feature comparison →
           </a>
         </p>
       </div>

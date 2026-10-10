@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { LEGAL } from "@/lib/legal";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getLicensePlan } from "@/lib/workspace";
@@ -62,9 +63,11 @@ export function Footer() {
   const links: [string, string][] = [
     ["/pricing", "Pricing"],
     ["/restore", "Restore"],
+    ["/manage", "Manage / Cancel"],
     ["/terms", "Terms"],
     ["/privacy", "Privacy"],
     ["/delete-account", "Delete Data"],
+    ["/accessibility", "Accessibility"],
   ];
   return (
     <footer style={{ borderTop:"2px solid #F4F4F1", marginTop:0 }}>
@@ -90,7 +93,7 @@ export function Footer() {
             </Link>
           ))}
           <span className="font-mono" style={{ fontSize:11, color:"#9A9AA8", padding:"12px 10px" }}>
-            © {new Date().getFullYear()} CONCIPLY
+            © {new Date().getFullYear()} {LEGAL.entity.startsWith("[") ? "CONCIPLY" : LEGAL.entity.toUpperCase()}
           </span>
         </div>
       </div>
