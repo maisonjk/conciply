@@ -93,7 +93,7 @@ export function Footer() {
             </Link>
           ))}
           <span className="font-mono" style={{ fontSize:11, color:"#9A9AA8", padding:"12px 10px" }}>
-            © {new Date().getFullYear()} {LEGAL.entity.startsWith("[") ? "CONCIPLY" : LEGAL.entity.toUpperCase()}
+            © {new Date().getFullYear()} {(LEGAL.entity || LEGAL.brand).toUpperCase()}
           </span>
         </div>
       </div>

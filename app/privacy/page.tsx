@@ -1,5 +1,5 @@
 import Nav, { Footer } from "@/components/Nav";
-import { LEGAL } from "@/lib/legal";
+import { LEGAL, operator, addressSuffix } from "@/lib/legal";
 
 const link = { color: "var(--n1)", textDecoration: "underline" } as const;
 const strong = { color: "#F4F4F1" } as const;
@@ -18,7 +18,7 @@ export default function PrivacyPage() {
         <div style={{ color: "#C4C4CC", fontSize: 15, lineHeight: 1.85 }}>
 
           <Section title="1. Who we are">
-            <p>{LEGAL.brand} (&quot;we&quot;, &quot;us&quot;, &quot;the Service&quot;) is operated by {LEGAL.entity}, {LEGAL.address}. We are the &quot;controller&quot; of the personal data described here. Contact us about privacy at <a href={`mailto:${LEGAL.email}`} style={link}>{LEGAL.email}</a>.</p>
+            <p>{LEGAL.brand} (&quot;we&quot;, &quot;us&quot;, &quot;the Service&quot;) is operated by {operator()}{addressSuffix()}. We are the &quot;controller&quot; of the personal data described here. Contact us about privacy at <a href={`mailto:${LEGAL.email}`} style={link}>{LEGAL.email}</a>.</p>
             <p style={{ marginTop: 12 }}>Conciply has no user accounts and collects as little personal data as it can. We do not sell your personal information, and we do not share it for cross-context behavioral advertising.</p>
           </Section>
 
@@ -93,7 +93,7 @@ export default function PrivacyPage() {
           </Section>
 
           <Section title="11. Contact">
-            <p>{LEGAL.entity}, {LEGAL.address}. Email <a href={`mailto:${LEGAL.email}`} style={link}>{LEGAL.email}</a>.</p>
+            <p>{operator()}{addressSuffix()}. Email <a href={`mailto:${LEGAL.email}`} style={link}>{LEGAL.email}</a>.</p>
           </Section>
         </div>
       </main>

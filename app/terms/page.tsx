@@ -1,5 +1,5 @@
 import Nav, { Footer } from "@/components/Nav";
-import { LEGAL } from "@/lib/legal";
+import { LEGAL, operator, addressSuffix } from "@/lib/legal";
 
 const link = { color: "var(--n1)", textDecoration: "underline" } as const;
 const strong = { color: "#F4F4F1", fontWeight: 600 } as const;
@@ -19,7 +19,7 @@ export default function TermsPage() {
         <div style={{ color: "#C4C4CC", fontSize: 15, lineHeight: 1.85 }}>
 
           <Section title="1. Who you're contracting with">
-            <p>These Terms are a contract between you and {LEGAL.entity} (&quot;{LEGAL.brand}&quot;, &quot;we&quot;, &quot;us&quot;), {LEGAL.address}. By using the Service or buying a plan, you agree to these Terms and our <a href="/privacy" style={link}>Privacy Policy</a>. If you don&apos;t agree, don&apos;t use the Service.</p>
+            <p>These Terms are a contract between you and {operator()} (&quot;{LEGAL.brand}&quot;, &quot;we&quot;, &quot;us&quot;){addressSuffix()}. By using the Service or buying a plan, you agree to these Terms and our <a href="/privacy" style={link}>Privacy Policy</a>. If you don&apos;t agree, don&apos;t use the Service.</p>
           </Section>
 
           <Section title="2. Eligibility">
@@ -104,7 +104,7 @@ export default function TermsPage() {
           </Section>
 
           <Section title="16. Contact">
-            <p>{LEGAL.entity}, {LEGAL.address}. Email <a href={`mailto:${LEGAL.email}`} style={link}>{LEGAL.email}</a>.</p>
+            <p>{operator()}{addressSuffix()}. Email <a href={`mailto:${LEGAL.email}`} style={link}>{LEGAL.email}</a>.</p>
           </Section>
         </div>
       </main>

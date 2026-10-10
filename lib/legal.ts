@@ -1,17 +1,23 @@
 // Single source of truth for the legal identity shown in Terms, Privacy and checkout.
-// TODO(owner): fill ENTITY and ADDRESS before merging. GDPR requires a named
-// controller with a postal address, and the Terms need a party that can be sued
-// instead of you personally (form an LLC first).
+// Fill these in when you have them. Until then the pages show "Conciply" and
+// leave the address out, so it is safe to deploy as-is.
+//   entity:  your LLC name once formed, or "Your Name, doing business as Conciply" as a sole proprietor
+//   address: a mailing address for legal notices (a PO box or virtual mailbox is fine; avoid your home address)
 export const LEGAL = {
   brand: "Conciply",
-  entity: "[LEGAL ENTITY NAME, e.g. Conciply LLC]",
-  address: "[BUSINESS MAILING ADDRESS]",
+  entity: "",
+  address: "",
   email: "hello@conciply.com",
   state: "California",
   venue: "Los Angeles County, California",
   updated: "October 10, 2026",
   consentVersion: "2026-10-10",
 } as const;
+
+/** Who the contract is with: the legal entity once set, otherwise the brand. */
+export const operator = (): string => LEGAL.entity || LEGAL.brand;
+/** ", <address>" when an address is set, otherwise nothing. */
+export const addressSuffix = (): string => (LEGAL.address ? `, ${LEGAL.address}` : "");
 
 export type BillingInterval = "monthly" | "annual";
 
