@@ -1,7 +1,5 @@
 "use client";
 import { useState } from "react";
-import RenewalConsent from "@/components/RenewalConsent";
-import { renewalConsentText } from "@/lib/legal";
 import type { LicenseTier } from "@/lib/types";
 
 interface TierDef {
@@ -106,12 +104,9 @@ const TIERS: TierDef[] = [
 export default function PricingTable() {
   const [annual, setAnnual] = useState(false);
   const [loading, setLoading] = useState<string | null>(null);
-  const [consent, setConsent] = useState(false);
-  const [consentError, setConsentError] = useState(false);
   const [checkoutError, setCheckoutError] = useState("");
 
   const checkout = async (tier: LicenseTier) => {
-    if (!consent) { setConsentError(true); return; }
     const key = `${tier}${annual ? "_annual" : ""}`;
     setLoading(key);
     setCheckoutError("");
@@ -119,7 +114,7 @@ export default function PricingTable() {
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ tier, annual, consent: true }),
+        body: JSON.stringify({ tier, annual }),
       });
       const data = await res.json();
       if (data.url) window.location.href = data.url;
@@ -420,25 +415,11 @@ export default function PricingTable() {
         })}
       </div>
 
-      {/* Auto-renewal consent (California ARL) */}
-      <div style={{ marginTop: 28 }}>
-        <RenewalConsent
-          checked={consent}
-          onChange={v => { setConsent(v); if (v) setConsentError(false); }}
-          text={renewalConsentText(annual ? "annual" : "monthly")}
-          error={consentError}
-        />
-        {consentError && (
-          <p className="font-mono" role="alert" style={{ fontSize: 12, color: "var(--n2)", textAlign: "center", marginTop: 10 }}>
-            Tick the box to agree to the renewal terms before checkout.
-          </p>
-        )}
-        {checkoutError && (
-          <p className="font-mono" role="alert" style={{ fontSize: 12, color: "var(--n2)", textAlign: "center", marginTop: 10 }}>
-            {checkoutError}
-          </p>
-        )}
-      </div>
+      {checkoutError && (
+        <p className="font-mono" role="alert" style={{ fontSize: 12, color: "var(--n2)", textAlign: "center", marginTop: 20 }}>
+          {checkoutError}
+        </p>
+      )}
 
       {/* Billing footnote */}
       <p

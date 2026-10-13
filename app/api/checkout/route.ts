@@ -14,11 +14,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid tier." }, { status: 400 });
   }
 
-  // California ARL: no subscription without express affirmative consent to the renewal terms.
-  if (body.consent !== true) {
-    return NextResponse.json({ error: "Please agree to the renewal terms to continue." }, { status: 400 });
-  }
-
   // Never silently charge a monthly price when the buyer picked annual.
   const priceId = annual ? PRICES[`${tier}_annual` as keyof typeof PRICES] : PRICES[tier];
   if (!priceId) {
@@ -30,15 +25,18 @@ export async function POST(req: NextRequest) {
 
   const interval = annual ? "annual" : "monthly";
   const amount = PRICE_LABELS[priceId]?.amount ?? "";
-  const consentAt = new Date().toISOString();
-  // Proof of consent, kept with the Stripe record (ARL requires 3 years or 1 year after the contract ends).
+  const consentText = renewalConsentText(interval, amount);
+  // Express consent is collected by Stripe Checkout itself (required checkbox
+  // above the Pay button); Stripe stores the acceptance on the session as
+  // consent.terms_of_service = "accepted". We keep the exact wording and version
+  // alongside it (ARL: keep proof 3 years or 1 year after the contract ends).
   const consentMeta = {
     tier,
     interval,
-    consent_at: consentAt,
+    consent_method: "stripe_checkout_terms_checkbox",
     consent_version: LEGAL.consentVersion,
     consent_price: amount,
-    consent_text: renewalConsentText(interval).slice(0, 500),
+    consent_text: consentText.slice(0, 500),
   };
 
   const base = process.env.NEXT_PUBLIC_BASE_URL ?? req.nextUrl.origin;
@@ -55,12 +53,9 @@ export async function POST(req: NextRequest) {
         // Cancellations take effect at end of billing period. Customers keep access they paid for.
         metadata: consentMeta,
       },
+      consent_collection: { terms_of_service: "required" },
       custom_text: {
-        submit: {
-          message:
-            `Renews automatically every ${annual ? "year" : "month"}${amount ? ` at ${amount}` : ""} until you cancel. ` +
-            `Cancel anytime at conciply.com/manage.`,
-        },
+        terms_of_service_acceptance: { message: consentText },
       },
     });
     return NextResponse.json({ url: session.url });

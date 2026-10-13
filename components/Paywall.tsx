@@ -1,8 +1,6 @@
 "use client";
 import { useState } from "react";
 import type { LicenseTier } from "@/lib/types";
-import RenewalConsent from "@/components/RenewalConsent";
-import { renewalConsentText } from "@/lib/legal";
 
 // Quotas must match REPORT_LIMITS in lib/license.ts.
 const TIERS: { tier: LicenseTier; label: string; price: string; reports: string }[] = [
@@ -13,18 +11,15 @@ const TIERS: { tier: LicenseTier; label: string; price: string; reports: string 
 
 export default function Paywall() {
   const [loading, setLoading] = useState<LicenseTier | null>(null);
-  const [consent, setConsent] = useState(false);
-  const [consentError, setConsentError] = useState(false);
   const [error, setError] = useState("");
 
   const checkout = async (tier: LicenseTier) => {
-    if (!consent) { setConsentError(true); return; }
     setLoading(tier);
     setError("");
     try {
       const res = await fetch("/api/checkout", {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ tier, consent: true }),
+        body: JSON.stringify({ tier }),
       });
       const data = await res.json();
       if (data.url) window.location.href = data.url;
@@ -59,22 +54,9 @@ export default function Paywall() {
             );
           })}
         </div>
-        <div style={{ marginTop:20 }}>
-          <RenewalConsent
-            checked={consent}
-            onChange={v => { setConsent(v); if (v) setConsentError(false); }}
-            text={renewalConsentText("monthly")}
-            error={consentError}
-          />
-          {consentError && (
-            <p className="font-mono" role="alert" style={{ fontSize:12, color:"var(--n2)", marginTop:10 }}>
-              Tick the box to agree to the renewal terms before checkout.
-            </p>
-          )}
-          {error && (
-            <p className="font-mono" role="alert" style={{ fontSize:12, color:"var(--n2)", marginTop:10 }}>{error}</p>
-          )}
-        </div>
+        {error && (
+          <p className="font-mono" role="alert" style={{ fontSize:12, color:"var(--n2)", marginTop:12 }}>{error}</p>
+        )}
         <p style={{ marginTop:16 }}>
           <a href="/pricing" style={{ color:"#C4C4CC", fontSize:13, textDecoration:"underline" }}>
             See annual plans and the full feature comparison →

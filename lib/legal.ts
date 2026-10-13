@@ -10,8 +10,8 @@ export const LEGAL = {
   email: "hello@conciply.com",
   state: "California",
   venue: "Los Angeles County, California",
-  updated: "October 10, 2026",
-  consentVersion: "2026-10-10",
+  updated: "October 13, 2026",
+  consentVersion: "2026-10-13",
 } as const;
 
 /** Who the contract is with: the legal entity once set, otherwise the brand. */
@@ -21,13 +21,18 @@ export const addressSuffix = (): string => (LEGAL.address ? `, ${LEGAL.address}`
 
 export type BillingInterval = "monthly" | "annual";
 
-/** The exact sentence the buyer agrees to. Stored with the Stripe session as proof of consent. */
-export function renewalConsentText(interval: BillingInterval): string {
+/**
+ * The checkbox text shown on Stripe Checkout, right above the Pay button
+ * (Stripe consent_collection.terms_of_service). Stripe records the acceptance
+ * on the Checkout Session; we also store this exact wording in its metadata.
+ * Markdown links are supported by Stripe; keep it under ~1,000 characters.
+ */
+export function renewalConsentText(interval: BillingInterval, price = ""): string {
   const period = interval === "annual" ? "year" : "month";
+  const at = price ? ` at ${price}` : "";
   return (
-    `I agree to the Terms of Use. My plan renews automatically every ${period} at the price shown ` +
-    `until I cancel. I can cancel anytime online at conciply.com/manage, effective at the end of the ` +
-    `current billing period. I want immediate access and understand that this means I lose any ` +
-    `statutory right to withdraw once access starts.`
+    `I agree to the [Terms](https://www.conciply.com/terms). My plan renews every ${period}${at} until I cancel ` +
+    `anytime at [conciply.com/manage](https://www.conciply.com/manage). Access starts now, so any statutory ` +
+    `withdrawal right ends once I start using it.`
   );
 }
